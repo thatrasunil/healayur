@@ -34,15 +34,24 @@ load_dotenv()
 # Import our modules
 from auth import AuthManager, login_required, optional_auth
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/healayur.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
+# Configure logging - Vercel-compatible
+if os.environ.get('VERCEL_DEPLOYMENT'):
+    # Simplified logging for Vercel
+    logging.basicConfig(
+        level=logging.WARNING,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[logging.StreamHandler()]
+    )
+else:
+    # Full logging for local/other deployments
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('logs/healayur.log', encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
 logger = logging.getLogger(__name__)
 
 # Configure Gemini API for chatbot after logger is defined
@@ -157,9 +166,17 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 # Initialize authentication manager
 auth_manager = AuthManager()
 
-# Create necessary directories
-for folder in [app.config['UPLOAD_FOLDER'], app.config['HISTORY_FOLDER'], 'logs']:
-    os.makedirs(folder, exist_ok=True)
+# Create necessary directories - Vercel-compatible
+if not os.environ.get('VERCEL_DEPLOYMENT'):
+    # Only create directories for non-Vercel deployments
+    for folder in [app.config['UPLOAD_FOLDER'], app.config['HISTORY_FOLDER'], 'logs']:
+        os.makedirs(folder, exist_ok=True)
+else:
+    # For Vercel, use /tmp directory for temporary files
+    app.config['UPLOAD_FOLDER'] = '/tmp/uploads'
+    app.config['HISTORY_FOLDER'] = '/tmp/history'
+    os.makedirs('/tmp/uploads', exist_ok=True)
+    os.makedirs('/tmp/history', exist_ok=True)
 
 # Load remedies database
 try:
