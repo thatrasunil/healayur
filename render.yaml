@@ -3,7 +3,7 @@ services:
     name: healayur
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements-full.txt
     startCommand: gunicorn --worker-class eventlet -w 1 --bind 0.0.0.0:$PORT app:app
     envVars:
       - key: PYTHON_VERSION
@@ -11,5 +11,15 @@ services:
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
-        generateValue: true
+        value: heal-ayur-secret-key-2024-render
+      - key: GEMINI_API_KEY
+        value: AIzaSyDhsUnlg85rpkGoiJlKnJHNXAl_0FfIeh0
+      - key: FACE_PLUS_API_KEY
+        value: 8f0FzOLKgxrCCai5NzAkiGp_D-5XRd-f
+      - key: FACE_PLUS_API_SECRET
+        value: 8YbEz4LCUZ2-Furl5Oohw0RonwgV18CX
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        value: healayur2024
     healthCheckPath: /
