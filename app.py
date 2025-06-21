@@ -829,8 +829,11 @@ def admin_login_api():
         username = data.get('username', '').strip()
         password = data.get('password', '')
 
-        # Check admin credentials
-        if username == 'admin' and password == 'healayur2024':
+        # Check admin credentials from environment variables
+        admin_username = os.environ.get('ADMIN_USERNAME', 'admin')
+        admin_password = os.environ.get('ADMIN_PASSWORD', 'healayur2024')
+
+        if username == admin_username and password == admin_password:
             session['is_admin'] = True
             session['admin_username'] = username
             logger.info(f"Admin logged in: {username}")

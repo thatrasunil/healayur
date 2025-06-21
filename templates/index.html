@@ -1451,12 +1451,82 @@
         margin: 1rem 0 !important;
         padding: 1rem !important;
         font-size: 1.1rem !important;
+        position: relative !important;
+        z-index: 10 !important;
       }
 
       #analyzeEncouragement {
         margin: 1rem 0 !important;
         padding: 1rem !important;
         font-size: 0.9rem !important;
+      }
+
+      /* Fix results container mobile display */
+      #resultsContainer {
+        margin-top: 2rem !important;
+        padding: 1rem !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      /* Optimize loading container for mobile */
+      #loadingContainer {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 10000 !important;
+        background: rgba(0, 0, 0, 0.9) !important;
+        backdrop-filter: blur(10px) !important;
+      }
+
+      /* Fix modal positioning on mobile */
+      .modal {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 10001 !important;
+        overflow-y: auto !important;
+      }
+
+      .modal > div {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        margin: 2rem auto !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+      }
+
+      /* Optimize performance - disable heavy animations on mobile */
+      .gradient-orb,
+      .floating-particles,
+      .background-animation {
+        display: none !important;
+      }
+
+      /* Simplify animations for better performance */
+      * {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.3s !important;
+      }
+
+      /* Fix admin page mobile display */
+      .admin-container {
+        padding: 1rem !important;
+        margin-top: 6rem !important;
+      }
+
+      .admin-stats {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      .admin-table {
+        overflow-x: auto !important;
+        font-size: 0.8rem !important;
       }
     }
 
@@ -1783,6 +1853,11 @@
               <button onclick="showUserProfile()" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="View Profile">
                 <i class="fas fa-user"></i>
               </button>
+              {% if user.username == 'admin' %}
+              <button onclick="window.location.href='/admin'" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; background: linear-gradient(135deg, #9c27b0, #7b1fa2); color: white;" title="Admin Panel">
+                <i class="fas fa-cog"></i>
+              </button>
+              {% endif %}
               <button onclick="logout()" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="Logout">
                 <i class="fas fa-sign-out-alt"></i>
               </button>
@@ -2045,6 +2120,14 @@
 
       <!-- Enhanced Analyze Button -->
       <div style="text-align: center; margin: 2rem 0;">
+        <!-- Fast Mode Toggle -->
+        <div style="margin-bottom: 1rem;">
+          <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; background: rgba(76, 175, 80, 0.1); padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(76, 175, 80, 0.3);">
+            <input type="checkbox" id="fastModeToggle" checked style="margin: 0;">
+            <span style="color: var(--primary-color); font-weight: 600;">⚡ Fast Mode (Recommended for Mobile)</span>
+          </label>
+        </div>
+
         <button type="button" class="btn btn-primary" id="analyzeBtn" style="display: none; font-size: 1.3rem; padding: 1.5rem 3rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none; border-radius: 25px; box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); animation: glow 2s ease-in-out infinite alternate; transform: scale(1.05);">
           <i class="fas fa-brain" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>
           {% if user %}
@@ -3014,17 +3097,26 @@
         console.log('📡 Sending enhanced analysis request...');
 
         // Simulate advanced AI processing stages
-        updateLoadingStage('🔍 Preprocessing image...');
-        await new Promise(resolve => setTimeout(resolve, 800));
+        const fastMode = document.getElementById('fastModeToggle').checked;
 
-        updateLoadingStage('🧠 Running AI analysis...');
+        if (fastMode) {
+          updateLoadingStage('⚡ Fast AI analysis...');
+          // Skip delays in fast mode
+        } else {
+          updateLoadingStage('🔍 Preprocessing image...');
+          await new Promise(resolve => setTimeout(resolve, 300));
+          updateLoadingStage('🧠 Running AI analysis...');
+        }
+
         const response = await fetch('/analyze', {
           method: 'POST',
           body: formData
         });
 
-        updateLoadingStage('📊 Processing results...');
-        await new Promise(resolve => setTimeout(resolve, 500));
+        if (!fastMode) {
+          updateLoadingStage('📊 Processing results...');
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
 
         console.log('📊 Response status:', response.status);
 
@@ -3076,44 +3168,25 @@
 
     function showAdvancedLoading() {
       const container = document.getElementById('loadingContainer');
-      const textElement = document.getElementById('loadingText');
 
+      // Simplified loading for better mobile performance
       container.innerHTML = `
-        <div style="text-align: center;">
-          <div style="position: relative; width: 120px; height: 120px; margin: 0 auto 2rem auto;">
-            <div style="position: absolute; width: 100%; height: 100%; border: 4px solid rgba(76, 175, 80, 0.2); border-radius: 50%;"></div>
-            <div style="position: absolute; width: 100%; height: 100%; border: 4px solid var(--primary-color); border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem;">🧠</div>
+        <div style="text-align: center; padding: 2rem;">
+          <div style="width: 80px; height: 80px; margin: 0 auto 1rem auto; border: 4px solid var(--primary-color); border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+
+          <div id="loadingStage" style="font-size: 1.1rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem;">
+            🔬 Analyzing with AI...
           </div>
 
-          <div id="loadingStage" style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem;">
-            🔬 Initializing AI analysis...
-          </div>
-
-          <div style="width: 100%; max-width: 400px; height: 8px; background: rgba(76, 175, 80, 0.2); border-radius: 4px; margin: 0 auto 1rem auto; overflow: hidden;">
-            <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary-color), #81c784); border-radius: 4px; transition: width 0.5s ease;"></div>
-          </div>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin: 2rem 0; max-width: 500px; margin-left: auto; margin-right: auto;">
-            <div style="padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; text-align: center;">
-              <i class="fas fa-eye" style="font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Computer Vision</div>
-            </div>
-            <div style="padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 10px; text-align: center;">
-              <i class="fas fa-brain" style="font-size: 1.5rem; color: #2196f3; margin-bottom: 0.5rem;"></i>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Deep Learning</div>
-            </div>
-            <div style="padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 10px; text-align: center;">
-              <i class="fas fa-leaf" style="font-size: 1.5rem; color: #ff9800; margin-bottom: 0.5rem;"></i>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Natural Remedies</div>
-            </div>
+          <div style="width: 200px; height: 6px; background: rgba(76, 175, 80, 0.2); border-radius: 3px; margin: 0 auto; overflow: hidden;">
+            <div id="progressBar" style="width: 0%; height: 100%; background: var(--primary-color); border-radius: 3px; transition: width 0.3s ease;"></div>
           </div>
 
           <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
             {% if user %}
-            🌟 Premium AI analysis in progress for {{ user.username }}
+            ✨ Premium analysis for {{ user.username }}
             {% else %}
-            🔬 Advanced AI analysis using computer vision and machine learning
+            🧠 AI-powered skin analysis
             {% endif %}
           </div>
         </div>
@@ -3121,13 +3194,16 @@
 
       container.classList.add('show');
 
-      // Animate progress bar
+      // Faster progress animation
       let progress = 0;
       const progressInterval = setInterval(() => {
-        progress += Math.random() * 15;
+        progress += Math.random() * 25;
         if (progress > 90) progress = 90;
-        document.getElementById('progressBar').style.width = progress + '%';
-      }, 200);
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+          progressBar.style.width = progress + '%';
+        }
+      }, 100);
 
       // Store interval for cleanup
       container.progressInterval = progressInterval;

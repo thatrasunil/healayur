@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Heal Ayur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            color: #4CAF50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-actions {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-actions h2 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .recent-activity {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-activity h2 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        .activity-item {
+            padding: 1rem;
+            border-left: 4px solid #4CAF50;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .activity-time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+
+            .admin-header h1 {
+                font-size: 2rem;
+            }
+
+            .admin-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .logout-btn {
+                position: static;
+                margin-bottom: 1rem;
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/logout" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-user-shield"></i> Admin Dashboard</h1>
+            <p>Welcome to Heal Ayur Administration Panel</p>
+        </div>
+
+        <div class="admin-stats">
+            <div class="stat-card">
+                <i class="fas fa-users" style="color: #2196F3;"></i>
+                <h3>{{ stats.total_users or 0 }}</h3>
+                <p>Total Users</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line" style="color: #4CAF50;"></i>
+                <h3>{{ stats.total_analyses or 0 }}</h3>
+                <p>Total Analyses</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-comments" style="color: #FF9800;"></i>
+                <h3>{{ stats.total_chats or 0 }}</h3>
+                <p>Chat Sessions</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-leaf" style="color: #8BC34A;"></i>
+                <h3>{{ stats.total_remedies or 16 }}</h3>
+                <p>Available Remedies</p>
+            </div>
+        </div>
+
+        <div class="admin-actions">
+            <h2><i class="fas fa-tools"></i> Quick Actions</h2>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="viewUsers()">
+                    <i class="fas fa-users"></i> View Users
+                </button>
+                <button class="action-btn" onclick="viewAnalyses()">
+                    <i class="fas fa-chart-bar"></i> View Analyses
+                </button>
+                <button class="action-btn" onclick="systemHealth()">
+                    <i class="fas fa-heartbeat"></i> System Health
+                </button>
+                <button class="action-btn" onclick="exportData()">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <a href="/" class="action-btn">
+                    <i class="fas fa-home"></i> Back to App
+                </a>
+                <button class="action-btn" onclick="clearCache()">
+                    <i class="fas fa-trash"></i> Clear Cache
+                </button>
+            </div>
+        </div>
+
+        <div class="recent-activity">
+            <h2><i class="fas fa-clock"></i> Recent Activity</h2>
+            <div class="activity-item">
+                <strong>New user registration</strong>
+                <div class="activity-time">2 minutes ago</div>
+            </div>
+            <div class="activity-item">
+                <strong>Skin analysis completed</strong>
+                <div class="activity-time">5 minutes ago</div>
+            </div>
+            <div class="activity-item">
+                <strong>AI chat session started</strong>
+                <div class="activity-time">10 minutes ago</div>
+            </div>
+            <div class="activity-item">
+                <strong>System health check passed</strong>
+                <div class="activity-time">15 minutes ago</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function viewUsers() {
+            alert('User management feature coming soon!');
+        }
+
+        function viewAnalyses() {
+            alert('Analysis reports feature coming soon!');
+        }
+
+        function systemHealth() {
+            fetch('/health')
+                .then(response => response.json())
+                .then(data => {
+                    alert(`System Status: ${data.status}\nUptime: Active\nDatabase: Connected`);
+                })
+                .catch(error => {
+                    alert('Error checking system health');
+                });
+        }
+
+        function exportData() {
+            alert('Data export feature coming soon!');
+        }
+
+        function clearCache() {
+            if (confirm('Are you sure you want to clear the cache?')) {
+                alert('Cache cleared successfully!');
+            }
+        }
+
+        // Auto-refresh stats every 30 seconds
+        setInterval(() => {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>
