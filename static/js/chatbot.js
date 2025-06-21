@@ -39,9 +39,9 @@ class ChatBot {
   loadKnowledgeBase() {
     this.knowledgeBase = {
       greetings: [
-        "Hello! I'm your AI healing assistant. How can I help you today?",
-        "Hi there! I'm here to help you with natural remedies and healing advice.",
-        "Welcome! I'm your personal Ayurvedic assistant. What would you like to know?"
+        "Hello! I'm your AI healing assistant powered by Google Gemini. How can I help you today? 🌿",
+        "Hi there! I'm here to help you with natural remedies and healing advice using advanced AI. 🌱",
+        "Welcome! I'm your personal Ayurvedic assistant with Gemini AI. What would you like to know? ✨"
       ],
       
       conditions: {
@@ -108,40 +108,129 @@ class ChatBot {
     }
   }
 
-  sendMessage() {
+  async sendMessage() {
     const message = this.chatInput?.value.trim();
     if (!message) return;
-    
+
     // Add user message
     this.addMessage(message, 'user');
     this.conversationHistory.push({ role: 'user', content: message });
-    
+
     // Clear input
     if (this.chatInput) {
       this.chatInput.value = '';
     }
-    
+
     // Show typing indicator
     this.showTypingIndicator();
-    
-    // Process message and respond
-    setTimeout(() => {
+
+    try {
+      // Send message to Gemini API
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: message,
+          history: this.conversationHistory.slice(-10) // Send last 10 messages for context
+        })
+      });
+
+      const data = await response.json();
+
       this.hideTypingIndicator();
-      const response = this.generateResponse(message);
-      this.addMessage(response, 'ai');
-      this.conversationHistory.push({ role: 'ai', content: response });
-    }, 1000 + Math.random() * 2000); // Realistic typing delay
+
+      if (data.success) {
+        // Add AI response
+        this.addMessage(data.response, 'ai');
+        this.conversationHistory.push({ role: 'ai', content: data.response });
+
+        // Show model info if available
+        if (data.model && data.model.includes('gemini')) {
+          console.log(`💬 Response from ${data.model} (Google Gemini API)`);
+        }
+      } else {
+        // Show error message to user
+        const errorMessage = data.error || 'AI chat service is temporarily unavailable. Please try again in a moment.';
+        this.addMessage(`⚠️ ${errorMessage}`, 'ai');
+        console.error('Chat API error:', data.error);
+      }
+
+    } catch (error) {
+      console.error('Chat API error:', error);
+      this.hideTypingIndicator();
+
+      // Show error message to user
+      const errorMessage = '⚠️ Unable to connect to AI chat service. Please check your connection and try again.';
+      this.addMessage(errorMessage, 'ai');
+    }
   }
 
   addMessage(text, sender) {
     if (!this.chatMessages) return;
-    
+
+    console.log('💬 Adding message:', sender, 'Length:', text.length);
+    console.log('💬 Message preview:', text.substring(0, 100) + (text.length > 100 ? '...' : ''));
+
     const messageDiv = document.createElement('div');
     messageDiv.className = `chat-message ${sender} animate-fadeInUp`;
-    messageDiv.textContent = text;
-    
+
+    // Create message content with proper styling for long messages
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.style.cssText = `
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 12px;
+      background: ${sender === 'user' ? 'var(--primary-color)' : 'rgba(76, 175, 80, 0.1)'};
+      color: ${sender === 'user' ? 'white' : 'var(--text-primary)'};
+      border: ${sender === 'ai' ? '1px solid rgba(76, 175, 80, 0.2)' : 'none'};
+      max-height: 300px;
+      overflow-y: auto;
+    `;
+
+    // Use innerHTML for AI messages to support formatting, textContent for user messages for security
+    if (sender === 'ai') {
+      messageContent.innerHTML = this.formatAIMessage(text);
+    } else {
+      messageContent.textContent = text;
+    }
+
+    messageDiv.appendChild(messageContent);
+
+    // Add timestamp
+    const timestamp = document.createElement('div');
+    timestamp.className = 'message-timestamp';
+    timestamp.style.cssText = `
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: ${sender === 'user' ? 'right' : 'left'};
+      margin-top: 0.25rem;
+    `;
+    timestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    messageDiv.appendChild(timestamp);
+
     this.chatMessages.appendChild(messageDiv);
     this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+
+    console.log('✅ Message added successfully');
+  }
+
+  formatAIMessage(text) {
+    // Format AI messages with better readability
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+      .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic text
+      .replace(/\n\n/g, '</p><p>') // Paragraphs
+      .replace(/\n/g, '<br>') // Line breaks
+      .replace(/^/, '<p>') // Start paragraph
+      .replace(/$/, '</p>'); // End paragraph
   }
 
   showTypingIndicator() {
@@ -169,104 +258,7 @@ class ChatBot {
     this.isTyping = false;
   }
 
-  generateResponse(userMessage) {
-    const message = userMessage.toLowerCase();
-    
-    // Greeting responses
-    if (this.isGreeting(message)) {
-      return this.getRandomGreeting();
-    }
-    
-    // Help with analysis
-    if (message.includes('analyze') || message.includes('scan')) {
-      return "To analyze your skin condition, you can either upload an image or use your camera. Click 'Upload Image' to select a photo, or 'Use Camera' for real-time analysis. I'll help you understand the results!";
-    }
-    
-    // Condition-specific questions
-    for (const [condition, info] of Object.entries(this.knowledgeBase.conditions)) {
-      if (message.includes(condition)) {
-        return this.getConditionInfo(condition, info, message);
-      }
-    }
-    
-    // Ingredient questions
-    for (const [ingredient, info] of Object.entries(this.knowledgeBase.ingredients)) {
-      if (message.includes(ingredient.replace('_', ' '))) {
-        return `${ingredient.replace('_', ' ').toUpperCase()}: ${info}`;
-      }
-    }
-    
-    // FAQ responses
-    for (const faq of this.knowledgeBase.faqs) {
-      if (this.messageMatchesFAQ(message, faq.question)) {
-        return faq.answer;
-      }
-    }
-    
-    // Real-time features
-    if (message.includes('real-time') || message.includes('live')) {
-      return "For real-time analysis, start your camera and click 'Start Real-Time'. The AI will continuously analyze your skin every 2.5 seconds and show live results!";
-    }
-    
-    // Voice commands
-    if (message.includes('voice') || message.includes('speak')) {
-      return "You can use voice commands! Press Ctrl+V or click the microphone icon. Say 'analyze image' to start analysis or 'start camera' to begin webcam capture.";
-    }
-    
-    // General help
-    if (message.includes('help') || message.includes('how')) {
-      return "I can help you with:\n• Understanding skin conditions\n• Explaining remedy ingredients\n• Guiding you through the analysis process\n• Answering questions about natural healing\n\nWhat would you like to know?";
-    }
-    
-    // Default responses
-    const defaultResponses = [
-      "That's an interesting question! Could you be more specific about what you'd like to know?",
-      "I'd be happy to help! Can you tell me more about your skin concern?",
-      "Let me help you with that. Are you looking for information about a specific condition or remedy?",
-      "I'm here to assist with natural healing and skin analysis. What specific topic interests you?"
-    ];
-    
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
-  }
-
-  isGreeting(message) {
-    const greetings = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'];
-    return greetings.some(greeting => message.includes(greeting));
-  }
-
-  getRandomGreeting() {
-    return this.knowledgeBase.greetings[Math.floor(Math.random() * this.knowledgeBase.greetings.length)];
-  }
-
-  getConditionInfo(condition, info, message) {
-    if (message.includes('cause') || message.includes('why')) {
-      return `${condition.toUpperCase()} causes: ${info.causes ? info.causes.join(', ') : 'Various factors can contribute to this condition.'}`;
-    }
-    
-    if (message.includes('prevent') || message.includes('avoid')) {
-      return `To prevent ${condition}: ${info.prevention ? info.prevention.join(', ') : 'Maintain good hygiene and healthy lifestyle.'}`;
-    }
-    
-    if (message.includes('treat') || message.includes('remedy')) {
-      return `Natural remedies for ${condition}: ${info.remedies ? info.remedies.join(', ') : 'Several natural treatments are available.'}`;
-    }
-    
-    return `${info.description} ${info.remedies ? 'Natural remedies include: ' + info.remedies.join(', ') : ''}`;
-  }
-
-  messageMatchesFAQ(message, question) {
-    const questionWords = question.toLowerCase().split(' ');
-    const messageWords = message.split(' ');
-    
-    let matches = 0;
-    for (const word of questionWords) {
-      if (messageWords.some(mWord => mWord.includes(word) || word.includes(mWord))) {
-        matches++;
-      }
-    }
-    
-    return matches >= Math.min(3, questionWords.length * 0.6);
-  }
+  // Note: Local response generation removed - chatbot now uses only Google Gemini API
 }
 
 // Global functions for backward compatibility

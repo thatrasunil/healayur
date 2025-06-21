@@ -40,12 +40,13 @@ Heal Ayur combines ancient Ayurvedic wisdom with cutting-edge AI technology to p
 - **Admin Dashboard** - Comprehensive management interface
 - **Mobile Responsive** - Works perfectly on all devices
 - **Dark/Light Themes** - User preference customization
+- **AI Chatbot** - Google Gemini-powered intelligent assistant for personalized healing guidance
 
 ## 🛠 Technology Stack
 
 - **Backend**: Python 3.11, Flask 2.3, SQLite
-- **AI/ML**: OpenCV, NumPy, Scikit-learn, PIL
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **AI/ML**: OpenCV, NumPy, Scikit-learn, PIL, Google Gemini API
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+), Three.js
 - **Real-time**: WebSocket, Flask-SocketIO
 - **Deployment**: Render.com, Gunicorn
 - **Database**: SQLite with user authentication
@@ -85,7 +86,12 @@ Heal Ayur combines ancient Ayurvedic wisdom with cutting-edge AI technology to p
    pip install -r requirements.txt
    ```
 
-3. **Run the application**
+3. **Configure AI Features** (Optional but recommended)
+   - The app includes Google Gemini API integration for enhanced chatbot functionality
+   - API key is pre-configured for immediate use
+   - For production deployment, consider using environment variables
+
+4. **Run the application**
    ```bash
    python app.py
    ```
@@ -100,6 +106,7 @@ Visit our live application: **[https://healayur.onrender.com](https://healayur.o
 
 ### Demo Features:
 - Try the AI skin analysis with your webcam
+- Chat with the intelligent Gemini-powered AI assistant
 - Explore different skin conditions and remedies
 - Experience the gender and age detection capabilities
 - View personalized Ayurvedic recommendations
@@ -108,13 +115,14 @@ Visit our live application: **[https://healayur.onrender.com](https://healayur.o
 
 1. **Upload or Capture**: Use your webcam or upload a clear face image
 2. **AI Analysis**: Our revolutionary AI analyzes your skin in seconds
-3. **Get Results**: Receive detailed analysis including:
+3. **Chat with AI**: Ask questions to our Gemini-powered intelligent assistant
+4. **Get Results**: Receive detailed analysis including:
    - Detected skin condition with confidence score
    - Gender and age estimation
    - Professional skin metrics
    - Personalized Ayurvedic remedies
    - Lifestyle recommendations
-4. **Track Progress**: Save results and monitor your skin health journey
+5. **Track Progress**: Save results and monitor your skin health journey
 
 ## 🔐 Admin Features
 

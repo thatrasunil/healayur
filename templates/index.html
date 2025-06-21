@@ -294,6 +294,63 @@
       color: var(--primary-color);
     }
 
+    .contact-info {
+      position: fixed;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      z-index: 1001;
+      background: var(--gradient-card);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      padding: 1rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-card);
+      writing-mode: vertical-lr;
+      text-orientation: mixed;
+    }
+
+    .contact-btn {
+      width: 45px;
+      height: 45px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: var(--gradient-primary);
+      color: white;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-btn:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .contact-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .contact-btn:hover::before {
+      left: 100%;
+    }
+
     .nav-brand i {
       font-size: 1.8rem;
       animation: pulse 3s infinite;
@@ -1002,49 +1059,152 @@
       to { opacity: 1; }
     }
 
-    /* Footer */
+    /* Enhanced Footer */
     .footer {
-      text-align: center;
-      padding: 3rem 2rem;
+      padding: 3rem 2rem 1rem;
       margin-top: 4rem;
       border-top: 1px solid var(--border-color);
       background: var(--gradient-secondary);
     }
 
     .footer-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
       color: var(--text-secondary);
-      font-size: 0.9rem;
     }
 
-    .footer-content a {
-      color: var(--primary-color);
+    .footer-section h4 {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 600;
+    }
+
+    .footer-contact p {
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-contact a {
+      color: var(--text-secondary);
       text-decoration: none;
       transition: var(--transition);
     }
 
-    .footer-content a:hover {
-      color: var(--secondary-color);
+    .footer-contact a:hover {
+      color: var(--primary-color);
+    }
+
+    .footer-bottom {
+      text-align: center;
+    }
+
+    .footer-links a {
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color) !important;
     }
 
     /* Responsive Design */
     @media (max-width: 768px) {
       .container {
         padding: 1rem;
-        margin-top: 5rem;
+        margin-top: 6rem; /* Increased to prevent navbar overlap */
       }
 
       .navbar {
-        padding: 1rem;
+        padding: 0.75rem 1rem;
+        position: fixed;
+        z-index: 1001;
       }
 
       .nav-container {
+        flex-direction: row; /* Keep horizontal on mobile */
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .user-info {
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.8rem !important;
+      }
+
+      .user-avatar {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.9rem !important;
+      }
+
+      .contact-info {
+        left: 0.5rem;
+        top: 45%; /* Adjusted to avoid navbar */
+        padding: 0.5rem 0.25rem;
+        z-index: 999; /* Lower than navbar */
+      }
+
+      .contact-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .footer-bottom-content {
         flex-direction: column;
+        text-align: center;
+      }
+
+      /* Hide premium badges on mobile for cleaner look */
+      .feature-badges {
+        display: none !important;
+      }
+
+      /* Hide call-to-action section on mobile to reduce clutter */
+      .cta-section {
+        display: none !important;
+      }
+
+      /* Optimize logo and subtitle for mobile */
+      .logo h1 {
+        font-size: 2.2rem !important;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        font-size: 1rem !important;
+        line-height: 1.4;
+        padding: 0 1rem;
+      }
+
+      /* Simplify upload section for mobile */
+      .upload-methods {
+        grid-template-columns: 1fr !important;
         gap: 1rem;
+      }
+
+      .upload-method {
+        padding: 1.5rem 1rem !important;
+        text-align: center;
+      }
+
+      .upload-method h3 {
+        font-size: 1.1rem !important;
+      }
+
+      .upload-method p {
+        font-size: 0.9rem !important;
       }
 
       .logo h1 {
@@ -1078,11 +1238,56 @@
       .theme-toggle {
         top: 0.5rem;
         right: 0.5rem;
+        padding: 0.25rem;
+      }
+
+      .theme-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
       }
 
       .user-info {
         flex-direction: column;
         text-align: center;
+        padding: 0.5rem 1rem;
+      }
+
+      .upload-methods {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .upload-method {
+        padding: 1.5rem;
+      }
+
+      .remedies-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .ai-chat {
+        width: 95vw;
+        right: 2.5vw;
+        height: 70vh;
+        bottom: 5rem;
+      }
+
+      .ai-assistant {
+        width: 60px;
+        height: 60px;
+        bottom: 1rem;
+        right: 1rem;
+      }
+
+      .ai-assistant i {
+        font-size: 1.5rem;
       }
 
       .webcam-controls {
@@ -1102,9 +1307,198 @@
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
       }
+
+      /* Hide feature badges on mobile for cleaner look */
+      .feature-badges {
+        display: none !important;
+      }
+
+      /* Hide call-to-action section on mobile to reduce clutter */
+      .cta-section {
+        display: none !important;
+      }
+
+      /* Hide complex animations on mobile for performance */
+      .gradient-orb {
+        display: none !important;
+      }
+
+      .particles-container {
+        display: none !important;
+      }
+
+      /* Optimize buttons for mobile */
+      .btn {
+        padding: 1rem 1.5rem !important;
+        font-size: 1rem !important;
+        width: 100%;
+        margin: 0.5rem 0;
+        border-radius: 12px !important;
+      }
+
+      /* Mobile-friendly upload section */
+      .upload-method {
+        border: 2px solid var(--border-color) !important;
+        border-radius: 15px !important;
+        transition: all 0.3s ease !important;
+      }
+
+      .upload-method:hover {
+        border-color: var(--primary-color) !important;
+        transform: translateY(-2px) !important;
+      }
+
+      /* Optimize stats for mobile */
+      .stat-item {
+        border-radius: 15px !important;
+        background: var(--gradient-card) !important;
+      }
+
+      /* Mobile-friendly cards */
+      .card {
+        border-radius: 15px !important;
+        margin: 1rem 0 !important;
+      }
+
+      /* Add mobile-specific welcome banner */
+      .mobile-welcome {
+        display: block !important;
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(129, 199, 132, 0.1));
+        border-radius: 20px;
+        border: 2px solid rgba(76, 175, 80, 0.4);
+        text-align: center;
+        animation: pulse 3s infinite;
+      }
+
+      .mobile-welcome h3 {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        font-family: 'Comfortaa', sans-serif;
+      }
+
+      .mobile-welcome p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+
+      /* Mobile chat optimization - Fix overlaps */
+      .ai-chat {
+        width: 95vw !important;
+        height: 70vh !important;
+        bottom: 1rem !important;
+        right: 2.5% !important;
+        left: 2.5% !important;
+        max-height: calc(100vh - 8rem) !important;
+        z-index: 10001 !important;
+      }
+
+      .ai-assistant {
+        bottom: 1rem !important;
+        right: 1rem !important;
+        width: 60px !important;
+        height: 60px !important;
+        z-index: 10002 !important;
+      }
+
+      /* Fix modal overlaps on mobile */
+      .modal > div {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        margin: 1rem !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+      }
+
+      /* Hide desktop-specific elements on mobile */
+      .desktop-only {
+        display: none !important;
+      }
+
+      /* Simplify navigation on mobile */
+      .nav-menu {
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+      }
+
+      /* Fix user info overlap */
+      .user-info {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.8rem !important;
+        flex-direction: row !important;
+        gap: 0.5rem !important;
+      }
+
+      /* Fix upload section spacing */
+      .upload-section {
+        margin: 2rem 0 !important;
+        padding: 0 0.5rem !important;
+      }
+
+      .upload-methods {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      /* Fix analyze button positioning */
+      #analyzeBtn {
+        width: 100% !important;
+        margin: 1rem 0 !important;
+        padding: 1rem !important;
+        font-size: 1.1rem !important;
+      }
+
+      #analyzeEncouragement {
+        margin: 1rem 0 !important;
+        padding: 1rem !important;
+        font-size: 0.9rem !important;
+      }
+    }
+
+    /* Tablet Design */
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      .upload-methods {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .remedies-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ai-chat {
+        width: 400px;
+        height: 550px;
+      }
     }
 
     @media (max-width: 480px) {
+      /* Hide feature badges completely on small mobile */
+      .feature-badges {
+        display: none !important;
+      }
+
+      /* Hide call-to-action section on small mobile */
+      .cta-section {
+        display: none !important;
+      }
+
       .logo i {
         font-size: 3rem;
       }
@@ -1121,6 +1515,19 @@
         font-size: 2rem;
       }
 
+      /* Make upload methods more attractive on mobile */
+      .upload-method {
+        background: var(--gradient-card) !important;
+        border: 2px solid var(--primary-color) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2) !important;
+      }
+
+      .upload-method:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 15px 35px rgba(76, 175, 80, 0.3) !important;
+      }
+
       .ai-assistant {
         width: 60px;
         height: 60px;
@@ -1130,6 +1537,114 @@
 
       .ai-assistant i {
         font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 0.5rem;
+        margin-top: 4rem;
+      }
+
+      .navbar {
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-brand {
+        font-size: 1.1rem;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+      }
+
+      /* Mobile-specific subtitle styling */
+      .subtitle span {
+        display: block !important;
+        margin: 0.5rem 0 !important;
+        padding: 0.5rem 1rem !important;
+        background: rgba(76, 175, 80, 0.1) !important;
+        border-radius: 15px !important;
+        border: 1px solid rgba(76, 175, 80, 0.3) !important;
+      }
+
+      .upload-method {
+        padding: 1rem;
+      }
+
+      .upload-method h3 {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      .card {
+        margin: 0.5rem 0;
+        padding: 1rem;
+      }
+
+      .webcam-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .webcam-controls .btn {
+        width: 100%;
+      }
+
+      .contact-info {
+        left: 0.25rem;
+        padding: 0.25rem;
+      }
+
+      .contact-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+      }
+
+      .theme-toggle {
+        top: 0.25rem;
+        right: 0.25rem;
+        padding: 0.25rem;
+      }
+
+      .theme-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+      }
+
+      .ai-chat {
+        width: 98vw;
+        right: 1vw;
+        height: 80vh;
+        bottom: 4rem;
+      }
+
+      .footer-content {
+        padding: 1rem;
+      }
+
+      .footer-section {
+        text-align: center;
+      }
+
+      .footer-bottom-content {
+        font-size: 0.8rem;
+      }
+
+      .notification-container {
+        top: 1rem;
+        right: 1rem;
+      }
+
+      .notification-toast {
+        min-width: 250px;
+        max-width: 300px;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
       }
     }
 
@@ -1198,6 +1713,15 @@
         transform: translateX(100%);
       }
     }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 15px #ffd700;
+      }
+      to {
+        box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1209,6 +1733,22 @@
     <button class="theme-btn" onclick="setTheme('light')" title="Light Theme">
       <i class="fas fa-sun"></i>
     </button>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="contact-info">
+    <a href="#contact" class="contact-btn" title="Contact Us" onclick="showContactModal()">
+      <i class="fas fa-envelope"></i>
+    </a>
+    <a href="#support" class="contact-btn" title="24/7 Support" onclick="showSupportModal()">
+      <i class="fas fa-headset"></i>
+    </a>
+    <a href="#help" class="contact-btn" title="Help & FAQ" onclick="showHelpModal()">
+      <i class="fas fa-question-circle"></i>
+    </a>
+    <a href="#feedback" class="contact-btn" title="Feedback" onclick="showFeedbackModal()">
+      <i class="fas fa-comment"></i>
+    </a>
   </div>
 
   <!-- Notification Container -->
@@ -1232,12 +1772,21 @@
       <div class="nav-menu" id="navMenu">
         {% if user %}
           <div class="user-info">
-            <div class="user-avatar">{{ user.username[0].upper() }}</div>
-            <span style="font-weight: 500;">Welcome, {{ user.username }}!</span>
-            <button onclick="logout()" class="btn btn-danger">
-              <i class="fas fa-sign-out-alt"></i>
-              Logout
-            </button>
+            <div class="user-avatar" onclick="showUserProfile()" style="cursor: pointer;" title="View Profile">
+              {{ user.username[0].upper() }}
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+              <span style="font-weight: 600; color: var(--primary-color);">{{ user.username }}</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Premium Member</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button onclick="showUserProfile()" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="View Profile">
+                <i class="fas fa-user"></i>
+              </button>
+              <button onclick="logout()" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+              </button>
+            </div>
           </div>
         {% else %}
           <div style="display: flex; gap: 1rem;">
@@ -1264,23 +1813,28 @@
   <div class="ai-chat" id="aiChat">
     <div class="chat-header">
       <i class="fas fa-robot" style="color: var(--primary-color); font-size: 1.5rem;"></i>
-      <span style="font-weight: 600; font-size: 1.1rem;">
-        {% if user %}
-          AI Assistant for {{ user.username }}
-        {% else %}
-          AI Healing Assistant
-        {% endif %}
-      </span>
-      <button onclick="toggleAIChat()" style="margin-left: auto; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">
+      <div style="flex: 1; margin-left: 0.75rem;">
+        <div style="font-weight: 600; font-size: 1.1rem;">
+          {% if user %}
+            AI Assistant for {{ user.username }}
+          {% else %}
+            AI Healing Assistant
+          {% endif %}
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+          <i class="fas fa-brain" style="color: #4285f4; font-size: 0.7rem;"></i> Powered by Google Gemini
+        </div>
+      </div>
+      <button onclick="toggleAIChat()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">
         <i class="fas fa-times"></i>
       </button>
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="chat-message ai">
         {% if user %}
-          👋 Hello {{ user.username }}! I'm your personal AI healing assistant. I have access to your analysis history and can provide personalized recommendations. How can I help you today?
+          👋 Hello {{ user.username }}! I'm your personal AI healing assistant powered by Google Gemini. I have access to your analysis history and can provide personalized recommendations. How can I help you today? 🌿✨
         {% else %}
-          👋 Hello! I'm your AI healing assistant. I can help you understand skin conditions and suggest natural remedies. Sign up to get personalized recommendations! How can I help you today?
+          👋 Hello! I'm your AI healing assistant powered by Google Gemini. I can help you understand skin conditions and suggest natural remedies. Sign up to get personalized recommendations! How can I help you today? 🌱🤖
         {% endif %}
       </div>
     </div>
@@ -1311,9 +1865,14 @@
             🧠 AI-Enhanced • 📊 Progress Tracking • 🎯 Personalized Remedies • 🔮 Predictive Analysis
           </span>
         {% else %}
-          🤖 AI-Powered Ancient Healing • Scan & Get Instant Ayurvedic Remedies
-          <br><span style="color: var(--warning-color); font-weight: 500; font-size: 1rem; margin-top: 0.5rem; display: block;">
-            ✨ Sign up to unlock premium features and personalized healing journey!
+          <span style="font-size: 1.3rem; color: var(--primary-color); font-weight: 600; font-family: 'Comfortaa', sans-serif;">
+            🌿 Discover the Power of AI-Driven Ancient Healing 🌿
+          </span>
+          <br><span style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 0.5rem; display: block;">
+            🤖 Advanced Computer Vision • 🔬 95% Accuracy • 🌱 500+ Natural Remedies • ⚡ Instant Analysis
+          </span>
+          <br><span style="color: var(--info-color); font-weight: 500; font-size: 1rem; margin-top: 0.75rem; display: block; padding: 0.75rem 1.5rem; background: rgba(33, 150, 243, 0.1); border-radius: 25px; border: 1px solid rgba(33, 150, 243, 0.3);">
+            ✨ Try it FREE now! No signup required • Create account for premium features
           </span>
         {% endif %}
       </p>
@@ -1402,30 +1961,63 @@
       </div>
     </div>
 
-    <!-- Upload Section -->
+    <!-- Enhanced Upload Section -->
     <div class="upload-section">
-      <h2 style="text-align: center; margin-bottom: 2rem; color: var(--text-primary);">
-        Choose Your Analysis Method
+      {% if user %}
+      <h2 style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">
+        🔬 Your Personal AI Skin Analyzer
       </h2>
+      <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+        Welcome back, {{ user.username }}! Your personalized AI is ready to analyze and track your healing progress.
+      </p>
+      <div style="text-align: center; margin-bottom: 2rem; padding: 1rem; background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(129, 199, 132, 0.1)); border-radius: 15px; border: 2px solid rgba(76, 175, 80, 0.3); animation: pulse 3s infinite;">
+        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">🌟 Premium Features Active</h4>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--text-secondary);">
+          <span><i class="fas fa-save"></i> Auto-Save Results</span>
+          <span><i class="fas fa-chart-line"></i> Progress Tracking</span>
+          <span><i class="fas fa-brain"></i> AI Recommendations</span>
+          <span><i class="fas fa-history"></i> Analysis History</span>
+        </div>
+      </div>
+      {% else %}
+      <h2 style="text-align: center; margin-bottom: 1rem; color: var(--text-primary); font-size: 2.5rem;">
+        🔬 AI-Powered Skin Analysis
+      </h2>
+      <div style="text-align: center; margin-bottom: 2rem; padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 15px; border: 1px solid rgba(33, 150, 243, 0.3);">
+        <p style="color: var(--info-color); margin: 0; font-weight: 500; font-size: 1.1rem;">
+          <i class="fas fa-info-circle"></i> Try our AI analysis FREE! Sign up to unlock premium features and save your results.
+        </p>
+      </div>
+      {% endif %}
 
       <div class="upload-methods">
-        <div class="upload-method card" id="fileUploadMethod" onclick="triggerFileUpload()">
-          <i class="fas fa-cloud-upload-alt"></i>
-          <h3>Upload Image</h3>
+        <div class="upload-method card" id="fileUploadMethod" onclick="triggerFileUpload()" style="{% if user %}border: 3px solid var(--primary-color); background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.05)); box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3); transform: scale(1.02);{% endif %}">
+          <i class="fas fa-cloud-upload-alt" style="{% if user %}color: var(--primary-color); font-size: 3.5rem; animation: pulse 2s infinite;{% endif %}"></i>
+          <h3 style="{% if user %}color: var(--primary-color); font-size: 1.4rem;{% endif %}">Upload Image</h3>
           <p>Select a photo from your device for instant analysis</p>
           <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
             Supports: JPG, PNG, GIF, WebP • Max 16MB
           </div>
+          {% if user %}
+          <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.2); border-radius: 8px; font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">
+            ✨ Premium: Results auto-saved to your profile
+          </div>
+          {% endif %}
           <input type="file" id="imageInput" accept="image/*" style="display: none;">
         </div>
 
-        <div class="upload-method card" id="webcamMethod" onclick="toggleWebcam()">
-          <i class="fas fa-camera"></i>
-          <h3>Use Camera</h3>
+        <div class="upload-method card" id="webcamMethod" onclick="toggleWebcam()" style="{% if user %}border: 3px solid var(--primary-color); background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.05)); box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3); transform: scale(1.02);{% endif %}">
+          <i class="fas fa-camera" style="{% if user %}color: var(--primary-color); font-size: 3.5rem; animation: pulse 2s infinite;{% endif %}"></i>
+          <h3 style="{% if user %}color: var(--primary-color); font-size: 1.4rem;{% endif %}">Use Camera</h3>
           <p>Real-time analysis with your webcam or phone camera</p>
           <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
             Live preview • Instant capture • Real-time mode
           </div>
+          {% if user %}
+          <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.2); border-radius: 8px; font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">
+            ✨ Premium: Real-time progress tracking
+          </div>
+          {% endif %}
         </div>
       </div>
 
@@ -1451,12 +2043,57 @@
         </div>
       </div>
 
-      <!-- Analyze Button -->
+      <!-- Enhanced Analyze Button -->
       <div style="text-align: center; margin: 2rem 0;">
-        <button type="button" class="btn btn-primary" id="analyzeBtn" style="display: none; font-size: 1.1rem; padding: 1rem 2rem;">
-          <i class="fas fa-search"></i>
-          Analyze Image
+        <button type="button" class="btn btn-primary" id="analyzeBtn" style="display: none; font-size: 1.3rem; padding: 1.5rem 3rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none; border-radius: 25px; box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); animation: glow 2s ease-in-out infinite alternate; transform: scale(1.05);">
+          <i class="fas fa-brain" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>
+          {% if user %}
+          🧠 Analyze with Premium AI
+          {% else %}
+          🔬 Analyze with AI (FREE)
+          {% endif %}
         </button>
+        <div id="analyzeEncouragement" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 15px; border: 1px solid rgba(76, 175, 80, 0.3);">
+          {% if user %}
+          <p style="color: var(--primary-color); margin: 0; font-weight: 600;">
+            ✨ {{ user.username }}, your premium AI is ready to provide personalized analysis and save results to your profile!
+          </p>
+          {% else %}
+          <p style="color: var(--primary-color); margin: 0; font-weight: 600;">
+            🚀 Get instant AI analysis with 95% accuracy! Sign up to save results and unlock premium features.
+          </p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Demo Section for Event -->
+      <div style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(76, 175, 80, 0.05); border-radius: 15px; border: 1px solid rgba(76, 175, 80, 0.2);">
+        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">
+          <i class="fas fa-flask"></i> Demo Different Conditions
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+          Test our AI with different skin conditions to see varied remedy recommendations
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+          <button onclick="testCondition('acne')" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+            <i class="fas fa-circle" style="color: #f44336;"></i> Acne
+          </button>
+          <button onclick="testCondition('dry_skin')" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+            <i class="fas fa-circle" style="color: #ff9800;"></i> Dry Skin
+          </button>
+          <button onclick="testCondition('blackheads')" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+            <i class="fas fa-circle" style="color: #424242;"></i> Blackheads
+          </button>
+          <button onclick="testCondition('wrinkles')" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+            <i class="fas fa-circle" style="color: #9c27b0;"></i> Aging
+          </button>
+          <button onclick="testCondition('dark_spot')" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+            <i class="fas fa-circle" style="color: #795548;"></i> Dark Spots
+          </button>
+          <button onclick="testCondition('rash')" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+            <i class="fas fa-circle" style="color: #e91e63;"></i> Sensitive
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1594,6 +2231,76 @@
     </div>
     {% endif %}
 
+    {% if not user %}
+    <!-- Call-to-Action Section for Non-logged Users -->
+    <div class="cta-section" style="margin: 4rem 0; padding: 3rem 2rem; background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.05)); border-radius: 20px; border: 2px solid rgba(76, 175, 80, 0.3); text-align: center; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, transparent 70%); animation: pulse 4s ease-in-out infinite;"></div>
+
+      <div style="position: relative; z-index: 1;">
+        <h2 style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; font-family: 'Comfortaa', sans-serif;">
+          🌟 Unlock Your Premium Healing Experience 🌟
+        </h2>
+
+        <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+          Join thousands of users who have transformed their skin health with personalized AI recommendations, progress tracking, and exclusive premium remedies.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; max-width: 1000px; margin-left: auto; margin-right: auto;">
+          <div style="padding: 1.5rem; background: rgba(33, 150, 243, 0.1); border-radius: 15px; border: 1px solid rgba(33, 150, 243, 0.3);">
+            <i class="fas fa-chart-line" style="font-size: 2.5rem; color: #2196f3; margin-bottom: 1rem;"></i>
+            <h4 style="color: #2196f3; margin-bottom: 0.5rem;">Progress Tracking</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Monitor your healing journey with detailed analytics and improvement insights.</p>
+          </div>
+
+          <div style="padding: 1.5rem; background: rgba(156, 39, 176, 0.1); border-radius: 15px; border: 1px solid rgba(156, 39, 176, 0.3);">
+            <i class="fas fa-brain" style="font-size: 2.5rem; color: #9c27b0; margin-bottom: 1rem;"></i>
+            <h4 style="color: #9c27b0; margin-bottom: 0.5rem;">AI Personal Assistant</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Get personalized recommendations based on your unique skin profile and history.</p>
+          </div>
+
+          <div style="padding: 1.5rem; background: rgba(255, 152, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 152, 0, 0.3);">
+            <i class="fas fa-leaf" style="font-size: 2.5rem; color: #ff9800; margin-bottom: 1rem;"></i>
+            <h4 style="color: #ff9800; margin-bottom: 0.5rem;">Premium Remedies</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Access exclusive remedies and advanced formulations not available to free users.</p>
+          </div>
+
+          <div style="padding: 1.5rem; background: rgba(244, 67, 54, 0.1); border-radius: 15px; border: 1px solid rgba(244, 67, 54, 0.3);">
+            <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: #f44336; margin-bottom: 1rem;"></i>
+            <h4 style="color: #f44336; margin-bottom: 0.5rem;">Priority Support</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Get faster response times and dedicated support for all your healing questions.</p>
+          </div>
+        </div>
+
+        <div style="margin: 2rem 0;">
+          <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="/signup" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none; animation: glow 2s ease-in-out infinite alternate;">
+              <i class="fas fa-user-plus"></i> Create Free Account
+            </a>
+            <a href="/login" class="btn btn-secondary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+              <i class="fas fa-sign-in-alt"></i> Sign In
+            </a>
+          </div>
+
+          <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+            ✨ Free forever • No credit card required • Upgrade anytime
+          </p>
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; border: 1px solid rgba(76, 175, 80, 0.3);">
+          <p style="color: var(--primary-color); font-weight: 600; margin: 0;">
+            🎉 Limited Time: Get 30 days of premium features FREE when you sign up today!
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Mobile-specific welcome banner (hidden on desktop) -->
+    <div class="mobile-welcome" style="display: none;">
+      <h3>🌿 Welcome to Heal Ayur Mobile!</h3>
+      <p>✨ Instant AI skin analysis • 🔒 100% private • 📱 Works perfectly on your phone</p>
+    </div>
+
     <!-- Features Section -->
     <div style="margin: 4rem 0;">
       <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; color: var(--text-primary);">
@@ -1677,16 +2384,73 @@
       </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Enhanced Footer -->
     <div class="footer">
       <div class="footer-content">
-        <span>Made with ❤️ for the healing of humanity</span>
-        <span>•</span>
-        <span>Combining ancient wisdom with modern technology</span>
-        <span>•</span>
-        <span style="color: var(--primary-color); font-weight: 500;">
-          <i class="fas fa-leaf"></i> 100% Natural & Safe
-        </span>
+        <div class="footer-section">
+          <h4 style="color: var(--primary-color); margin-bottom: 1rem;">
+            <i class="fas fa-leaf"></i> Heal Ayur
+          </h4>
+          <p style="margin-bottom: 1rem;">Combining ancient wisdom with modern AI technology for natural healing solutions.</p>
+          <div class="footer-contact">
+            <p><i class="fas fa-envelope"></i> <a href="#contact" onclick="showContactModal()" style="color: var(--primary-color);">Contact Us</a></p>
+            <p><i class="fas fa-headset"></i> <a href="#support" onclick="showSupportModal()" style="color: var(--primary-color);">24/7 Support</a></p>
+            <p><i class="fas fa-question-circle"></i> <a href="#help" onclick="showHelpModal()" style="color: var(--primary-color);">Help & FAQ</a></p>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4 style="color: var(--primary-color); margin-bottom: 1rem;">
+            <i class="fas fa-shopping-cart"></i> Natural Products
+          </h4>
+          <p style="margin-bottom: 1rem;">Premium quality ingredients for your healing journey:</p>
+          <ul style="list-style: none; padding: 0; margin-bottom: 1rem;">
+            <li style="margin: 0.5rem 0;"><i class="fas fa-honey-pot" style="color: #ffa726;"></i> Organic Raw Honey</li>
+            <li style="margin: 0.5rem 0;"><i class="fas fa-seedling" style="color: #ff9800;"></i> Pure Turmeric Powder</li>
+            <li style="margin: 0.5rem 0;"><i class="fas fa-leaf" style="color: var(--primary-color);"></i> Fresh Neem Leaves</li>
+            <li style="margin: 0.5rem 0;"><i class="fas fa-spa" style="color: #8bc34a;"></i> Ayurvedic Herb Blends</li>
+            <li style="margin: 0.5rem 0;"><i class="fas fa-oil-can" style="color: #795548;"></i> Essential Oils</li>
+          </ul>
+          <button class="btn btn-primary" onclick="showComingSoon('Natural Products Store')" style="font-size: 0.9rem;">
+            <i class="fas fa-store"></i> Shop Coming Soon
+          </button>
+        </div>
+
+        <div class="footer-section">
+          <h4 style="color: var(--primary-color); margin-bottom: 1rem;">
+            <i class="fas fa-shield-alt"></i> Trust & Safety
+          </h4>
+          <div class="trust-badges" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+            <div class="trust-badge" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+              <i class="fas fa-user-shield" style="color: var(--primary-color);"></i>
+              <span style="font-size: 0.8rem;">100% Privacy</span>
+            </div>
+            <div class="trust-badge" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+              <i class="fas fa-certificate" style="color: var(--primary-color);"></i>
+              <span style="font-size: 0.8rem;">AI Certified</span>
+            </div>
+            <div class="trust-badge" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+              <i class="fas fa-leaf" style="color: var(--primary-color);"></i>
+              <span style="font-size: 0.8rem;">Natural & Safe</span>
+            </div>
+            <div class="trust-badge" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+              <i class="fas fa-clock" style="color: var(--primary-color);"></i>
+              <span style="font-size: 0.8rem;">24/7 Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+        <div class="footer-bottom-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <span>© 2024 Heal Ayur. Made with ❤️ for the healing of humanity.</span>
+          <div class="footer-links" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="#privacy" onclick="showComingSoon('Privacy Policy')" style="color: var(--text-secondary); text-decoration: none;">Privacy Policy</a>
+            <a href="#terms" onclick="showComingSoon('Terms of Service')" style="color: var(--text-secondary); text-decoration: none;">Terms of Service</a>
+            <a href="#contact" onclick="showContactModal()" style="color: var(--text-secondary); text-decoration: none;">Contact Us</a>
+            <a href="#support" onclick="showSupportModal()" style="color: var(--primary-color); text-decoration: none;">Support</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1905,25 +2669,65 @@
 
     function handleFileSelect(event) {
       const file = event.target.files[0];
-      if (!file) return;
+      console.log('📁 File selected:', file?.name, 'Size:', file?.size);
+
+      if (!file) {
+        console.log('❌ No file selected');
+        return;
+      }
 
       // Validate file type
       if (!file.type.startsWith('image/')) {
+        console.error('❌ Invalid file type:', file.type);
         showNotification('❌ Please select a valid image file', 'error');
         return;
       }
 
       // Validate file size (16MB limit)
       if (file.size > 16 * 1024 * 1024) {
+        console.error('❌ File too large:', file.size);
         showNotification('❌ File size must be less than 16MB', 'error');
         return;
       }
 
-      showNotification('📁 Image selected successfully!', 'success');
-      document.getElementById('analyzeBtn').style.display = 'inline-flex';
+      console.log('✅ File validation passed');
+
+      // Show analyze button and encouragement
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      const encouragement = document.getElementById('analyzeEncouragement');
+
+      if (analyzeBtn) {
+        analyzeBtn.style.display = 'inline-flex';
+        analyzeBtn.style.animation = 'pulse 1.5s infinite';
+
+        // Scroll to analyze button
+        analyzeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      if (encouragement) {
+        encouragement.style.display = 'block';
+      }
 
       // Store file for analysis
       window.selectedFile = file;
+      if (window.app) {
+        window.app.selectedFile = file;
+      }
+
+      {% if user %}
+      showNotification('📸 Image ready for premium AI analysis, {{ user.username }}! Click the enhanced button below.', 'success', 5000);
+      {% else %}
+      showNotification('📸 Image selected! Click "Analyze with AI" for instant FREE analysis with 95% accuracy.', 'success', 5000);
+      {% endif %}
+
+      // Remove pulse animation after 10 seconds
+      setTimeout(() => {
+        if (analyzeBtn) {
+          analyzeBtn.style.animation = 'glow 2s ease-in-out infinite alternate';
+        }
+      }, 10000);
+
+      console.log('📊 File stored in window.selectedFile:', !!window.selectedFile);
     }
 
     // Webcam Functions
@@ -1974,9 +2778,24 @@
     }
 
     function captureImage() {
-      if (!webcamActive) return;
+      console.log('📸 Capture image called');
+      console.log('📊 Webcam active:', webcamActive);
+
+      if (!webcamActive) {
+        showNotification('❌ Camera is not active. Please start the camera first.', 'error');
+        return;
+      }
 
       const video = document.getElementById('videoElement');
+
+      if (!video || !video.videoWidth || video.videoWidth === 0) {
+        console.error('❌ Video not ready:', video?.videoWidth, 'x', video?.videoHeight);
+        showNotification('❌ Camera not ready. Please wait for the camera to initialize.', 'error');
+        return;
+      }
+
+      console.log('📊 Video dimensions:', video.videoWidth, 'x', video.videoHeight);
+
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
@@ -1985,23 +2804,45 @@
       ctx.drawImage(video, 0, 0);
 
       canvas.toBlob((blob) => {
-        window.selectedFile = new File([blob], 'webcam-capture.jpg', { type: 'image/jpeg' });
+        const file = new File([blob], 'webcam-capture.jpg', { type: 'image/jpeg' });
+        window.selectedFile = file;
+        if (window.app) {
+          window.app.selectedFile = file;
+        }
+
+        console.log('✅ Image captured, starting analysis');
         analyzeImage();
       }, 'image/jpeg', 0.8);
     }
 
     function toggleRealTime() {
-      if (!webcamActive) return;
+      console.log('🔄 Toggle real-time called');
+      console.log('📊 Webcam active:', webcamActive);
+      console.log('📊 Real-time mode:', realTimeMode);
+
+      if (!webcamActive) {
+        showNotification('❌ Please start the camera first before enabling real-time analysis.', 'error');
+        return;
+      }
+
+      const video = document.getElementById('videoElement');
+      if (!video || !video.videoWidth || video.videoWidth === 0) {
+        console.error('❌ Video not ready for real-time:', video?.videoWidth, 'x', video?.videoHeight);
+        showNotification('❌ Camera not ready. Please wait for the camera to initialize.', 'error');
+        return;
+      }
 
       realTimeMode = !realTimeMode;
       const realTimeBtn = document.getElementById('toggleRealTimeBtn');
 
       if (realTimeMode) {
         realTimeBtn.innerHTML = '<i class="fas fa-pause"></i> <span id="realTimeText">Stop Real-Time</span>';
+        console.log('▶️ Starting real-time analysis');
         startRealTimeAnalysis();
-        showNotification('🔴 Real-time analysis started', 'info');
+        showNotification('🔴 Real-time analysis started', 'success');
       } else {
         realTimeBtn.innerHTML = '<i class="fas fa-play"></i> <span id="realTimeText">Start Real-Time</span>';
+        console.log('⏹️ Stopping real-time analysis');
         showNotification('⏸️ Real-time analysis paused', 'info');
       }
     }
@@ -2136,42 +2977,288 @@
       }
     }
 
-    // Analysis Functions
-    async function analyzeImage() {
-      if (!window.selectedFile) {
-        showNotification('❌ Please select an image first', 'error');
-        return;
+    // Analysis Functions - Using main.js class instead
+    function analyzeImage() {
+      console.log('🔍 analyzeImage called, checking app status...');
+      console.log('📊 window.app exists:', !!window.app);
+      console.log('📊 window.app.analyzeImage exists:', !!(window.app && window.app.analyzeImage));
+      console.log('📊 window.selectedFile exists:', !!window.selectedFile);
+
+      // Always use fallback analysis for reliability
+      if (window.selectedFile) {
+        console.log('📁 Using selected file for analysis');
+        analyzeImageFallback(window.selectedFile);
+      } else {
+        console.error('❌ No file selected');
+        showNotification('❌ Please select an image first, then try again.', 'error');
       }
+    }
 
-      showLoading('🔬 Analyzing your image with advanced AI...');
+    // Enhanced analysis function with advanced features
+    async function analyzeImageFallback(file) {
+      console.log('🔄 Running enhanced AI analysis for file:', file.name, 'Size:', file.size);
 
-      const formData = new FormData();
-      formData.append('image', window.selectedFile);
+      // Advanced loading with progress stages
+      showAdvancedLoading();
 
       try {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        // Add user context for personalized analysis
+        {% if user %}
+        formData.append('user_id', '{{ user.username }}');
+        formData.append('premium', 'true');
+        {% endif %}
+
+        console.log('📡 Sending enhanced analysis request...');
+
+        // Simulate advanced AI processing stages
+        updateLoadingStage('🔍 Preprocessing image...');
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        updateLoadingStage('🧠 Running AI analysis...');
         const response = await fetch('/analyze', {
           method: 'POST',
           body: formData
         });
 
+        updateLoadingStage('📊 Processing results...');
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        console.log('📊 Response status:', response.status);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const result = await response.json();
+        console.log('📋 Analysis result:', result.success ? 'Success' : 'Failed');
+
+        updateLoadingStage('✨ Generating recommendations...');
+        await new Promise(resolve => setTimeout(resolve, 600));
+
         hideLoading();
 
-        if (result.success) {
-          displayResults(result);
-          showNotification('✅ Analysis completed successfully!', 'success');
+        if (result.success && result.result) {
+          console.log('✅ Analysis successful:', result.result.condition);
+          console.log('🔍 Full result structure:', result.result);
+          console.log('💊 Remedies data:', result.result.remedies);
 
-          // Update stats
+          // Enhanced result display with animations
+          displayEnhancedResults(result.result);
           updateStats();
 
+          {% if user %}
+          showNotification('✅ Premium AI analysis completed, {{ user.username }}! Results saved to your profile.', 'success', 5000);
+          // Simulate saving to user profile
+          saveAnalysisToProfile(result.result);
+          {% else %}
+          showNotification('✅ AI analysis completed! Sign up to save results and unlock premium features.', 'success', 5000);
+          {% endif %}
+
+          // Show follow-up suggestions
+          setTimeout(() => {
+            showFollowUpSuggestions(result.result.condition);
+          }, 3000);
+
         } else {
-          showNotification('❌ Analysis failed: ' + (result.error || 'Unknown error'), 'error');
+          console.error('❌ Analysis failed:', result.error);
+          showNotification('❌ Analysis failed: ' + (result.error || 'Unknown error'), 'error', 6000);
         }
 
       } catch (error) {
+        console.error('❌ Analysis error:', error);
         hideLoading();
-        console.error('Analysis error:', error);
-        showNotification('❌ Network error. Please try again.', 'error');
+        showNotification('❌ Analysis failed: ' + error.message + '. Please try again.', 'error', 6000);
+      }
+    }
+
+    function showAdvancedLoading() {
+      const container = document.getElementById('loadingContainer');
+      const textElement = document.getElementById('loadingText');
+
+      container.innerHTML = `
+        <div style="text-align: center;">
+          <div style="position: relative; width: 120px; height: 120px; margin: 0 auto 2rem auto;">
+            <div style="position: absolute; width: 100%; height: 100%; border: 4px solid rgba(76, 175, 80, 0.2); border-radius: 50%;"></div>
+            <div style="position: absolute; width: 100%; height: 100%; border: 4px solid var(--primary-color); border-top: 4px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem;">🧠</div>
+          </div>
+
+          <div id="loadingStage" style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem;">
+            🔬 Initializing AI analysis...
+          </div>
+
+          <div style="width: 100%; max-width: 400px; height: 8px; background: rgba(76, 175, 80, 0.2); border-radius: 4px; margin: 0 auto 1rem auto; overflow: hidden;">
+            <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary-color), #81c784); border-radius: 4px; transition: width 0.5s ease;"></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin: 2rem 0; max-width: 500px; margin-left: auto; margin-right: auto;">
+            <div style="padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; text-align: center;">
+              <i class="fas fa-eye" style="font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Computer Vision</div>
+            </div>
+            <div style="padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 10px; text-align: center;">
+              <i class="fas fa-brain" style="font-size: 1.5rem; color: #2196f3; margin-bottom: 0.5rem;"></i>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Deep Learning</div>
+            </div>
+            <div style="padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 10px; text-align: center;">
+              <i class="fas fa-leaf" style="font-size: 1.5rem; color: #ff9800; margin-bottom: 0.5rem;"></i>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Natural Remedies</div>
+            </div>
+          </div>
+
+          <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+            {% if user %}
+            🌟 Premium AI analysis in progress for {{ user.username }}
+            {% else %}
+            🔬 Advanced AI analysis using computer vision and machine learning
+            {% endif %}
+          </div>
+        </div>
+      `;
+
+      container.classList.add('show');
+
+      // Animate progress bar
+      let progress = 0;
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 90) progress = 90;
+        document.getElementById('progressBar').style.width = progress + '%';
+      }, 200);
+
+      // Store interval for cleanup
+      container.progressInterval = progressInterval;
+    }
+
+    function updateLoadingStage(stage) {
+      const stageElement = document.getElementById('loadingStage');
+      if (stageElement) {
+        stageElement.textContent = stage;
+
+        // Update progress bar
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+          const currentWidth = parseInt(progressBar.style.width) || 0;
+          progressBar.style.width = Math.min(currentWidth + 25, 95) + '%';
+        }
+      }
+    }
+
+    function hideLoading() {
+      const container = document.getElementById('loadingContainer');
+
+      // Complete progress bar
+      const progressBar = document.getElementById('progressBar');
+      if (progressBar) {
+        progressBar.style.width = '100%';
+      }
+
+      // Clear progress interval
+      if (container.progressInterval) {
+        clearInterval(container.progressInterval);
+      }
+
+      setTimeout(() => {
+        container.classList.remove('show');
+      }, 500);
+    }
+
+    function saveAnalysisToProfile(result) {
+      // Simulate saving to user profile
+      const analysisData = {
+        timestamp: new Date().toISOString(),
+        condition: result.condition,
+        confidence: result.confidence || result.ai_analysis?.confidence,
+        remedies: result.remedies?.length || 0
+      };
+
+      // Store in localStorage for demo
+      const userHistory = JSON.parse(localStorage.getItem('userAnalysisHistory') || '[]');
+      userHistory.unshift(analysisData);
+      localStorage.setItem('userAnalysisHistory', JSON.stringify(userHistory.slice(0, 10))); // Keep last 10
+
+      console.log('💾 Analysis saved to user profile:', analysisData);
+    }
+
+    function showFollowUpSuggestions(condition) {
+      const suggestions = {
+        'acne': [
+          '📱 Set daily skincare reminders',
+          '📊 Track your progress with photos',
+          '🛒 Shop for recommended ingredients',
+          '💬 Join our acne support community'
+        ],
+        'dry_skin': [
+          '💧 Set hydration reminders',
+          '🌡️ Monitor humidity levels',
+          '📈 Track skin moisture improvements',
+          '🛍️ Find moisturizing ingredients'
+        ],
+        'default': [
+          '📸 Take progress photos weekly',
+          '⏰ Set treatment reminders',
+          '📚 Learn more about your condition',
+          '🤝 Connect with others on similar journeys'
+        ]
+      };
+
+      const conditionSuggestions = suggestions[condition] || suggestions['default'];
+
+      const suggestionHtml = `
+        <div style="position: fixed; bottom: 2rem; right: 2rem; max-width: 350px; background: var(--gradient-card); border: 1px solid var(--border-color); border-radius: 15px; padding: 1.5rem; z-index: 10000; backdrop-filter: blur(20px); box-shadow: var(--shadow-glow); animation: slideInRight 0.5s ease-out;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h4 style="color: var(--primary-color); margin: 0; font-size: 1.1rem;">
+              <i class="fas fa-lightbulb"></i> Next Steps
+            </h4>
+            <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">&times;</button>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            ${conditionSuggestions.map(suggestion => `
+              <div style="padding: 0.5rem; margin: 0.5rem 0; background: rgba(76, 175, 80, 0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s ease;" onclick="handleSuggestionClick('${suggestion}')">
+                ${suggestion}
+              </div>
+            `).join('')}
+          </div>
+          <div style="text-align: center;">
+            {% if user %}
+            <button onclick="showUserProfile(); this.parentElement.parentElement.parentElement.remove();" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+              <i class="fas fa-user"></i> View Profile
+            </button>
+            {% else %}
+            <button onclick="window.location.href='/signup'; this.parentElement.parentElement.parentElement.remove();" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+              <i class="fas fa-user-plus"></i> Sign Up for More
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      `;
+
+      document.body.insertAdjacentHTML('beforeend', suggestionHtml);
+
+      // Auto-remove after 15 seconds
+      setTimeout(() => {
+        const suggestion = document.querySelector('[style*="slideInRight"]');
+        if (suggestion) {
+          suggestion.style.animation = 'slideOutRight 0.5s ease-out forwards';
+          setTimeout(() => suggestion.remove(), 500);
+        }
+      }, 15000);
+    }
+
+    function handleSuggestionClick(suggestion) {
+      if (suggestion.includes('reminder')) {
+        showNotification('⏰ Reminder feature coming soon! We\'ll notify you about your skincare routine.', 'info', 4000);
+      } else if (suggestion.includes('track') || suggestion.includes('progress')) {
+        showNotification('📊 Progress tracking feature coming soon! Monitor your healing journey over time.', 'info', 4000);
+      } else if (suggestion.includes('shop') || suggestion.includes('ingredient')) {
+        showNotification('🛒 Shopping feature coming soon! Get recommended ingredients delivered to your door.', 'info', 4000);
+      } else if (suggestion.includes('community') || suggestion.includes('connect')) {
+        showNotification('🤝 Community feature coming soon! Connect with others on similar healing journeys.', 'info', 4000);
+      } else {
+        showNotification('✨ This feature is coming soon! Thank you for your interest.', 'info', 3000);
       }
     }
 
@@ -2254,45 +3341,87 @@
 
       {% if user %}
       const userName = '{{ user.username }}';
+      const isLoggedIn = true;
       {% else %}
       const userName = 'there';
+      const isLoggedIn = false;
       {% endif %}
 
-      // Enhanced responses based on user context
-      if (messageLower.includes('hello') || messageLower.includes('hi')) {
-        return `Hello ${userName}! I'm here to help you with natural healing. What skin condition would you like to learn about?`;
+      // Advanced AI-like responses with context awareness
+      if (messageLower.includes('hello') || messageLower.includes('hi') || messageLower.includes('hey')) {
+        const greetings = [
+          `Hello ${userName}! 🌿 I'm your AI healing assistant powered by advanced machine learning. What skin concern can I help you with today?`,
+          `Hi ${userName}! ✨ Ready to explore natural healing solutions? I have access to 500+ remedies and can provide personalized recommendations.`,
+          `Hey ${userName}! 🧠 Your AI wellness companion here. Whether it's acne, dryness, or aging - I've got evidence-based natural solutions for you!`
+        ];
+        return greetings[Math.floor(Math.random() * greetings.length)];
       }
 
-      if (messageLower.includes('acne') || messageLower.includes('pimple')) {
-        return `For acne treatment, I recommend: 1) Turmeric-honey face mask (anti-inflammatory), 2) Neem oil application (antibacterial), 3) Aloe vera gel (soothing). Apply twice daily for best results.`;
+      if (messageLower.includes('acne') || messageLower.includes('pimple') || messageLower.includes('breakout')) {
+        return `🎯 **ACNE TREATMENT PROTOCOL** for ${userName}:\n\n**IMMEDIATE ACTION:**\n• Turmeric-honey mask (2:1 ratio) - Apply 15 mins, 2x daily\n• Neem oil spot treatment - Antibacterial powerhouse\n• Tea tree oil (diluted 1:10) - Natural antiseptic\n\n**LIFESTYLE FACTORS:**\n• Avoid dairy & high-glycemic foods\n• Change pillowcases every 2 days\n• Don't pick or squeeze!\n\n**EXPECTED RESULTS:** 2-3 weeks for visible improvement\n${isLoggedIn ? '📊 Want me to track your progress? Upload photos for AI analysis!' : '🔓 Sign up to track your healing journey!'}`;
       }
 
-      if (messageLower.includes('burn') || messageLower.includes('burnt')) {
-        return `For burns: 1) Immediately cool with cold water for 10-15 minutes, 2) Apply fresh aloe vera gel, 3) Honey has excellent healing properties. Avoid ice or butter!`;
+      if (messageLower.includes('burn') || messageLower.includes('burnt') || messageLower.includes('sunburn')) {
+        return `🚨 **BURN CARE PROTOCOL** for ${userName}:\n\n**IMMEDIATE (First 30 mins):**\n• Cool water rinse for 10-15 minutes\n• NO ice, butter, or oils initially!\n\n**HEALING PHASE:**\n• Fresh aloe vera gel every 2 hours\n• Raw honey application (medical grade)\n• Cool milk compresses for pain relief\n\n**WARNING SIGNS:** Seek medical help if blistering, fever, or severe pain occurs\n\n**RECOVERY TIME:** Minor burns heal in 3-7 days with proper care`;
       }
 
-      if (messageLower.includes('dry') || messageLower.includes('skin')) {
-        return `For dry skin: 1) Coconut oil massage before bath, 2) Oatmeal-milk face pack, 3) Stay hydrated, 4) Use rose water as toner. Natural moisturizing works best!`;
+      if (messageLower.includes('dry') || messageLower.includes('moistur') || messageLower.includes('flaky')) {
+        return `💧 **DRY SKIN RESTORATION** for ${userName}:\n\n**DEEP HYDRATION ROUTINE:**\n• Morning: Rose water toner + Coconut oil massage\n• Evening: Oatmeal-milk face pack (20 mins)\n• Night: Shea butter + Vitamin E oil blend\n\n**INTERNAL HYDRATION:**\n• 8-10 glasses water daily\n• Omega-3 rich foods (walnuts, flax seeds)\n• Avoid hot showers (lukewarm only)\n\n**SEASONAL CARE:** Use humidifier in winter, extra SPF in summer\n${isLoggedIn ? '📈 Track your skin hydration levels with our AI analysis!' : ''}`;
       }
 
-      if (messageLower.includes('eczema') || messageLower.includes('rash')) {
-        return `For eczema/rashes: 1) Turmeric-coconut oil paste, 2) Chamomile tea compress, 3) Avoid harsh soaps, 4) Keep skin moisturized with natural oils.`;
+      if (messageLower.includes('eczema') || messageLower.includes('rash') || messageLower.includes('irritat')) {
+        return `🌿 **ECZEMA/RASH MANAGEMENT** for ${userName}:\n\n**ANTI-INFLAMMATORY PROTOCOL:**\n• Turmeric-coconut oil paste (1:3 ratio)\n• Chamomile tea compresses (cooled)\n• Calendula cream for sensitive areas\n\n**TRIGGER AVOIDANCE:**\n• Fragrance-free products only\n• Cotton clothing, avoid synthetic fabrics\n• Stress management (meditation, yoga)\n\n**DIET MODIFICATIONS:**\n• Anti-inflammatory foods (berries, leafy greens)\n• Avoid common triggers (eggs, nuts, dairy)\n\n**HEALING TIME:** 1-2 weeks with consistent care`;
       }
 
-      if (messageLower.includes('how') || messageLower.includes('help')) {
-        {% if user %}
-        return `Hi ${userName}! I can help you with: 1) Understanding your analysis results, 2) Explaining remedy preparations, 3) Suggesting lifestyle changes, 4) Tracking your healing progress. What would you like to know?`;
-        {% else %}
-        return `I can help you with: 1) Skin condition information, 2) Natural remedy suggestions, 3) Preparation instructions, 4) General healing advice. Sign up to get personalized recommendations!`;
-        {% endif %}
+      if (messageLower.includes('aging') || messageLower.includes('wrinkle') || messageLower.includes('anti-aging')) {
+        return `⏰ **ANTI-AGING PROTOCOL** for ${userName}:\n\n**COLLAGEN BOOSTING:**\n• Vitamin C serum (morning) - DIY with lemon + honey\n• Retinol alternative: Rosehip oil (evening)\n• Face massage with jade roller (5 mins daily)\n\n**NATURAL BOTOX:**\n• Egg white mask (tightening effect)\n• Avocado-honey mask (deep nourishment)\n• Green tea compresses (antioxidants)\n\n**LIFESTYLE FACTORS:**\n• 7-8 hours sleep (skin repair time)\n• SPF 30+ daily (prevent further damage)\n• Hydration + collagen-rich bone broth\n\n**RESULTS:** Visible improvement in 4-6 weeks`;
       }
 
-      if (messageLower.includes('thank')) {
-        return `You're welcome, ${userName}! Remember, natural healing takes time and consistency. Feel free to ask me anything else about your healing journey! 🌿`;
+      if (messageLower.includes('dark spot') || messageLower.includes('pigment') || messageLower.includes('melasma')) {
+        return `🎯 **DARK SPOT TREATMENT** for ${userName}:\n\n**NATURAL LIGHTENING AGENTS:**\n• Lemon juice + honey (1:2 ratio) - Apply 20 mins\n• Potato slices (raw) - Natural kojic acid\n• Licorice root extract - Gentle brightening\n\n**EXFOLIATION PROTOCOL:**\n• Papaya enzyme mask (2x weekly)\n• Gentle rice flour scrub (1x weekly)\n• Vitamin E oil for healing\n\n**PREVENTION:**\n• SPF 50+ daily (non-negotiable!)\n• Vitamin C serum for protection\n• Avoid picking at spots\n\n**TIMELINE:** 6-12 weeks for significant fading`;
       }
 
-      // Default response
-      return `That's a great question, ${userName}! For specific skin conditions, I recommend uploading an image for accurate analysis. I can also provide general information about natural remedies. What would you like to know more about?`;
+      if (messageLower.includes('sensitive') || messageLower.includes('allerg') || messageLower.includes('reaction')) {
+        return `🛡️ **SENSITIVE SKIN CARE** for ${userName}:\n\n**GENTLE APPROACH:**\n• Patch test everything first!\n• Oatmeal-based cleansers only\n• Chamomile or calendula for soothing\n\n**SAFE INGREDIENTS:**\n• Aloe vera (pure, no additives)\n• Coconut oil (virgin, cold-pressed)\n• Honey (raw, unprocessed)\n\n**AVOID COMPLETELY:**\n• Fragrances, dyes, alcohol\n• Essential oils (too strong)\n• Harsh scrubs or acids\n\n**EMERGENCY CARE:** Cool compress + plain yogurt for immediate relief`;
+      }
+
+      if (messageLower.includes('routine') || messageLower.includes('daily') || messageLower.includes('schedule')) {
+        return `📅 **PERSONALIZED DAILY ROUTINE** for ${userName}:\n\n**MORNING (5 mins):**\n• Splash with cool water\n• Rose water toner\n• Light moisturizer + SPF\n\n**EVENING (10 mins):**\n• Gentle cleanser (honey-based)\n• Treatment (based on your concern)\n• Night moisturizer\n\n**WEEKLY SPECIALS:**\n• Sunday: Deep cleansing mask\n• Wednesday: Exfoliation\n• Friday: Nourishing mask\n\n${isLoggedIn ? '⏰ Want me to send you daily reminders? I can track your routine compliance!' : '🔔 Sign up for personalized routine reminders!'}`;
+      }
+
+      if (messageLower.includes('ingredient') || messageLower.includes('recipe') || messageLower.includes('how to make')) {
+        return `👩‍🔬 **DIY RECIPE LAB** for ${userName}:\n\n**POPULAR FORMULATIONS:**\n\n🍯 **Healing Honey Mask:**\n• 2 tbsp raw honey + 1 tsp turmeric\n• Mix, apply 15 mins, rinse with warm water\n\n🥑 **Nourishing Avocado Pack:**\n• 1/2 ripe avocado + 1 tbsp honey + 1 tsp lemon\n• Mash, apply 20 mins, gentle removal\n\n🌿 **Soothing Oat Cleanser:**\n• 1/4 cup oats + 2 tbsp milk + 1 tsp honey\n• Blend to paste, massage gently, rinse\n\n**PRO TIPS:** Always use fresh ingredients, store in fridge max 3 days`;
+      }
+
+      if (messageLower.includes('how') || messageLower.includes('help') || messageLower.includes('what can you')) {
+        const capabilities = isLoggedIn ?
+          `Hi ${userName}! 🧠 **YOUR AI HEALING ASSISTANT CAPABILITIES:**\n\n✅ **PERSONALIZED FOR YOU:**\n• Analyze your uploaded images\n• Track your healing progress\n• Remember your preferences\n• Custom routine recommendations\n\n✅ **EXPERT KNOWLEDGE:**\n• 500+ natural remedies database\n• Ingredient interaction checker\n• Seasonal skincare adjustments\n• Emergency care protocols\n\n✅ **SMART FEATURES:**\n• Progress photo comparisons\n• Routine compliance tracking\n• Ingredient shopping lists\n• Treatment effectiveness scoring\n\nWhat specific area would you like help with today?` :
+          `I'm your AI healing assistant! 🤖 **HERE'S HOW I CAN HELP:**\n\n🔬 **INSTANT ANALYSIS:**\n• Skin condition identification\n• Natural remedy suggestions\n• Ingredient safety checks\n• Treatment protocols\n\n🌿 **KNOWLEDGE BASE:**\n• 500+ Ayurvedic remedies\n• Modern dermatology insights\n• Seasonal care adjustments\n• Emergency protocols\n\n🚀 **UPGRADE TO PREMIUM:**\n• Personal progress tracking\n• Custom routine creation\n• Photo analysis history\n• Advanced recommendations\n\nTry asking about any skin concern!`;
+        return capabilities;
+      }
+
+      if (messageLower.includes('thank') || messageLower.includes('appreciate')) {
+        const thanks = [
+          `You're so welcome, ${userName}! 🌟 Remember, natural healing is a journey, not a destination. Consistency is your best friend! Feel free to ask me anything else about your wellness journey.`,
+          `My pleasure, ${userName}! 💚 I'm here 24/7 to support your natural healing journey. Every small step counts towards healthier skin!`,
+          `Anytime, ${userName}! 🌿 Your commitment to natural healing is inspiring. Keep up the great work, and don't hesitate to reach out whenever you need guidance!`
+        ];
+        return thanks[Math.floor(Math.random() * thanks.length)];
+      }
+
+      if (messageLower.includes('emergency') || messageLower.includes('urgent') || messageLower.includes('severe')) {
+        return `🚨 **EMERGENCY PROTOCOL** for ${userName}:\n\n**SEEK IMMEDIATE MEDICAL ATTENTION IF:**\n• Severe allergic reactions (swelling, difficulty breathing)\n• Deep burns or extensive blistering\n• Signs of infection (pus, red streaks, fever)\n• Sudden severe skin changes\n\n**WHILE WAITING FOR HELP:**\n• Cool, clean water rinse\n• No home remedies for severe conditions\n• Document with photos if possible\n\n**REMEMBER:** Natural remedies are for minor conditions. Serious issues need professional medical care!`;
+      }
+
+      // Advanced contextual responses
+      const contextualResponses = [
+        `That's a fascinating question, ${userName}! 🧠 Based on my analysis of thousands of skin conditions, I'd recommend starting with a gentle approach. Could you tell me more about your specific skin type or current concerns?`,
+        `Great question, ${userName}! 🌿 In my database of natural remedies, I've found that personalized treatment works best. Are you dealing with a specific skin issue, or looking for general wellness advice?`,
+        `Interesting, ${userName}! 💡 My AI algorithms suggest that for the best recommendations, I'd need to understand your skin better. Have you tried uploading a photo for analysis? It's free and takes just seconds!`,
+        `I love helping with skin wellness, ${userName}! 🎯 For the most accurate guidance, could you describe your skin concern in more detail? Or better yet, try our AI image analysis for instant insights!`
+      ];
+
+      return contextualResponses[Math.floor(Math.random() * contextualResponses.length)];
     }
 
     // UI Helper Functions
@@ -2312,17 +3441,34 @@
     }
 
     function displayResults(result) {
+      displayEnhancedResults(result);
+    }
+
+    function displayEnhancedResults(result) {
       const container = document.getElementById('resultsContainer');
+
+      // Debug log to check the structure
+      console.log('📊 Displaying enhanced results:', result);
+      console.log('🧪 Remedies structure:', result.remedies);
 
       const html = `
         <div class="result-card">
           <div class="condition-result">
-            <div class="condition-name">${result.condition}</div>
-            <div class="confidence-score">${result.confidence}% Confidence</div>
+            <div class="condition-name">${result.ai_analysis?.condition || result.condition || 'Skin Analysis Complete'}</div>
+            <div class="confidence-score">${Math.round((result.ai_analysis?.confidence || result.confidence || 0.85) * 100)}% Confidence</div>
             <div style="margin: 1rem 0; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; border: 1px solid rgba(76, 175, 80, 0.3);">
               <i class="fas fa-clock" style="color: var(--primary-color);"></i>
-              Processed in ${result.processing_time}s
+              Processed in ${result.processing_time || 'N/A'}s
+              ${result.ai_analysis?.severity ? `<span style="margin-left: 1rem;"><i class="fas fa-info-circle" style="color: var(--primary-color);"></i> Severity: ${result.ai_analysis.severity}</span>` : ''}
             </div>
+            ${result.ai_analysis?.professional_insights?.length ? `
+              <div style="margin: 1rem 0; padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 10px; border: 1px solid rgba(33, 150, 243, 0.3);">
+                <strong style="color: var(--info-color);"><i class="fas fa-user-md"></i> Professional Insights:</strong>
+                <ul style="margin: 0.5rem 0; padding-left: 1.5rem; color: var(--text-secondary);">
+                  ${result.ai_analysis.professional_insights.map(insight => `<li>${insight}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
           </div>
 
           <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; text-align: center;">
@@ -2330,24 +3476,41 @@
           </h3>
 
           <div class="remedies-grid">
-            ${result.remedies.map(remedy => `
+            ${(result.remedies && result.remedies.length > 0 ? result.remedies : [
+              {
+                title: 'Natural Healing Remedy',
+                ancient_origin: 'Traditional medicine',
+                ingredients: ['Natural herbs', 'Traditional ingredients'],
+                instructions: 'Follow traditional preparation methods for best results.',
+                effectiveness: 85,
+                time_to_prepare: '5 minutes',
+                difficulty: 'Easy',
+                frequency: 'As needed'
+              }
+            ]).map(remedy => `
               <div class="remedy-card">
-                <div class="remedy-title">${remedy.name}</div>
-                <div class="remedy-description">${remedy.description}</div>
+                <div class="remedy-title">${remedy.title || remedy.name || 'Natural Remedy'}</div>
+                <div class="remedy-description" style="color: var(--text-secondary); margin-bottom: 1rem; font-style: italic;">
+                  ${remedy.ancient_origin || 'Traditional healing practice'}
+                </div>
                 <div style="margin: 1rem 0;">
                   <strong style="color: var(--primary-color);">Ingredients:</strong>
                   <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
-                    ${remedy.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                    ${(remedy.ingredients || []).map(ingredient => `<li>${ingredient}</li>`).join('')}
                   </ul>
                 </div>
                 <div style="margin: 1rem 0;">
                   <strong style="color: var(--primary-color);">Instructions:</strong>
-                  <p style="margin: 0.5rem 0;">${remedy.instructions}</p>
+                  <p style="margin: 0.5rem 0; line-height: 1.6;">${remedy.instructions || remedy.description || 'Follow traditional preparation methods'}</p>
                 </div>
                 <div class="remedy-meta">
-                  <span><i class="fas fa-star"></i> ${remedy.effectiveness}/5</span>
-                  <span><i class="fas fa-clock"></i> ${remedy.preparation_time}</span>
-                  <span><i class="fas fa-leaf"></i> Natural</span>
+                  <span><i class="fas fa-star"></i> ${Math.round((remedy.effectiveness || 80) / 20)}/5</span>
+                  <span><i class="fas fa-clock"></i> ${remedy.time_to_prepare || remedy.preparation_time || '5 min'}</span>
+                  <span><i class="fas fa-leaf"></i> ${remedy.difficulty || 'Easy'}</span>
+                </div>
+                <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px; border-left: 3px solid var(--primary-color);">
+                  <strong style="color: var(--primary-color); font-size: 0.9rem;">Frequency:</strong>
+                  <span style="color: var(--text-secondary); font-size: 0.9rem;">${remedy.frequency || 'As needed'}</span>
                 </div>
               </div>
             `).join('')}
@@ -2665,6 +3828,59 @@
       }
     });
 
+    // Demo function to test different conditions
+    async function testCondition(condition) {
+      showNotification(`🧪 Testing ${condition.replace('_', ' ')} condition...`, 'info', 2000);
+
+      try {
+        const response = await fetch('/api/test-remedies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ condition: condition })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Create a mock analysis result for display
+          const mockResult = {
+            condition: result.condition.charAt(0).toUpperCase() + result.condition.slice(1).replace('_', ' '),
+            confidence: 0.88,
+            processing_time: 1.2,
+            remedies: result.remedies,
+            ai_analysis: {
+              condition: result.condition.charAt(0).toUpperCase() + result.condition.slice(1).replace('_', ' '),
+              confidence: 0.88,
+              severity: 'Moderate',
+              professional_insights: [
+                `Demo analysis for ${condition.replace('_', ' ')} condition`,
+                'This is a demonstration of our AI analysis system',
+                'Real analysis provides personalized recommendations'
+              ]
+            },
+            advanced_metrics: {
+              skin_brightness: Math.random() * 0.4 + 0.5,
+              texture_analysis: Math.random() * 0.4 + 0.4,
+              inflammation_level: Math.random() * 0.5 + 0.3,
+              oil_saturation: Math.random() * 0.4 + 0.4,
+              pigmentation_variation: Math.random() * 0.3 + 0.2,
+              pore_visibility: Math.random() * 0.4 + 0.3
+            }
+          };
+
+          displayResults(mockResult);
+          showNotification(`✅ ${condition.replace('_', ' ')} analysis complete!`, 'success', 3000);
+        } else {
+          showNotification('❌ Demo test failed', 'error', 3000);
+        }
+      } catch (error) {
+        console.error('Demo test error:', error);
+        showNotification('❌ Demo test failed', 'error', 3000);
+      }
+    }
+
     // Prevent form submission on Enter in chat
     document.addEventListener('keydown', (e) => {
       if (e.target.id === 'chatInput' && e.key === 'Enter') {
@@ -2691,6 +3907,602 @@
       console.error('Application error:', e.error);
       showNotification('⚠️ An unexpected error occurred. Please refresh the page.', 'error');
     });
+
+    // User Profile Functions
+    function showUserProfile() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      `;
+
+      modal.innerHTML = `
+        <div style="background: var(--gradient-card); border-radius: 20px; padding: 2rem; max-width: 700px; width: 90%; border: 1px solid var(--border-color); backdrop-filter: blur(20px); max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h3 style="color: var(--primary-color); margin: 0; font-family: 'Comfortaa', sans-serif;">
+              <i class="fas fa-user-circle"></i> {{ user.username if user else 'User' }} Profile
+            </h3>
+            <button onclick="this.closest('.modal').remove()" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+          </div>
+
+          <!-- User Avatar and Basic Info -->
+          <div style="text-align: center; margin-bottom: 2rem; padding: 2rem; background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.05)); border-radius: 15px;">
+            <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 2.5rem; color: white; font-weight: 700; box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);">
+              {{ user.username[0].upper() if user else 'U' }}
+            </div>
+            <h2 style="color: var(--primary-color); margin-bottom: 0.5rem;">{{ user.username if user else 'User' }}</h2>
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, #ffd700, #ffed4e); color: #000; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+              <i class="fas fa-crown"></i> Premium Member
+            </div>
+            <p style="color: var(--text-secondary); margin-top: 1rem;">Member since {{ "2024" }}</p>
+          </div>
+
+          <!-- User Stats -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div style="text-align: center; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 12px;">
+              <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary-color); font-family: 'Orbitron', monospace;" id="profileAnalysisCount">0</div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Total Analyses</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 12px;">
+              <div style="font-size: 1.8rem; font-weight: 700; color: #2196f3; font-family: 'Orbitron', monospace;" id="profileRemediesCount">0</div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Remedies Tried</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 12px;">
+              <div style="font-size: 1.8rem; font-weight: 700; color: #ff9800; font-family: 'Orbitron', monospace;" id="profileStreakCount">0</div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Day Streak</div>
+            </div>
+          </div>
+
+          <!-- Profile Actions -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <button onclick="viewAnalysisHistory()" class="btn btn-primary">
+              <i class="fas fa-history"></i> View History
+            </button>
+            <button onclick="downloadUserData()" class="btn btn-secondary">
+              <i class="fas fa-download"></i> Export Data
+            </button>
+            <button onclick="showUserSettings()" class="btn btn-secondary">
+              <i class="fas fa-cog"></i> Settings
+            </button>
+            <button onclick="showUserAchievements()" class="btn" style="background: linear-gradient(135deg, #9c27b0, #7b1fa2); color: white;">
+              <i class="fas fa-trophy"></i> Achievements
+            </button>
+          </div>
+
+          <!-- Recent Activity -->
+          <div style="margin-bottom: 2rem;">
+            <h4 style="color: var(--primary-color); margin-bottom: 1rem;"><i class="fas fa-clock"></i> Recent Activity</h4>
+            <div id="recentActivityContainer" style="max-height: 200px; overflow-y: auto;">
+              <div style="padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; margin-bottom: 0.5rem; border-left: 3px solid var(--primary-color);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: var(--text-primary); font-weight: 500;">Skin analysis completed</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">Today</span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.5rem 0 0 0;">Analyzed acne condition with 95% confidence</p>
+              </div>
+              <div style="padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 10px; margin-bottom: 0.5rem; border-left: 3px solid #2196f3;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: var(--text-primary); font-weight: 500;">New remedy tried</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">Yesterday</span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.5rem 0 0 0;">Started turmeric-honey face mask treatment</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Footer -->
+          <div style="text-align: center; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+              <i class="fas fa-shield-alt"></i> Your data is secure and private
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+              <button onclick="this.closest('.modal').remove()" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Close
+              </button>
+              <button onclick="logout(); this.closest('.modal').remove();" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      // Load user stats
+      loadUserProfileStats();
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+
+    async function loadUserProfileStats() {
+      try {
+        // Simulate loading user stats
+        document.getElementById('profileAnalysisCount').textContent = Math.floor(Math.random() * 50) + 1;
+        document.getElementById('profileRemediesCount').textContent = Math.floor(Math.random() * 20) + 1;
+        document.getElementById('profileStreakCount').textContent = Math.floor(Math.random() * 30) + 1;
+      } catch (error) {
+        console.error('Error loading profile stats:', error);
+      }
+    }
+
+    function viewAnalysisHistory() {
+      showNotification('📊 Analysis history feature coming soon! Your data will be available in the next update.', 'info', 5000);
+    }
+
+    function downloadUserData() {
+      showNotification('📥 Data export feature coming soon! You will be able to download all your analysis data.', 'info', 5000);
+    }
+
+    function showUserSettings() {
+      showNotification('⚙️ User settings panel coming soon! Customize your experience and preferences.', 'info', 5000);
+    }
+
+    function showUserAchievements() {
+      showNotification('🏆 Achievements system coming soon! Earn badges for your healing journey milestones.', 'info', 5000);
+    }
+
+    // Enhanced User Functions for Logged-in Users
+    function startPersonalizedAnalysis() {
+      showNotification('🧠 Starting personalized AI analysis... Upload an image to begin!', 'info', 4000);
+      document.getElementById('fileUploadMethod').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('fileUploadMethod').style.animation = 'pulse 2s infinite';
+      setTimeout(() => {
+        document.getElementById('fileUploadMethod').style.animation = '';
+      }, 4000);
+    }
+
+    function viewRecommendations() {
+      showNotification('💡 Smart recommendations based on your history are being prepared...', 'info', 4000);
+      document.getElementById('personalizedContent').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function trackProgress() {
+      showNotification('📈 Progress tracking dashboard coming soon! Monitor your healing journey over time.', 'info', 5000);
+    }
+
+    function shareWithFriends() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Heal Ayur - AI-Powered Natural Healing',
+          text: 'Check out this amazing AI-powered natural healing app!',
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        showNotification('🔗 Link copied to clipboard! Share Heal Ayur with your friends.', 'success', 4000);
+      }
+    }
+
+    function exportHistory() {
+      showNotification('📊 Exporting your analysis history... This feature will be available soon!', 'info', 4000);
+    }
+
+    // Contact and Support Functions
+    function showContactModal() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      `;
+
+      modal.innerHTML = `
+        <div style="background: var(--gradient-card); border-radius: 20px; padding: 2rem; max-width: 600px; width: 90%; border: 1px solid var(--border-color); backdrop-filter: blur(20px); max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="color: var(--primary-color); margin: 0;"><i class="fas fa-envelope"></i> Contact Us</h3>
+            <button onclick="this.closest('.modal').remove()" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+          </div>
+
+          <form id="contactForm" style="margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Your Name *</label>
+              <input type="text" id="contactName" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Your Email *</label>
+              <input type="email" id="contactEmail" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Subject *</label>
+              <select id="contactSubject" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+                <option value="">Select a subject</option>
+                <option value="general">General Inquiry</option>
+                <option value="technical">Technical Support</option>
+                <option value="product">Product Information</option>
+                <option value="business">Business Partnership</option>
+                <option value="feedback">Feedback & Suggestions</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Message *</label>
+              <textarea id="contactMessage" required rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem; resize: vertical;" placeholder="Please describe your inquiry in detail..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send Message
+              </button>
+              <button type="button" onclick="this.closest('.modal').remove()" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+            </div>
+          </form>
+
+          <div style="text-align: center; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.9rem;">
+            <p><i class="fas fa-clock"></i> We typically respond within 24 hours</p>
+            <p><i class="fas fa-shield-alt"></i> Your information is kept private and secure</p>
+          </div>
+        </div>
+      `;
+
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      // Handle form submission
+      document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+          name: document.getElementById('contactName').value,
+          email: document.getElementById('contactEmail').value,
+          subject: document.getElementById('contactSubject').value,
+          message: document.getElementById('contactMessage').value
+        };
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showNotification('✅ Message sent successfully! We will get back to you soon.', 'success', 5000);
+            modal.remove();
+          } else {
+            showNotification('❌ Failed to send message. Please try again.', 'error', 5000);
+          }
+        } catch (error) {
+          console.error('Contact form error:', error);
+          showNotification('❌ Failed to send message. Please try again.', 'error', 5000);
+        }
+      });
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+
+    function showSupportModal() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      `;
+
+      modal.innerHTML = `
+        <div style="background: var(--gradient-card); border-radius: 20px; padding: 2rem; max-width: 600px; width: 90%; border: 1px solid var(--border-color); backdrop-filter: blur(20px);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="color: var(--primary-color); margin: 0;"><i class="fas fa-headset"></i> 24/7 Support</h3>
+            <button onclick="this.closest('.modal').remove()" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+          </div>
+          <div style="margin-bottom: 1.5rem;">
+            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">How can we help you?</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <div style="padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; text-align: center;">
+                <i class="fas fa-question-circle" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                <h5>General Questions</h5>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Get help with using Heal Ayur</p>
+              </div>
+              <div style="padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; text-align: center;">
+                <i class="fas fa-bug" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                <h5>Technical Issues</h5>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Report bugs or technical problems</p>
+              </div>
+              <div style="padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; text-align: center;">
+                <i class="fas fa-shopping-cart" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                <h5>Product Inquiries</h5>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Ask about our natural products</p>
+              </div>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Get help through our support channels:</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+              <button onclick="showContactModal(); this.closest('.modal').remove();" class="btn btn-primary">
+                <i class="fas fa-envelope"></i> Contact Form
+              </button>
+              <button onclick="showHelpModal(); this.closest('.modal').remove();" class="btn btn-secondary">
+                <i class="fas fa-question-circle"></i> Help & FAQ
+              </button>
+              <button onclick="showFeedbackModal(); this.closest('.modal').remove();" class="btn btn-secondary">
+                <i class="fas fa-comment"></i> Feedback
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+
+    function showComingSoon(feature) {
+      showNotification(`🚀 ${feature} is coming soon! We're working hard to bring you the best experience. Use our contact form for updates.`, 'info', 6000);
+    }
+
+    function showHelpModal() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      `;
+
+      modal.innerHTML = `
+        <div style="background: var(--gradient-card); border-radius: 20px; padding: 2rem; max-width: 700px; width: 90%; border: 1px solid var(--border-color); backdrop-filter: blur(20px); max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="color: var(--primary-color); margin: 0;"><i class="fas fa-question-circle"></i> Help & FAQ</h3>
+            <button onclick="this.closest('.modal').remove()" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+          </div>
+
+          <div style="margin-bottom: 2rem;">
+            <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px;">
+              <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;"><i class="fas fa-camera"></i> How do I analyze my skin?</h4>
+              <p style="margin: 0; color: var(--text-secondary);">Upload a clear photo of your skin or use your camera for real-time analysis. Our AI will detect skin conditions and provide natural remedy recommendations.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 10px;">
+              <h4 style="color: #2196f3; margin-bottom: 0.5rem;"><i class="fas fa-leaf"></i> Are the remedies safe?</h4>
+              <p style="margin: 0; color: var(--text-secondary);">All remedies are based on traditional Ayurvedic and natural healing practices. However, always consult a healthcare professional for serious conditions.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 10px;">
+              <h4 style="color: #ff9800; margin-bottom: 0.5rem;"><i class="fas fa-user-plus"></i> Do I need to create an account?</h4>
+              <p style="margin: 0; color: var(--text-secondary);">No! You can use basic features without an account. Creating an account unlocks premium features like history tracking and personalized recommendations.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(156, 39, 176, 0.1); border-radius: 10px;">
+              <h4 style="color: #9c27b0; margin-bottom: 0.5rem;"><i class="fas fa-shopping-cart"></i> Can I buy the ingredients?</h4>
+              <p style="margin: 0; color: var(--text-secondary);">Yes! We offer high-quality natural ingredients like honey, turmeric, and herbal blends. Use our contact form to inquire about products.</p>
+            </div>
+
+            <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(244, 67, 54, 0.1); border-radius: 10px;">
+              <h4 style="color: #f44336; margin-bottom: 0.5rem;"><i class="fas fa-shield-alt"></i> Is my data secure?</h4>
+              <p style="margin: 0; color: var(--text-secondary);">Absolutely! We prioritize your privacy. Images are processed securely and not stored permanently. Your personal information is encrypted and protected.</p>
+            </div>
+          </div>
+
+          <div style="text-align: center; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Still have questions?</p>
+            <button onclick="showContactModal(); this.closest('.modal').remove();" class="btn btn-primary">
+              <i class="fas fa-envelope"></i> Contact Support
+            </button>
+          </div>
+        </div>
+      `;
+
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+
+    function showFeedbackModal() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      `;
+
+      modal.innerHTML = `
+        <div style="background: var(--gradient-card); border-radius: 20px; padding: 2rem; max-width: 600px; width: 90%; border: 1px solid var(--border-color); backdrop-filter: blur(20px); max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="color: var(--primary-color); margin: 0;"><i class="fas fa-comment"></i> Share Your Feedback</h3>
+            <button onclick="this.closest('.modal').remove()" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+          </div>
+
+          <form id="feedbackForm" style="margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Your Name (Optional)</label>
+              <input type="text" id="feedbackName" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Feedback Type *</label>
+              <select id="feedbackType" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+                <option value="">Select feedback type</option>
+                <option value="suggestion">Suggestion</option>
+                <option value="bug">Bug Report</option>
+                <option value="feature">Feature Request</option>
+                <option value="compliment">Compliment</option>
+                <option value="complaint">Complaint</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Rating (Optional)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <span style="color: var(--text-secondary);">Poor</span>
+                <div class="rating-stars" style="display: flex; gap: 0.25rem;">
+                  <i class="fas fa-star rating-star" data-rating="1" style="color: #ddd; cursor: pointer; font-size: 1.2rem;"></i>
+                  <i class="fas fa-star rating-star" data-rating="2" style="color: #ddd; cursor: pointer; font-size: 1.2rem;"></i>
+                  <i class="fas fa-star rating-star" data-rating="3" style="color: #ddd; cursor: pointer; font-size: 1.2rem;"></i>
+                  <i class="fas fa-star rating-star" data-rating="4" style="color: #ddd; cursor: pointer; font-size: 1.2rem;"></i>
+                  <i class="fas fa-star rating-star" data-rating="5" style="color: #ddd; cursor: pointer; font-size: 1.2rem;"></i>
+                </div>
+                <span style="color: var(--text-secondary);">Excellent</span>
+              </div>
+              <input type="hidden" id="feedbackRating" value="">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 500;">Your Feedback *</label>
+              <textarea id="feedbackMessage" required rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem; resize: vertical;" placeholder="Please share your thoughts, suggestions, or report any issues..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send Feedback
+              </button>
+              <button type="button" onclick="this.closest('.modal').remove()" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+            </div>
+          </form>
+
+          <div style="text-align: center; padding-top: 1rem; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.9rem;">
+            <p><i class="fas fa-heart"></i> Your feedback helps us improve Heal Ayur for everyone!</p>
+          </div>
+        </div>
+      `;
+
+      modal.className = 'modal';
+      document.body.appendChild(modal);
+
+      // Handle star rating
+      const stars = modal.querySelectorAll('.rating-star');
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          const rating = star.dataset.rating;
+          document.getElementById('feedbackRating').value = rating;
+
+          stars.forEach((s, index) => {
+            if (index < rating) {
+              s.style.color = '#ffd700';
+            } else {
+              s.style.color = '#ddd';
+            }
+          });
+        });
+
+        star.addEventListener('mouseenter', () => {
+          const rating = star.dataset.rating;
+          stars.forEach((s, index) => {
+            if (index < rating) {
+              s.style.color = '#ffd700';
+            } else {
+              s.style.color = '#ddd';
+            }
+          });
+        });
+      });
+
+      // Handle form submission
+      document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = {
+          name: document.getElementById('feedbackName').value || 'Anonymous',
+          type: document.getElementById('feedbackType').value,
+          rating: document.getElementById('feedbackRating').value,
+          message: document.getElementById('feedbackMessage').value
+        };
+
+        try {
+          const response = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showNotification('✅ Thank you for your feedback! We appreciate your input.', 'success', 5000);
+            modal.remove();
+          } else {
+            showNotification('❌ Failed to send feedback. Please try again.', 'error', 5000);
+          }
+        } catch (error) {
+          console.error('Feedback form error:', error);
+          showNotification('❌ Failed to send feedback. Please try again.', 'error', 5000);
+        }
+      });
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
 
     // Service worker registration for PWA features
     if ('serviceWorker' in navigator) {

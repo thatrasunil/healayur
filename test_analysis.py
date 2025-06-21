@@ -32,44 +32,49 @@ def create_test_image():
 def test_analysis():
     """Test the AI analysis system"""
     print("🧪 Testing Revolutionary AI Analysis System...")
-    
+
     try:
-        # Initialize analyzer
-        analyzer = RevolutionarySkinAnalyzer()
-        print("✅ Analyzer initialized successfully")
-        
+        # Test the main analyze_image function
+        from ai_analysis_enhanced import analyze_image
+        print("✅ analyze_image function imported successfully")
+
         # Create test image
         test_image_bytes = create_test_image()
         print("✅ Test image created")
-        
-        # Run analysis
+
+        # Run analysis using the main function
         print("🔬 Running analysis...")
-        result = analyzer.analyze_skin_condition(test_image_bytes)
-        
+        result = analyze_image(test_image_bytes)
+
         # Display results
         print("\n🎯 ANALYSIS RESULTS:")
         print("=" * 50)
         print(f"Condition: {result.get('condition', 'Unknown')}")
         print(f"Confidence: {result.get('confidence', 0):.1%}")
         print(f"Severity: {result.get('severity', 'Unknown')}")
-        
+
         if 'gender_analysis' in result:
             gender_info = result['gender_analysis']
             print(f"Detected Gender: {gender_info.get('detected_gender', 'Unknown')}")
             print(f"Gender Confidence: {gender_info.get('gender_confidence', 0):.1%}")
-        
+
         if 'age_analysis' in result:
             age_info = result['age_analysis']
             print(f"Estimated Age: {age_info.get('estimated_age', 'Unknown')} years")
             print(f"Age Category: {age_info.get('age_category', 'Unknown')}")
             print(f"Age Confidence: {age_info.get('age_confidence', 0):.1%}")
-        
+
         print(f"\nRemedies: {len(result.get('remedies', []))} recommendations")
         print(f"Herbs: {len(result.get('herbs', []))} herbal suggestions")
-        
+
+        # Test JSON serialization
+        import json
+        json_str = json.dumps(result)
+        print(f"✅ JSON serialization successful ({len(json_str)} characters)")
+
         print("\n✅ Analysis completed successfully!")
         return True
-        
+
     except Exception as e:
         print(f"❌ Analysis failed: {e}")
         import traceback

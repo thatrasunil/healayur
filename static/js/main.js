@@ -147,19 +147,40 @@ class HealAyurApp {
   }
 
   async toggleWebcam() {
+    console.log('🔍 Toggle webcam called, current state:', this.webcamActive);
+
     if (!this.webcamActive) {
       try {
-        this.stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
+        console.log('📷 Requesting camera access...');
+
+        this.stream = await navigator.mediaDevices.getUserMedia({
+          video: {
             width: { ideal: 1280 },
             height: { ideal: 720 },
             facingMode: 'user'
-          } 
+          }
         });
-        
+
+        console.log('✅ Camera access granted, stream:', this.stream);
+
         if (this.videoElement) {
           this.videoElement.srcObject = this.stream;
+
+          // Wait for video to load
+          await new Promise((resolve) => {
+            this.videoElement.onloadedmetadata = () => {
+              console.log('✅ Video metadata loaded');
+              console.log('📊 Video dimensions:', this.videoElement.videoWidth, 'x', this.videoElement.videoHeight);
+              resolve();
+            };
+          });
+
+          // Additional wait to ensure video is fully ready
+          setTimeout(() => {
+            console.log('📊 Final video check - Width:', this.videoElement.videoWidth, 'Height:', this.videoElement.videoHeight);
+          }, 1000);
         }
+
         if (this.webcamContainer) {
           this.webcamContainer.style.display = 'block';
         }
@@ -167,7 +188,7 @@ class HealAyurApp {
           this.webcamMethod.classList.add('active');
         }
         this.webcamActive = true;
-        
+
         // Hide other elements
         if (this.fileUploadMethod) {
           this.fileUploadMethod.style.opacity = '0.5';
@@ -178,11 +199,12 @@ class HealAyurApp {
         if (this.resultsContainer) {
           this.resultsContainer.style.display = 'none';
         }
-        
+
         // Show notification about real-time option
-        showNotification('📷 Camera ready! Click "Start Real-Time" for continuous analysis', 'info', 4000);
-        
+        showNotification('📷 Camera ready! Click "Capture" or "Start Real-Time" for analysis', 'info', 4000);
+
       } catch (err) {
+        console.error('❌ Camera access error:', err);
         this.showError('Could not access camera: ' + err.message);
       }
     }
@@ -227,36 +249,64 @@ class HealAyurApp {
   }
 
   async captureAndAnalyze() {
-    if (!this.webcamActive || !this.videoElement?.videoWidth) {
-      this.showError('Camera not ready. Please wait a moment and try again.');
+    console.log('🔍 Capture and analyze called');
+    console.log('📊 Webcam active:', this.webcamActive);
+    console.log('📊 Video element:', this.videoElement);
+    console.log('📊 Video width:', this.videoElement?.videoWidth);
+    console.log('📊 Video height:', this.videoElement?.videoHeight);
+
+    if (!this.webcamActive) {
+      this.showError('Camera is not active. Please start the camera first.');
       return;
     }
 
-    // Create canvas to capture frame
-    const canvas = document.createElement('canvas');
-    canvas.width = this.videoElement.videoWidth;
-    canvas.height = this.videoElement.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(this.videoElement, 0, 0);
+    if (!this.videoElement) {
+      this.showError('Video element not found. Please refresh the page and try again.');
+      return;
+    }
 
-    // Convert to base64
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-    const base64Image = dataUrl.split(',')[1];
+    if (!this.videoElement.videoWidth || this.videoElement.videoWidth === 0) {
+      this.showError('Camera not ready. Please wait a moment for the camera to initialize and try again.');
+      return;
+    }
 
-    // Stop webcam and analyze
-    this.stopWebcam();
-    await this.analyzeImageData(base64Image, true);
+    try {
+      // Create canvas to capture frame
+      const canvas = document.createElement('canvas');
+      canvas.width = this.videoElement.videoWidth;
+      canvas.height = this.videoElement.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(this.videoElement, 0, 0);
+
+      // Convert to base64
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      const base64Image = dataUrl.split(',')[1];
+
+      console.log('✅ Image captured successfully, size:', base64Image.length);
+
+      // Stop webcam and analyze
+      this.stopWebcam();
+      await this.analyzeImageData(base64Image, true);
+    } catch (error) {
+      console.error('❌ Error during capture:', error);
+      this.showError('Failed to capture image: ' + error.message);
+    }
   }
 
   async analyzeImage() {
+    console.log('🔬 Starting image analysis...');
+
     if (!this.selectedFile) {
       this.showError('Please select an image first');
       return;
     }
 
+    console.log('📁 Selected file:', this.selectedFile.name, this.selectedFile.size, 'bytes');
+
     const formData = new FormData();
     formData.append('image', this.selectedFile);
-    
+
+    console.log('📤 Sending file upload request...');
     await this.sendAnalysisRequest('/analyze', {
       method: 'POST',
       body: formData
@@ -264,6 +314,9 @@ class HealAyurApp {
   }
 
   async analyzeImageData(base64Image, isWebcam = false) {
+    console.log('📷 Starting webcam image analysis...');
+    console.log('📊 Base64 image length:', base64Image.length);
+
     await this.sendAnalysisRequest('/analyze', {
       method: 'POST',
       headers: {
@@ -275,24 +328,33 @@ class HealAyurApp {
 
   async sendAnalysisRequest(url, options) {
     this.showLoading();
-    
+
     try {
+      console.log('🚀 Sending analysis request to:', url);
+      console.log('📤 Request options:', options);
+
       const response = await fetch(url, options);
+      console.log('📥 Response status:', response.status);
+
       const data = await response.json();
+      console.log('📊 Response data:', data);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Analysis failed');
+        throw new Error(data.error || `HTTP ${response.status}: Analysis failed`);
       }
 
       if (data.success && data.result) {
+        console.log('✅ Analysis successful, displaying results');
         this.displayResults(data.result);
         this.updateStats();
+        showNotification('✅ Analysis completed successfully!', 'success');
       } else {
         throw new Error(data.error || 'Unexpected response format');
       }
-      
+
     } catch (error) {
-      this.showError('Analysis failed: ' + error.message);
+      console.error('❌ Analysis error:', error);
+      this.showError('Network error. Please try again: ' + error.message);
     } finally {
       this.hideLoading();
     }
@@ -448,4 +510,7 @@ class HealAyurApp {
 let app;
 document.addEventListener('DOMContentLoaded', () => {
   app = new HealAyurApp();
+  // Make app globally available
+  window.app = app;
+  console.log('✅ HealAyur app initialized and available globally');
 });

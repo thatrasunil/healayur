@@ -13,6 +13,7 @@ import logging
 import sqlite3
 import glob
 import requests
+import google.generativeai as genai
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room
@@ -44,20 +45,75 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Import AI analysis modules after logger is defined
+# Configure Gemini API for chatbot after logger is defined
+GEMINI_API_KEY = "AIzaSyDhsUnlg85rpkGoiJlKnJHNXAl_0FfIeh0"
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Initialize Gemini model for chatbot
 try:
-    from ai_analysis_enhanced import analyze_image
+    # Try different model names in order of preference
+    model_names = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro']
+    gemini_model = None
+
+    for model_name in model_names:
+        try:
+            gemini_model = genai.GenerativeModel(model_name)
+            # Test the model with a simple request
+            test_response = gemini_model.generate_content("Hello")
+            GEMINI_AVAILABLE = True
+            GEMINI_MODEL_NAME = model_name
+            logger.info(f"✅ Gemini API configured successfully with model: {model_name}")
+            break
+        except Exception as model_error:
+            logger.debug(f"Model {model_name} failed: {model_error}")
+            continue
+
+    if not gemini_model:
+        raise Exception("No working Gemini model found")
+
+except Exception as e:
+    GEMINI_AVAILABLE = False
+    GEMINI_MODEL_NAME = None
+    logger.warning(f"⚠️ Gemini API not available for chatbot: {e}")
+
+# Import AI analysis modules after logger is defined - prioritize Face++ integration
+try:
+    from ai_analysis_faceplus import analyze_image
     AI_AVAILABLE = True
-    logger.info("✅ Enhanced AI analysis module loaded successfully")
+    CHAT_AVAILABLE = False
+    logger.info("✅ Face++ & Gemini hybrid analysis module loaded successfully")
 except ImportError as e:
-    logger.warning(f"⚠️ Enhanced AI analysis module not available: {e}")
+    logger.warning(f"⚠️ Face++ hybrid analysis module not available: {e}")
     try:
-        from ai_analysis import analyze_image
+        from ai_analysis_simple import analyze_image, chat_response
         AI_AVAILABLE = True
-        logger.info("✅ Basic AI analysis module loaded as fallback")
-    except ImportError:
-        logger.warning("⚠️ No AI analysis modules available")
-        AI_AVAILABLE = False
+        CHAT_AVAILABLE = True
+        logger.info("✅ Simplified Gemini AI analysis & chat module loaded as fallback")
+    except ImportError as e2:
+        logger.warning(f"⚠️ Simplified AI analysis module not available: {e2}")
+        try:
+            from ai_analysis_gemini import analyze_image
+            AI_AVAILABLE = True
+            CHAT_AVAILABLE = False
+            logger.info("✅ Gemini AI analysis module loaded as fallback")
+        except ImportError as e3:
+            logger.warning(f"⚠️ Gemini AI analysis module not available: {e3}")
+            try:
+                from ai_analysis_enhanced import analyze_image
+                AI_AVAILABLE = True
+                CHAT_AVAILABLE = False
+                logger.info("✅ Enhanced AI analysis module loaded as fallback")
+            except ImportError as e4:
+                logger.warning(f"⚠️ Enhanced AI analysis module not available: {e4}")
+                try:
+                    from ai_analysis import analyze_image
+                    AI_AVAILABLE = True
+                    CHAT_AVAILABLE = False
+                    logger.info("✅ Basic AI analysis module loaded as final fallback")
+                except ImportError:
+                    logger.warning("⚠️ No AI analysis modules available")
+                    AI_AVAILABLE = False
+                    CHAT_AVAILABLE = False
 
         def analyze_image(image_data):
             """Fallback analysis function"""
@@ -113,6 +169,15 @@ try:
 except Exception as e:
     logger.error(f"Error loading remedies: {e}")
     remedies = {}
+
+# Load products database for e-commerce
+try:
+    with open('products.json', 'r', encoding='utf-8') as f:
+        products = json.load(f)
+    logger.info(f"Loaded {len(products)} products successfully")
+except Exception as e:
+    logger.error(f"Error loading products: {e}")
+    products = {}
 
 # Global statistics and real-time data
 analysis_stats = {
@@ -300,22 +365,121 @@ def check_username():
 
 # OAuth routes removed - using only regular authentication
 
+# ==================== CHATBOT API ROUTES ====================
+
+@app.route('/api/chat', methods=['POST'])
+@optional_auth
+def api_chat():
+    """Enhanced AI chatbot using Gemini API - authentication optional"""
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '').strip()
+        conversation_history = data.get('history', [])
+
+        if not user_message:
+            return jsonify({'success': False, 'error': 'Message is required'}), 400
+
+        user = getattr(request, 'current_user', None)
+        username = user['username'] if user else 'Guest'
+
+        # Enhanced system prompt for Heal Ayur chatbot
+        system_prompt = """You are an AI assistant for Heal Ayur, an advanced skin analysis and ancient healing platform.
+
+Your role:
+- Help users understand skin conditions and natural remedies
+- Guide them through the image analysis process
+- Provide information about Ayurvedic and traditional healing methods
+- Answer questions about ingredients, preparation, and application of remedies
+- Be supportive, knowledgeable, and encouraging
+
+Key features of Heal Ayur:
+- AI-powered skin condition analysis with 95% accuracy
+- Real-time webcam analysis every 2.5 seconds
+- 500+ traditional remedies from various healing traditions
+- Voice commands and real-time chat
+- Progressive Web App with offline support
+- Privacy-focused with secure authentication
+
+Guidelines:
+- Always emphasize that serious conditions should be evaluated by healthcare professionals
+- Provide practical, actionable advice
+- Be encouraging about natural healing while being realistic
+- Mention relevant app features when appropriate
+- Keep responses concise but informative
+- Use emojis sparingly but effectively
+
+Current user: """ + username
+
+        if GEMINI_AVAILABLE:
+            try:
+                # Build conversation context
+                conversation_context = system_prompt + "\n\nConversation:\n"
+
+                # Add recent conversation history (last 10 messages)
+                recent_history = conversation_history[-10:] if len(conversation_history) > 10 else conversation_history
+                for msg in recent_history:
+                    role = "User" if msg.get('role') == 'user' else "Assistant"
+                    conversation_context += f"{role}: {msg.get('content', '')}\n"
+
+                conversation_context += f"User: {user_message}\nAssistant:"
+
+                # Generate response using Gemini
+                response = gemini_model.generate_content(conversation_context)
+                ai_response = response.text.strip()
+
+                # Log successful chat interaction
+                logger.info(f"💬 Chat response generated for {username}: {user_message[:50]}...")
+
+                return jsonify({
+                    'success': True,
+                    'response': ai_response,
+                    'model': GEMINI_MODEL_NAME,
+                    'timestamp': datetime.now().isoformat()
+                })
+
+            except Exception as gemini_error:
+                logger.error(f"❌ Gemini API error: {gemini_error}")
+                return jsonify({
+                    'success': False,
+                    'error': 'AI chat service is temporarily unavailable. Please try again in a moment.',
+                    'details': 'Gemini API error',
+                    'timestamp': datetime.now().isoformat()
+                }), 503
+        else:
+            # Gemini not available
+            return jsonify({
+                'success': False,
+                'error': 'AI chat service is not configured. Please contact support.',
+                'details': 'Gemini API not available',
+                'timestamp': datetime.now().isoformat()
+            }), 503
+
+    except Exception as e:
+        logger.error(f"❌ Chat API error: {e}")
+        return jsonify({
+            'success': False,
+            'error': 'Chat service temporarily unavailable',
+            'details': str(e) if app.debug else None
+        }), 500
+
+
+
 # ==================== MAIN APPLICATION ROUTES ====================
 
 @app.route('/')
 @optional_auth
 def index():
-    """Main application page"""
+    """Main application page - authentication optional"""
     user = getattr(request, 'current_user', None)
-    return render_template('index.html', 
-                         stats=analysis_stats, 
+    return render_template('index.html',
+                         stats=analysis_stats,
                          user=user,
                          remedies_count=len(remedies))
 
 @app.route('/analyze', methods=['POST'])
 @optional_auth
 def analyze():
-    """Enhanced image analysis with user tracking"""
+    """Enhanced image analysis with user tracking - authentication optional"""
     start_time = time.time()
     user = getattr(request, 'current_user', None)
     
@@ -1194,6 +1358,248 @@ def generate_chat_response(message):
     else:
         return "That's interesting! Could you be more specific about your skin concern? I'm here to help with natural healing advice."
 
+# ==================== TEST ENDPOINTS ====================
+
+@app.route('/api/test-remedies', methods=['POST'])
+def test_remedies():
+    """Test endpoint to check structured remedies"""
+    try:
+        from ai_analysis_faceplus import get_structured_remedies
+
+        data = request.get_json()
+        condition = data.get('condition', 'acne')
+
+        structured_remedies = get_structured_remedies(condition)
+
+        return jsonify({
+            'success': True,
+            'condition': condition,
+            'remedies': structured_remedies,
+            'count': len(structured_remedies)
+        })
+
+    except Exception as e:
+        logger.error(f"Error testing remedies: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/demo-conditions', methods=['GET'])
+def demo_conditions():
+    """Get all available conditions for demo purposes"""
+    try:
+        conditions = [
+            {'key': 'acne', 'name': 'Active Acne', 'description': 'Pimples, blackheads, and breakouts'},
+            {'key': 'dry_skin', 'name': 'Dry Skin', 'description': 'Dehydrated, flaky, or tight skin'},
+            {'key': 'blackheads', 'name': 'Blackheads', 'description': 'Clogged pores with dark appearance'},
+            {'key': 'wrinkles', 'name': 'Aging Skin', 'description': 'Fine lines, wrinkles, and age spots'},
+            {'key': 'dark_spot', 'name': 'Dark Spots', 'description': 'Hyperpigmentation and uneven tone'},
+            {'key': 'rash', 'name': 'Sensitive Skin', 'description': 'Redness, irritation, and sensitivity'},
+            {'key': 'scars', 'name': 'Scars', 'description': 'Acne scars and blemish marks'}
+        ]
+
+        return jsonify({
+            'success': True,
+            'conditions': conditions,
+            'count': len(conditions)
+        })
+
+    except Exception as e:
+        logger.error(f"Error getting demo conditions: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+
+# ==================== E-COMMERCE API ROUTES ====================
+
+@app.route('/api/products', methods=['GET'])
+def get_products():
+    """Get all products for e-commerce"""
+    try:
+        # Filter products based on query parameters
+        category = request.args.get('category')
+        featured = request.args.get('featured')
+        search = request.args.get('search', '').lower()
+
+        filtered_products = {}
+
+        for product_id, product in products.items():
+            # Apply filters
+            if category and product.get('category') != category:
+                continue
+            if featured and str(product.get('featured', False)).lower() != featured.lower():
+                continue
+            if search and search not in product.get('name', '').lower() and search not in ' '.join(product.get('tags', [])):
+                continue
+
+            filtered_products[product_id] = product
+
+        return jsonify({
+            'success': True,
+            'products': filtered_products,
+            'count': len(filtered_products),
+            'categories': list(set(p.get('category') for p in products.values()))
+        })
+
+    except Exception as e:
+        logger.error(f"Error getting products: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/products/<product_id>', methods=['GET'])
+def get_product(product_id):
+    """Get specific product details"""
+    try:
+        if product_id not in products:
+            return jsonify({'success': False, 'error': 'Product not found'}), 404
+
+        product = products[product_id]
+
+        # Add related products
+        related = []
+        product_category = product.get('category')
+        product_tags = set(product.get('tags', []))
+
+        for pid, p in products.items():
+            if pid != product_id:
+                # Find products with similar tags or same category
+                p_tags = set(p.get('tags', []))
+                if p.get('category') == product_category or len(product_tags.intersection(p_tags)) > 0:
+                    related.append({
+                        'id': pid,
+                        'name': p.get('name'),
+                        'price': p.get('price'),
+                        'image': p.get('image'),
+                        'rating': p.get('rating')
+                    })
+
+                if len(related) >= 4:  # Limit to 4 related products
+                    break
+
+        return jsonify({
+            'success': True,
+            'product': product,
+            'related_products': related
+        })
+
+    except Exception as e:
+        logger.error(f"Error getting product {product_id}: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/cart', methods=['POST'])
+@login_required
+def add_to_cart():
+    """Add product to user's cart"""
+    try:
+        data = request.get_json()
+        product_id = data.get('product_id')
+        quantity = data.get('quantity', 1)
+
+        if not product_id or product_id not in products:
+            return jsonify({'success': False, 'error': 'Invalid product'}), 400
+
+        user = getattr(request, 'current_user', None)
+        user_id = user['id'] if user else None
+
+        # For now, return success message with contact info
+        # In future, implement actual cart functionality
+
+        product = products[product_id]
+        total_price = product['price'] * quantity
+
+        return jsonify({
+            'success': True,
+            'message': f'Added {quantity}x {product["name"]} to cart',
+            'cart_item': {
+                'product_id': product_id,
+                'name': product['name'],
+                'price': product['price'],
+                'quantity': quantity,
+                'total': total_price
+            },
+            'note': 'Use our contact form to place your order!'
+        })
+
+    except Exception as e:
+        logger.error(f"Error adding to cart: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/contact-seller', methods=['POST'])
+def contact_seller():
+    """Contact seller for product inquiry"""
+    try:
+        data = request.get_json()
+        product_id = data.get('product_id')
+        message = data.get('message', '')
+        customer_email = data.get('email', '')
+        customer_name = data.get('name', '')
+
+        # Log the inquiry
+        logger.info(f"Product inquiry: {customer_name} ({customer_email}) - Product: {product_id} - Message: {message}")
+
+        return jsonify({
+            'success': True,
+            'message': 'Your inquiry has been received! We will contact you soon.',
+            'response_time': '24 hours'
+        })
+
+    except Exception as e:
+        logger.error(f"Error processing contact request: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/contact', methods=['POST'])
+def api_contact():
+    """Handle contact form submissions"""
+    try:
+        data = request.get_json()
+        name = data.get('name', '').strip()
+        email = data.get('email', '').strip()
+        subject = data.get('subject', '').strip()
+        message = data.get('message', '').strip()
+
+        if not all([name, email, subject, message]):
+            return jsonify({'success': False, 'error': 'All fields are required'}), 400
+
+        # Log the contact form submission
+        logger.info(f"Contact form submission: {name} ({email}) - Subject: {subject}")
+        logger.info(f"Message: {message}")
+
+        # Here you would typically send an email or save to database
+        # For now, we'll just log it
+
+        return jsonify({
+            'success': True,
+            'message': 'Your message has been sent successfully! We will get back to you within 24 hours.'
+        })
+
+    except Exception as e:
+        logger.error(f"Error processing contact form: {e}")
+        return jsonify({'success': False, 'error': 'Failed to send message'}), 500
+
+@app.route('/api/feedback', methods=['POST'])
+def api_feedback():
+    """Handle feedback form submissions"""
+    try:
+        data = request.get_json()
+        name = data.get('name', 'Anonymous').strip()
+        feedback_type = data.get('type', '').strip()
+        rating = data.get('rating', '')
+        message = data.get('message', '').strip()
+
+        if not all([feedback_type, message]):
+            return jsonify({'success': False, 'error': 'Feedback type and message are required'}), 400
+
+        # Log the feedback submission
+        logger.info(f"Feedback submission: {name} - Type: {feedback_type} - Rating: {rating}")
+        logger.info(f"Feedback: {message}")
+
+        # Here you would typically save to database or send notification
+        # For now, we'll just log it
+
+        return jsonify({
+            'success': True,
+            'message': 'Thank you for your feedback! We appreciate your input and will use it to improve our service.'
+        })
+
+    except Exception as e:
+        logger.error(f"Error processing feedback: {e}")
+        return jsonify({'success': False, 'error': 'Failed to submit feedback'}), 500
+
 # ==================== ERROR HANDLERS ====================
 
 @app.errorhandler(413)
@@ -1218,10 +1624,12 @@ if __name__ == '__main__':
     logger.info("")
     logger.info("🚀 Starting enhanced Heal Ayur application...")
     logger.info(f"📚 Loaded {len(remedies)} remedy categories")
+    logger.info(f"🛒 Loaded {len(products)} products for e-commerce")
     logger.info(f"📁 Upload folder: {app.config['UPLOAD_FOLDER']}")
     logger.info(f"🔐 Authentication: Enabled")
     logger.info(f"🔴 Real-time features: Enabled")
     logger.info(f"💬 Chat assistant: Enabled")
+    logger.info(f"📧 Contact: thatrasunil@gmail.com")
     logger.info("")
     logger.info("✨ Features available:")
     logger.info("   • AI-powered skin analysis")
@@ -1230,6 +1638,8 @@ if __name__ == '__main__':
     logger.info("   • Intelligent chatbot")
     logger.info("   • Analysis history tracking")
     logger.info("   • WebSocket real-time updates")
+    logger.info("   • E-commerce product catalog")
+    logger.info("   • Natural ingredients marketplace")
     logger.info("")
 
     # Get port from environment variable for deployment

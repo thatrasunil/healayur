@@ -1,0 +1,273 @@
+{
+  "honey": {
+    "id": "honey_001",
+    "name": "Organic Raw Honey",
+    "category": "Natural Sweeteners",
+    "description": "Pure, unprocessed honey sourced from organic farms. Rich in antioxidants and natural enzymes.",
+    "price": 25.99,
+    "currency": "USD",
+    "weight": "500g",
+    "image": "/static/products/honey.jpg",
+    "benefits": [
+      "Natural antibacterial properties",
+      "Soothes skin irritation",
+      "Rich in antioxidants",
+      "Promotes wound healing",
+      "Natural moisturizer"
+    ],
+    "usage": [
+      "Apply directly to affected skin areas",
+      "Mix with turmeric for face masks",
+      "Use as natural sweetener",
+      "Add to herbal teas"
+    ],
+    "ingredients": ["100% Pure Raw Honey"],
+    "origin": "Organic Farms, India",
+    "shelf_life": "24 months",
+    "storage": "Store in cool, dry place",
+    "certifications": ["Organic", "Non-GMO", "Fair Trade"],
+    "stock": 150,
+    "rating": 4.8,
+    "reviews": 234,
+    "featured": true,
+    "tags": ["honey", "organic", "raw", "natural", "healing"]
+  },
+  "turmeric": {
+    "id": "turmeric_001",
+    "name": "Pure Turmeric Powder",
+    "category": "Herbal Powders",
+    "description": "Premium quality turmeric powder with high curcumin content. Perfect for healing masks and internal use.",
+    "price": 18.99,
+    "currency": "USD",
+    "weight": "250g",
+    "image": "/static/products/turmeric.jpg",
+    "benefits": [
+      "Powerful anti-inflammatory",
+      "Natural antiseptic",
+      "Brightens skin tone",
+      "Reduces acne and blemishes",
+      "Promotes healing"
+    ],
+    "usage": [
+      "Mix with honey for face masks",
+      "Add to warm milk",
+      "Use in cooking",
+      "Make turmeric paste for wounds"
+    ],
+    "ingredients": ["100% Pure Turmeric (Curcuma longa)"],
+    "origin": "Kerala, India",
+    "curcumin_content": "3.5%",
+    "shelf_life": "18 months",
+    "storage": "Store in airtight container",
+    "certifications": ["Organic", "Lab Tested", "Pure"],
+    "stock": 200,
+    "rating": 4.9,
+    "reviews": 189,
+    "featured": true,
+    "tags": ["turmeric", "curcumin", "anti-inflammatory", "healing", "organic"]
+  },
+  "neem_leaves": {
+    "id": "neem_001",
+    "name": "Fresh Neem Leaves",
+    "category": "Fresh Herbs",
+    "description": "Fresh, pesticide-free neem leaves known for their powerful antibacterial and antifungal properties.",
+    "price": 12.99,
+    "currency": "USD",
+    "weight": "100g",
+    "image": "/static/products/neem.jpg",
+    "benefits": [
+      "Natural antibacterial",
+      "Treats acne and skin infections",
+      "Purifies blood",
+      "Boosts immunity",
+      "Natural pesticide"
+    ],
+    "usage": [
+      "Boil in water for face wash",
+      "Make neem paste for skin",
+      "Chew fresh leaves",
+      "Add to bath water"
+    ],
+    "ingredients": ["100% Fresh Neem Leaves (Azadirachta indica)"],
+    "origin": "Organic Farms, India",
+    "shelf_life": "7 days fresh, 12 months dried",
+    "storage": "Refrigerate fresh leaves, store dried in cool place",
+    "certifications": ["Pesticide-Free", "Organic"],
+    "stock": 75,
+    "rating": 4.7,
+    "reviews": 156,
+    "featured": false,
+    "tags": ["neem", "antibacterial", "fresh", "organic", "skin-care"]
+  },
+  "aloe_vera_gel": {
+    "id": "aloe_001",
+    "name": "Pure Aloe Vera Gel",
+    "category": "Natural Gels",
+    "description": "100% pure aloe vera gel extracted from fresh aloe leaves. Perfect for soothing and healing skin.",
+    "price": 16.99,
+    "currency": "USD",
+    "weight": "200ml",
+    "image": "/static/products/aloe.jpg",
+    "benefits": [
+      "Soothes sunburn and irritation",
+      "Moisturizes dry skin",
+      "Promotes wound healing",
+      "Anti-inflammatory properties",
+      "Natural cooling effect"
+    ],
+    "usage": [
+      "Apply directly to skin",
+      "Use as daily moisturizer",
+      "Mix with other ingredients",
+      "Apply to burns and cuts"
+    ],
+    "ingredients": ["100% Pure Aloe Vera Gel"],
+    "origin": "Fresh Aloe Farms",
+    "shelf_life": "24 months",
+    "storage": "Store in cool place, refrigerate after opening",
+    "certifications": ["Pure", "No Additives", "Cruelty-Free"],
+    "stock": 120,
+    "rating": 4.6,
+    "reviews": 203,
+    "featured": false,
+    "tags": ["aloe-vera", "gel", "soothing", "natural", "moisturizer"]
+  },
+  "herb_blend_acne": {
+    "id": "blend_001",
+    "name": "Anti-Acne Herbal Blend",
+    "category": "Herbal Blends",
+    "description": "Specially formulated blend of herbs targeting acne and blemishes. Contains neem, turmeric, and tulsi.",
+    "price": 22.99,
+    "currency": "USD",
+    "weight": "150g",
+    "image": "/static/products/acne_blend.jpg",
+    "benefits": [
+      "Targets acne-causing bacteria",
+      "Reduces inflammation",
+      "Prevents future breakouts",
+      "Balances skin oil production",
+      "Natural and gentle"
+    ],
+    "usage": [
+      "Mix with water to make paste",
+      "Add to face masks",
+      "Use as spot treatment",
+      "Mix with honey for enhanced effect"
+    ],
+    "ingredients": [
+      "Neem powder (30%)",
+      "Turmeric powder (25%)",
+      "Tulsi powder (20%)",
+      "Sandalwood powder (15%)",
+      "Rose petal powder (10%)"
+    ],
+    "origin": "Ayurvedic Formulation, India",
+    "shelf_life": "18 months",
+    "storage": "Store in airtight container",
+    "certifications": ["Ayurvedic", "Natural", "Lab Tested"],
+    "stock": 85,
+    "rating": 4.8,
+    "reviews": 167,
+    "featured": true,
+    "tags": ["herbal-blend", "acne", "neem", "turmeric", "ayurvedic"]
+  },
+  "essential_oil_tea_tree": {
+    "id": "oil_001",
+    "name": "Pure Tea Tree Essential Oil",
+    "category": "Essential Oils",
+    "description": "100% pure tea tree essential oil with powerful antibacterial and antifungal properties.",
+    "price": 19.99,
+    "currency": "USD",
+    "weight": "30ml",
+    "image": "/static/products/tea_tree_oil.jpg",
+    "benefits": [
+      "Powerful antibacterial",
+      "Treats acne and blemishes",
+      "Antifungal properties",
+      "Natural antiseptic",
+      "Aromatherapy benefits"
+    ],
+    "usage": [
+      "Dilute before applying to skin",
+      "Add to carrier oils",
+      "Use in diffusers",
+      "Add to face masks (1-2 drops)"
+    ],
+    "ingredients": ["100% Pure Tea Tree Oil (Melaleuca alternifolia)"],
+    "origin": "Australia",
+    "shelf_life": "36 months",
+    "storage": "Store in dark, cool place",
+    "certifications": ["Pure", "Therapeutic Grade", "Steam Distilled"],
+    "stock": 95,
+    "rating": 4.7,
+    "reviews": 145,
+    "featured": false,
+    "tags": ["essential-oil", "tea-tree", "antibacterial", "pure", "therapeutic"]
+  },
+  "rose_water": {
+    "id": "rose_001",
+    "name": "Pure Rose Water",
+    "category": "Floral Waters",
+    "description": "Steam-distilled pure rose water with natural toning and hydrating properties.",
+    "price": 14.99,
+    "currency": "USD",
+    "weight": "250ml",
+    "image": "/static/products/rose_water.jpg",
+    "benefits": [
+      "Natural skin toner",
+      "Hydrates and refreshes",
+      "Anti-aging properties",
+      "Soothes irritated skin",
+      "Pleasant natural fragrance"
+    ],
+    "usage": [
+      "Use as facial toner",
+      "Spray on face for hydration",
+      "Add to face masks",
+      "Use as makeup setting spray"
+    ],
+    "ingredients": ["100% Pure Rose Water (Rosa damascena)"],
+    "origin": "Bulgaria",
+    "shelf_life": "24 months",
+    "storage": "Store in cool place, refrigerate for best results",
+    "certifications": ["Pure", "Steam Distilled", "No Additives"],
+    "stock": 110,
+    "rating": 4.5,
+    "reviews": 178,
+    "featured": false,
+    "tags": ["rose-water", "toner", "hydrating", "pure", "natural"]
+  },
+  "multani_mitti": {
+    "id": "clay_001",
+    "name": "Multani Mitti (Fuller's Earth)",
+    "category": "Natural Clays",
+    "description": "Pure Multani Mitti clay for deep cleansing and oil absorption. Perfect for oily and acne-prone skin.",
+    "price": 13.99,
+    "currency": "USD",
+    "weight": "200g",
+    "image": "/static/products/multani_mitti.jpg",
+    "benefits": [
+      "Deep cleanses pores",
+      "Absorbs excess oil",
+      "Removes blackheads",
+      "Improves skin texture",
+      "Natural exfoliation"
+    ],
+    "usage": [
+      "Mix with water or rose water",
+      "Apply as face mask",
+      "Leave for 15-20 minutes",
+      "Rinse with lukewarm water"
+    ],
+    "ingredients": ["100% Pure Multani Mitti (Fuller's Earth)"],
+    "origin": "Rajasthan, India",
+    "shelf_life": "Indefinite if stored properly",
+    "storage": "Store in dry place",
+    "certifications": ["Pure", "Natural", "Unprocessed"],
+    "stock": 140,
+    "rating": 4.6,
+    "reviews": 192,
+    "featured": false,
+    "tags": ["multani-mitti", "clay", "deep-cleansing", "oily-skin", "natural"]
+  }
+}

@@ -83,6 +83,14 @@ class RealTimeManager {
 
   async performRealTimeAnalysis() {
     try {
+      console.log('🔬 Real-time analysis - Video check:', this.app.videoElement?.videoWidth, 'x', this.app.videoElement?.videoHeight);
+
+      if (!this.app.videoElement || !this.app.videoElement.videoWidth || this.app.videoElement.videoWidth === 0) {
+        console.error('❌ Video not ready for real-time analysis');
+        showNotification('❌ Camera not ready. Please wait for camera to initialize.', 'error');
+        return;
+      }
+
       const startTime = performance.now();
       this.app.realTimeCount++;
       
