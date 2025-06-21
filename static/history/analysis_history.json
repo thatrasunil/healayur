@@ -1,0 +1,26 @@
+[
+  {
+    "condition": "blackheads",
+    "confidence": 0.9174428527311844,
+    "timestamp": "1750407378",
+    "date": "2025-06-20 13:46:19"
+  },
+  {
+    "condition": "blackheads",
+    "confidence": 0.8420400725105879,
+    "timestamp": "1750407412",
+    "date": "2025-06-20 13:46:52"
+  },
+  {
+    "condition": "rash",
+    "confidence": 0.9337973105093694,
+    "timestamp": "1750407519",
+    "date": "2025-06-20 13:48:39"
+  },
+  {
+    "condition": "dark_spot",
+    "confidence": 0.9285013726948093,
+    "timestamp": "1750407635",
+    "date": "2025-06-20 13:50:36"
+  }
+]

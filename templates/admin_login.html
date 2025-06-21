@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔐 Admin Login - Heal Ayur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <meta name="theme-color" content="#ffc107">
+</head>
+<body style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
+  <!-- Background Effects -->
+  <canvas id="bgCanvas" class="background-animation"></canvas>
+  <div class="particles-container" id="particlesContainer"></div>
+  <div class="gradient-orb orb-1" style="background: linear-gradient(135deg, #ffc107, #ff8f00);"></div>
+  <div class="gradient-orb orb-2" style="background: linear-gradient(135deg, #ff8f00, #ffc107);"></div>
+
+  <!-- Admin Login Container -->
+  <div class="auth-container animate-slideInUp" style="max-width: 450px; border: 2px solid rgba(255, 193, 7, 0.3);">
+    <div class="auth-header">
+      <div class="logo" style="color: #ffc107;">
+        <i class="fas fa-crown animate-pulse"></i>
+      </div>
+      <h1 class="auth-title" style="color: #ffc107;">Admin Access</h1>
+      <p class="auth-subtitle">System Administration Portal</p>
+    </div>
+
+    <!-- Admin Login Form -->
+    <form id="adminLoginForm" class="auth-form">
+      <div class="form-group">
+        <label for="adminUsername" class="form-label">
+          <i class="fas fa-user-shield"></i> Admin Username
+        </label>
+        <input 
+          type="text" 
+          id="adminUsername" 
+          name="username" 
+          class="form-input" 
+          placeholder="Enter admin username"
+          required
+          autocomplete="username"
+          style="border-color: rgba(255, 193, 7, 0.3);"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="adminPassword" class="form-label">
+          <i class="fas fa-key"></i> Admin Password
+        </label>
+        <div style="position: relative;">
+          <input 
+            type="password" 
+            id="adminPassword" 
+            name="password" 
+            class="form-input" 
+            placeholder="Enter admin password"
+            required
+            autocomplete="current-password"
+            style="border-color: rgba(255, 193, 7, 0.3);"
+          >
+          <button 
+            type="button" 
+            id="togglePassword" 
+            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer;"
+          >
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div style="background: rgba(255, 193, 7, 0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255, 193, 7, 0.3); margin-bottom: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <i class="fas fa-info-circle" style="color: #ffc107;"></i>
+            <span style="font-weight: 600; color: #ffc107;">Demo Credentials</span>
+          </div>
+          <div style="font-size: 0.9rem; color: var(--text-secondary);">
+            <div><strong>Username:</strong> admin</div>
+            <div><strong>Password:</strong> healayur2024</div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-full" id="adminLoginBtn" style="background: linear-gradient(135deg, #ffc107, #ff8f00); color: #000; font-weight: 600;">
+        <i class="fas fa-sign-in-alt"></i>
+        Access Admin Panel
+      </button>
+    </form>
+
+    <!-- Back to Main Site -->
+    <div style="text-align: center; padding-top: 1rem; border-top: 1px solid rgba(255, 193, 7, 0.2); margin-top: 2rem;">
+      <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+        Not an admin?
+      </p>
+      <a href="/" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i>
+        Back to Main Site
+      </a>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="text-align: center; color: white;">
+      <div class="loading-spinner" style="border-color: #ffc107; border-top-color: transparent;"></div>
+      <p>Authenticating admin access...</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+  
+  <script>
+    // Initialize background effects
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeBackground();
+      createParticles();
+      
+      // Form elements
+      const adminLoginForm = document.getElementById('adminLoginForm');
+      const adminLoginBtn = document.getElementById('adminLoginBtn');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('adminPassword');
+      
+      // Password toggle
+      togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+      });
+      
+      // Form submission
+      adminLoginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(adminLoginForm);
+        const data = {
+          username: formData.get('username'),
+          password: formData.get('password')
+        };
+        
+        // Show loading
+        adminLoginBtn.classList.add('loading');
+        adminLoginBtn.disabled = true;
+        loadingOverlay.style.display = 'flex';
+        
+        try {
+          const response = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            showNotification('Admin login successful! Redirecting...', 'success');
+            setTimeout(() => {
+              window.location.href = result.redirect || '/admin/dashboard';
+            }, 1000);
+          } else {
+            showNotification('Invalid admin credentials', 'error');
+          }
+          
+        } catch (error) {
+          showNotification('Network error. Please try again.', 'error');
+        } finally {
+          adminLoginBtn.classList.remove('loading');
+          adminLoginBtn.disabled = false;
+          loadingOverlay.style.display = 'none';
+        }
+      });
+      
+      // Auto-focus username input
+      document.getElementById('adminUsername').focus();
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          window.location.href = '/';
+        }
+      });
+    });
+  </script>
+  
+  <style>
+    .auth-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 90%;
+      z-index: 1000;
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .logo i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .auth-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .auth-subtitle {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #ffc107;
+      box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    
+    .btn-full {
+      width: 100%;
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid #ffc107;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</body>
+</html>

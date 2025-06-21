@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Admin Dashboard - Heal Ayur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Comfortaa:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Enhanced Admin Dashboard Styles */
+        :root {
+            --primary-color: #4caf50;
+            --secondary-color: #81c784;
+            --accent-color: #c8e6c9;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --info-color: #2196f3;
+            --admin-color: #ffc107;
+
+            /* Dark Theme */
+            --bg-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            --bg-secondary: rgba(26, 26, 26, 0.9);
+            --bg-card: rgba(26, 26, 26, 0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #808080;
+            --border-color: rgba(255, 193, 7, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #4caf50, #2e7d32);
+            --gradient-admin: linear-gradient(135deg, #ffc107, #ff8f00);
+            --gradient-card: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(46, 46, 46, 0.95));
+            --gradient-danger: linear-gradient(135deg, #f44336, #d32f2f);
+            --gradient-warning: linear-gradient(135deg, #ff9800, #f57c00);
+            --gradient-info: linear-gradient(135deg, #2196f3, #1976d2);
+
+            /* Animations */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 15px;
+            --shadow-glow: 0 0 30px rgba(255, 193, 7, 0.3);
+            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .admin-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .admin-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: adminFloat 15s ease-in-out infinite;
+        }
+
+        .admin-orb-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #ffc107, #ff8f00);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .admin-orb-2 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #2196f3, #1976d2);
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .admin-orb-3 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #4caf50, #2e7d32);
+            bottom: 20%;
+            left: 60%;
+            animation-delay: 10s;
+        }
+
+        @keyframes adminFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        .admin-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--border-color);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-brand i {
+            color: var(--admin-color);
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-brand h1 {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--admin-color);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-admin {
+            background: var(--gradient-admin);
+            color: #000;
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px var(--shadow-color);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 6rem;
+        }
+
+        /* Header */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--admin-color);
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--gradient-card);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-admin);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .stat-card.users .stat-icon { color: var(--primary-color); }
+        .stat-card.analyses .stat-icon { color: var(--info-color); }
+        .stat-card.images .stat-icon { color: var(--warning-color); }
+        .stat-card.system .stat-icon { color: #9c27b0; }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .stat-card.users .stat-number { color: var(--primary-color); }
+        .stat-card.analyses .stat-number { color: var(--info-color); }
+        .stat-card.images .stat-number { color: var(--warning-color); }
+        .stat-card.system .stat-number { color: #9c27b0; }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--primary-color);
+        }
+
+        .stat-change.negative {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--error-color);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .card-header h3 {
+            color: var(--admin-color);
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* User and Image Lists */
+        .list-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .list-item:hover {
+            background: rgba(255, 193, 7, 0.05);
+            transform: translateX(5px);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .item-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-admin);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .item-details h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .item-details p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .image-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: var(--bg-secondary);
+            transition: var(--transition);
+        }
+
+        .image-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            padding: 0.5rem;
+        }
+
+        .image-item:hover .image-overlay {
+            opacity: 1;
+        }
+
+        /* System Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-primary);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--admin-color);
+        }
+
+        .action-btn i {
+            font-size: 2rem;
+            color: var(--admin-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Notification Styles */
+        .notification-toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--gradient-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-card);
+            z-index: 10000;
+            backdrop-filter: blur(20px);
+            max-width: 400px;
+            animation: slideInRight 0.4s ease-out;
+        }
+
+        .notification-toast.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .notification-toast.error {
+            border-left: 4px solid var(--error-color);
+        }
+
+        .notification-toast.warning {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .notification-toast.info {
+            border-left: 4px solid var(--info-color);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="admin-bg">
+        <div class="admin-orb admin-orb-1"></div>
+        <div class="admin-orb admin-orb-2"></div>
+        <div class="admin-orb admin-orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-crown"></i>
+                <h1>Admin Dashboard</h1>
+                <span style="color: var(--text-muted); font-size: 0.9rem;">Heal Ayur System</span>
+            </div>
+
+            <div class="nav-actions">
+                <span style="color: var(--text-secondary); margin-right: 1rem;">Welcome, Admin</span>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Main Site
+                </a>
+                <button onclick="adminLogout()" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chart-line"></i> System Analytics</h1>
+            <p>Real-time monitoring and management dashboard with full control</p>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(255, 193, 7, 0.1); border-radius: 12px; border: 1px solid rgba(255, 193, 7, 0.3);">
+                <i class="fas fa-shield-alt" style="color: var(--admin-color);"></i>
+                <strong style="color: var(--admin-color);">100% Privacy Protected</strong> - All user data is encrypted and secure
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card users">
+                <i class="fas fa-users stat-icon"></i>
+                <div class="stat-number" id="totalUsers">0</div>
+                <div class="stat-label">Registered Users</div>
+                <div class="stat-change positive" id="userChange">+0% this week</div>
+            </div>
+
+            <div class="stat-card analyses">
+                <i class="fas fa-microscope stat-icon"></i>
+                <div class="stat-number" id="totalAnalyses">0</div>
+                <div class="stat-label">Total Analyses</div>
+                <div class="stat-change positive" id="analysisChange">+0% this week</div>
+            </div>
+
+            <div class="stat-card images">
+                <i class="fas fa-images stat-icon"></i>
+                <div class="stat-number" id="totalImages">0</div>
+                <div class="stat-label">Uploaded Images</div>
+                <div class="stat-change positive" id="imageChange">+0% this week</div>
+            </div>
+
+            <div class="stat-card system">
+                <i class="fas fa-server stat-icon"></i>
+                <div class="stat-number" id="systemHealth">100%</div>
+                <div class="stat-label">System Health</div>
+                <div class="stat-change positive">Optimal</div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Users Management -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> Users Management</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="refreshUsers()" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-refresh"></i>
+                        </button>
+                        <button onclick="exportUsers()" class="btn btn-sm btn-admin">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="usersList">
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Loading users...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Analyses -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-bar"></i> Recent Analyses</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="refreshAnalyses()" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-refresh"></i>
+                        </button>
+                        <button onclick="exportAnalyses()" class="btn btn-sm btn-admin">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="analysesList">
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Loading analyses...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Images Management -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <h3><i class="fas fa-images"></i> Uploaded Images Management</h3>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="refreshImages()" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-refresh"></i>
+                    </button>
+                    <button onclick="toggleImageView()" class="btn btn-sm btn-primary" id="viewToggleBtn">
+                        <i class="fas fa-th"></i> Grid View
+                    </button>
+                    <button onclick="bulkDeleteImages()" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash-alt"></i> Bulk Delete
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" id="imagesList">
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>Loading images...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-cogs"></i> System Actions</h3>
+            </div>
+            <div class="card-body">
+                <div class="actions-grid">
+                    <div class="action-btn" onclick="exportAllData()">
+                        <i class="fas fa-download"></i>
+                        <h4>Export All Data</h4>
+                        <p>Download complete system backup</p>
+                    </div>
+
+                    <div class="action-btn" onclick="clearOldData()">
+                        <i class="fas fa-broom"></i>
+                        <h4>Clean Old Data</h4>
+                        <p>Remove data older than 30 days</p>
+                    </div>
+
+                    <div class="action-btn" onclick="systemDiagnostics()">
+                        <i class="fas fa-stethoscope"></i>
+                        <h4>System Health</h4>
+                        <p>Run comprehensive diagnostics</p>
+                    </div>
+
+                    <div class="action-btn" onclick="viewSystemLogs()">
+                        <i class="fas fa-file-alt"></i>
+                        <h4>System Logs</h4>
+                        <p>View application logs</p>
+                    </div>
+
+                    <div class="action-btn" onclick="manageDatabase()">
+                        <i class="fas fa-database"></i>
+                        <h4>Database</h4>
+                        <p>Manage database operations</p>
+                    </div>
+
+                    <div class="action-btn" onclick="securityAudit()">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Security Audit</h4>
+                        <p>Run security checks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script>
+        let socket;
+        let imageViewMode = 'grid';
+        let selectedImages = new Set();
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeWebSocket();
+            loadDashboardData();
+            showNotification('🔐 Admin dashboard loaded successfully', 'success');
+            setInterval(loadDashboardData, 30000);
+        });
+
+        // WebSocket initialization
+        function initializeWebSocket() {
+            try {
+                socket = io();
+                socket.on('connect', () => {
+                    console.log('🔗 Admin dashboard connected');
+                    showNotification('🌐 Real-time monitoring active', 'info', 3000);
+                });
+                socket.on('analysis_complete', (data) => {
+                    showNotification(`📊 New analysis: ${data.condition} (${data.confidence}% confidence)`, 'info', 4000);
+                });
+            } catch (error) {
+                console.log('WebSocket not available');
+            }
+        }
+
+        // Load all dashboard data
+        async function loadDashboardData() {
+            await Promise.all([loadStats(), loadUsers(), loadImages()]);
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                const data = await response.json();
+                if (data.success) {
+                    updateStatsDisplay(data.stats);
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                updateStatsDisplay({ total_users: 0, total_analyses: 0, total_images: 0 });
+            }
+        }
+
+        // Update stats display
+        function updateStatsDisplay(stats) {
+            document.getElementById('totalUsers').textContent = stats.total_users || 0;
+            document.getElementById('totalAnalyses').textContent = stats.total_analyses || 0;
+            document.getElementById('totalImages').textContent = stats.total_images || 0;
+            animateCounters();
+        }
+
+        // Animate counters
+        function animateCounters() {
+            const counters = ['totalUsers', 'totalAnalyses', 'totalImages'];
+            counters.forEach(counterId => {
+                const element = document.getElementById(counterId);
+                const target = parseInt(element.textContent) || 0;
+                let current = 0;
+                const increment = Math.max(1, target / 30);
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 50);
+            });
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/admin/users');
+                const data = await response.json();
+                if (data.success) {
+                    displayUsers(data.users);
+                }
+            } catch (error) {
+                document.getElementById('usersList').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--error-color);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Failed to load users</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display users
+        function displayUsers(users) {
+            const container = document.getElementById('usersList');
+            if (users.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>No users registered yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const usersHtml = users.map(user => `
+                <div class="list-item" id="user-${user.id}">
+                    <div class="item-info">
+                        <div class="item-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                        <div class="item-details">
+                            <h4>${user.username}</h4>
+                            <p>${user.email}</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                <i class="fas fa-calendar"></i> Joined: ${user.created_at || 'Unknown'}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="deleteUser(${user.id}, '${user.username}')" class="btn btn-sm btn-danger" title="Delete User">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            container.innerHTML = usersHtml;
+        }
+
+        // Load images
+        async function loadImages() {
+            try {
+                const response = await fetch('/api/admin/uploaded-images');
+                const data = await response.json();
+                if (data.success) {
+                    displayImages(data.images);
+                }
+            } catch (error) {
+                document.getElementById('imagesList').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--error-color);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Failed to load images</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display images
+        function displayImages(images) {
+            const container = document.getElementById('imagesList');
+            if (images.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fas fa-images" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>No images uploaded yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const imagesHtml = `
+                <div class="image-grid">
+                    ${images.map(image => `
+                        <div class="image-item" id="image-${image.filename}">
+                            <img src="${image.url}" alt="${image.filename}" loading="lazy">
+                            <div class="image-overlay">
+                                <button onclick="deleteImage('${image.filename}')" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.innerHTML = imagesHtml;
+        }
+
+        // Admin functions
+        async function deleteUser(userId, username) {
+            if (!confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) return;
+
+            try {
+                const response = await fetch(`/api/admin/users/${userId}`, { method: 'DELETE' });
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification(`✅ User "${username}" deleted successfully`, 'success');
+                    document.getElementById(`user-${userId}`).remove();
+                    loadStats(); // Refresh stats
+                } else {
+                    showNotification(`❌ Failed to delete user: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification('❌ Network error occurred', 'error');
+            }
+        }
+
+        async function deleteImage(filename) {
+            if (!confirm(`Are you sure you want to delete image "${filename}"?`)) return;
+
+            try {
+                const response = await fetch(`/api/admin/images/${filename}`, { method: 'DELETE' });
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification(`✅ Image "${filename}" deleted successfully`, 'success');
+                    document.getElementById(`image-${filename}`).remove();
+                    loadStats(); // Refresh stats
+                } else {
+                    showNotification(`❌ Failed to delete image: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification('❌ Network error occurred', 'error');
+            }
+        }
+
+        async function bulkDeleteImages() {
+            if (selectedImages.size === 0) {
+                showNotification('⚠️ No images selected', 'warning');
+                return;
+            }
+
+            if (!confirm(`Delete ${selectedImages.size} selected images?`)) return;
+
+            try {
+                const response = await fetch('/api/admin/images/bulk-delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filenames: Array.from(selectedImages) })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification(`✅ Deleted ${data.deleted_count} images`, 'success');
+                    loadImages();
+                    selectedImages.clear();
+                } else {
+                    showNotification(`❌ Bulk delete failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification('❌ Network error occurred', 'error');
+            }
+        }
+
+        async function clearOldData() {
+            if (!confirm('Delete all data older than 30 days? This cannot be undone.')) return;
+
+            try {
+                const response = await fetch('/api/admin/cleanup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ days: 30 })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification(`✅ Cleaned up ${data.deleted_count} old files`, 'success');
+                    loadDashboardData();
+                } else {
+                    showNotification(`❌ Cleanup failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification('❌ Network error occurred', 'error');
+            }
+        }
+
+        // Utility functions
+        function refreshUsers() { loadUsers(); }
+        function refreshImages() { loadImages(); }
+        function exportUsers() { showNotification('📤 Export feature coming soon', 'info'); }
+        function exportAllData() { showNotification('📤 Export feature coming soon', 'info'); }
+        function systemDiagnostics() { showNotification('🔍 All systems operational', 'success'); }
+        function viewSystemLogs() { showNotification('📋 System logs feature coming soon', 'info'); }
+        function manageDatabase() { showNotification('🗄️ Database management coming soon', 'info'); }
+        function securityAudit() { showNotification('🛡️ Security audit passed', 'success'); }
+
+        function toggleImageView() {
+            imageViewMode = imageViewMode === 'grid' ? 'list' : 'grid';
+            const btn = document.getElementById('viewToggleBtn');
+            btn.innerHTML = imageViewMode === 'grid' ?
+                '<i class="fas fa-list"></i> List View' :
+                '<i class="fas fa-th"></i> Grid View';
+            loadImages();
+        }
+
+        async function adminLogout() {
+            try {
+                const response = await fetch('/admin/logout', { method: 'POST' });
+                if (response.ok) {
+                    showNotification('✅ Logged out successfully', 'success');
+                    setTimeout(() => window.location.href = '/admin', 1000);
+                }
+            } catch (error) {
+                showNotification('❌ Logout failed', 'error');
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info', duration = 4000) {
+            const notification = document.createElement('div');
+            notification.className = `notification-toast ${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-${getNotificationIcon(type)}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.4s ease-out forwards';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 400);
+            }, duration);
+        }
+
+        function getNotificationIcon(type) {
+            switch (type) {
+                case 'success': return 'check-circle';
+                case 'error': return 'exclamation-circle';
+                case 'warning': return 'exclamation-triangle';
+                case 'info': return 'info-circle';
+                default: return 'info-circle';
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>

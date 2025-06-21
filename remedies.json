@@ -1,0 +1,538 @@
+{
+  "acne": {
+    "primary": {
+      "title": "Turmeric-Honey Anti-Acne Mask",
+      "ingredients": ["1 tsp turmeric powder", "2 tbsp raw honey", "few drops lemon juice"],
+      "preparation": "Mix turmeric and honey, add lemon drops. Apply for 15 minutes.",
+      "application": "Apply on clean face, avoid eye area. Rinse with lukewarm water.",
+      "frequency": "Daily for 2 weeks, then 3x weekly",
+      "effectiveness": 85,
+      "difficulty": "Easy",
+      "time_to_prepare": "5 minutes",
+      "ancient_origin": "Ayurvedic tradition from ancient India"
+    },
+    "alternatives": [
+      {
+        "title": "Neem-Tulsi Face Wash",
+        "ingredients": ["10 neem leaves", "5 tulsi leaves", "1 cup water"],
+        "preparation": "Boil leaves in water for 10 minutes, strain and cool.",
+        "application": "Use as face wash twice daily",
+        "effectiveness": 80,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Multani Mitti Clay Mask",
+        "ingredients": ["2 tbsp multani mitti", "rose water", "1 tsp sandalwood powder"],
+        "preparation": "Mix clay with rose water to form paste, add sandalwood.",
+        "application": "Apply thick layer, let dry for 20 minutes, rinse gently.",
+        "effectiveness": 78,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Fenugreek Seed Paste",
+        "ingredients": ["2 tbsp fenugreek seeds", "water for soaking"],
+        "preparation": "Soak seeds overnight, grind to paste in morning.",
+        "application": "Apply paste for 20 minutes, rinse with cold water.",
+        "effectiveness": 75,
+        "difficulty": "Medium"
+      }
+    ]
+  },
+  "burn": {
+    "primary": {
+      "title": "Aloe Vera Cooling Treatment",
+      "ingredients": ["Fresh aloe vera gel", "1 tsp turmeric", "cold milk"],
+      "preparation": "Extract fresh aloe gel, mix with turmeric. Soak cloth in cold milk.",
+      "application": "Apply aloe mixture, then cold milk compress for 10 minutes.",
+      "frequency": "Every 2-3 hours until healing",
+      "effectiveness": 90,
+      "difficulty": "Easy",
+      "time_to_prepare": "10 minutes",
+      "ancient_origin": "Egyptian and Ayurvedic healing practices"
+    },
+    "alternatives": [
+      {
+        "title": "Coconut Oil-Camphor Balm",
+        "ingredients": ["2 tbsp coconut oil", "pinch of camphor", "1 tsp honey"],
+        "preparation": "Warm coconut oil slightly, dissolve camphor, add honey.",
+        "application": "Apply gently on cooled burn area, cover with clean cloth.",
+        "effectiveness": 85,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Potato Slice Remedy",
+        "ingredients": ["1 fresh potato", "cold water"],
+        "preparation": "Cut potato into thick slices, chill in cold water.",
+        "application": "Place cold potato slices on burn for 15 minutes.",
+        "effectiveness": 70,
+        "difficulty": "Very Easy"
+      },
+      {
+        "title": "Cucumber-Mint Cooling Paste",
+        "ingredients": ["1 cucumber", "10 mint leaves", "1 tbsp yogurt"],
+        "preparation": "Blend cucumber and mint, mix with yogurt.",
+        "application": "Apply thick layer, leave for 30 minutes.",
+        "effectiveness": 75,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "rash": {
+    "primary": {
+      "title": "Sandalwood-Rose Water Paste",
+      "ingredients": ["2 tbsp sandalwood powder", "rose water", "1 tsp coconut oil"],
+      "preparation": "Mix sandalwood with rose water to form smooth paste, add oil.",
+      "application": "Apply gently on affected area, let dry naturally.",
+      "frequency": "Twice daily until rash subsides",
+      "effectiveness": 88,
+      "difficulty": "Easy",
+      "time_to_prepare": "5 minutes",
+      "ancient_origin": "Traditional Indian Ayurvedic medicine"
+    },
+    "alternatives": [
+      {
+        "title": "Oatmeal Soothing Bath",
+        "ingredients": ["1 cup oatmeal", "warm water", "2 tbsp honey"],
+        "preparation": "Grind oatmeal to fine powder, mix with honey.",
+        "application": "Add to warm bath water, soak for 20 minutes.",
+        "effectiveness": 82,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Calendula-Chamomile Compress",
+        "ingredients": ["1 tbsp dried calendula", "1 tbsp chamomile", "2 cups water"],
+        "preparation": "Steep herbs in hot water for 15 minutes, strain.",
+        "application": "Soak clean cloth in tea, apply as warm compress.",
+        "effectiveness": 80,
+        "difficulty": "Medium"
+      },
+      {
+        "title": "Baking Soda Paste",
+        "ingredients": ["2 tbsp baking soda", "water", "1 tsp coconut oil"],
+        "preparation": "Mix baking soda with water to form paste, add oil.",
+        "application": "Apply for 10 minutes, rinse with cool water.",
+        "effectiveness": 72,
+        "difficulty": "Very Easy"
+      }
+    ]
+  },
+  "dark_spot": {
+    "primary": {
+      "title": "Lemon-Honey Brightening Mask",
+      "ingredients": ["1 tbsp fresh lemon juice", "2 tbsp honey", "1 tsp turmeric"],
+      "preparation": "Mix all ingredients until well combined.",
+      "application": "Apply on spots, leave for 20 minutes, rinse with lukewarm water.",
+      "frequency": "Every alternate night for 4 weeks",
+      "effectiveness": 83,
+      "difficulty": "Easy",
+      "time_to_prepare": "3 minutes",
+      "ancient_origin": "Traditional Middle Eastern and Indian beauty practices"
+    },
+    "alternatives": [
+      {
+        "title": "Papaya-Pineapple Enzyme Mask",
+        "ingredients": ["2 tbsp ripe papaya", "1 tbsp pineapple juice", "1 tsp honey"],
+        "preparation": "Mash papaya, mix with pineapple juice and honey.",
+        "application": "Apply for 15 minutes, massage gently before rinsing.",
+        "effectiveness": 85,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Tomato-Yogurt Bleaching Pack",
+        "ingredients": ["1 ripe tomato", "2 tbsp yogurt", "1 tsp gram flour"],
+        "preparation": "Blend tomato, mix with yogurt and gram flour.",
+        "application": "Apply thick layer, let dry for 25 minutes.",
+        "effectiveness": 78,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Potato-Cucumber Lightening Juice",
+        "ingredients": ["1 potato", "1 cucumber", "1 tsp lemon juice"],
+        "preparation": "Extract juice from potato and cucumber, add lemon.",
+        "application": "Apply with cotton pad, leave overnight.",
+        "effectiveness": 75,
+        "difficulty": "Medium"
+      }
+    ]
+  },
+  "dry_skin": {
+    "primary": {
+      "title": "Coconut Oil-Milk Cream Moisturizer",
+      "ingredients": ["2 tbsp coconut oil", "1 tbsp milk cream", "1 tsp honey"],
+      "preparation": "Warm coconut oil slightly, mix with cream and honey.",
+      "application": "Massage gently into skin before bedtime.",
+      "frequency": "Daily, especially after bathing",
+      "effectiveness": 92,
+      "difficulty": "Very Easy",
+      "time_to_prepare": "5 minutes",
+      "ancient_origin": "Traditional Ayurvedic skincare from Kerala, India"
+    },
+    "alternatives": [
+      {
+        "title": "Avocado-Olive Oil Mask",
+        "ingredients": ["1 ripe avocado", "1 tbsp olive oil", "1 tbsp yogurt"],
+        "preparation": "Mash avocado, mix with oil and yogurt until smooth.",
+        "application": "Apply thick layer, leave for 30 minutes.",
+        "effectiveness": 88,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Banana-Honey Hydrating Pack",
+        "ingredients": ["1 ripe banana", "2 tbsp honey", "1 tbsp milk"],
+        "preparation": "Mash banana thoroughly, mix with honey and milk.",
+        "application": "Apply for 20 minutes, rinse with lukewarm water.",
+        "effectiveness": 82,
+        "difficulty": "Very Easy"
+      },
+      {
+        "title": "Almond Oil-Rose Water Toner",
+        "ingredients": ["1 tbsp almond oil", "2 tbsp rose water", "1 tsp glycerin"],
+        "preparation": "Mix all ingredients in a small bottle, shake well.",
+        "application": "Apply with cotton pad after cleansing.",
+        "effectiveness": 85,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "wrinkles": {
+    "primary": {
+      "title": "Anti-Aging Saffron-Milk Mask",
+      "ingredients": ["5-6 saffron strands", "2 tbsp warm milk", "1 tsp honey", "1 tsp almond oil"],
+      "preparation": "Soak saffron in warm milk for 10 minutes, add honey and oil.",
+      "application": "Apply with gentle upward strokes, leave for 25 minutes.",
+      "frequency": "3 times weekly for visible results",
+      "effectiveness": 87,
+      "difficulty": "Easy",
+      "time_to_prepare": "15 minutes",
+      "ancient_origin": "Persian and Indian royal beauty treatments"
+    },
+    "alternatives": [
+      {
+        "title": "Egg White-Lemon Tightening Mask",
+        "ingredients": ["1 egg white", "1 tsp lemon juice", "1 tsp honey"],
+        "preparation": "Whisk egg white until frothy, add lemon and honey.",
+        "application": "Apply thin layer, let dry completely, rinse gently.",
+        "effectiveness": 82,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Grape-Yogurt Antioxidant Pack",
+        "ingredients": ["10 grapes", "2 tbsp yogurt", "1 tsp vitamin E oil"],
+        "preparation": "Crush grapes, mix with yogurt and vitamin E oil.",
+        "application": "Apply for 20 minutes, massage gently before rinsing.",
+        "effectiveness": 80,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "pimples": {
+    "primary": {
+      "title": "Tea Tree-Neem Spot Treatment",
+      "ingredients": ["2 drops tea tree oil", "1 tbsp neem oil", "1 tsp aloe gel"],
+      "preparation": "Mix oils with aloe gel until well combined.",
+      "application": "Apply directly on pimples with cotton swab.",
+      "frequency": "Twice daily until pimple heals",
+      "effectiveness": 89,
+      "difficulty": "Easy",
+      "time_to_prepare": "2 minutes",
+      "ancient_origin": "Australian Aboriginal and Indian traditional medicine"
+    },
+    "alternatives": [
+      {
+        "title": "Garlic-Honey Antibacterial Paste",
+        "ingredients": ["1 garlic clove", "1 tsp honey", "pinch of turmeric"],
+        "preparation": "Crush garlic, mix with honey and turmeric.",
+        "application": "Apply on pimple for 10 minutes, rinse thoroughly.",
+        "effectiveness": 85,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Ice-Green Tea Compress",
+        "ingredients": ["Green tea bag", "ice cubes", "clean cloth"],
+        "preparation": "Brew strong green tea, freeze in ice tray.",
+        "application": "Wrap ice in cloth, apply on pimple for 5 minutes.",
+        "effectiveness": 75,
+        "difficulty": "Very Easy"
+      }
+    ]
+  },
+  "blackheads": {
+    "primary": {
+      "title": "Activated Charcoal Peel-Off Mask",
+      "ingredients": ["1 tsp activated charcoal powder", "1 tbsp gelatin", "2 tbsp water"],
+      "preparation": "Dissolve gelatin in hot water, add charcoal powder.",
+      "application": "Apply thin layer, let dry for 15 minutes, peel off gently.",
+      "frequency": "Once weekly",
+      "effectiveness": 91,
+      "difficulty": "Medium",
+      "time_to_prepare": "10 minutes",
+      "ancient_origin": "Traditional detoxification practices from various cultures"
+    },
+    "alternatives": [
+      {
+        "title": "Baking Soda-Honey Scrub",
+        "ingredients": ["1 tbsp baking soda", "1 tbsp honey", "few drops water"],
+        "preparation": "Mix baking soda with honey, add water to form paste.",
+        "application": "Gently scrub in circular motions, rinse with warm water.",
+        "effectiveness": 83,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Oatmeal-Lemon Exfoliating Mask",
+        "ingredients": ["2 tbsp ground oatmeal", "1 tbsp lemon juice", "1 tbsp yogurt"],
+        "preparation": "Mix all ingredients to form thick paste.",
+        "application": "Apply and scrub gently, leave for 10 minutes.",
+        "effectiveness": 78,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "eczema": {
+    "primary": {
+      "title": "Coconut Oil-Turmeric Healing Balm",
+      "ingredients": ["3 tbsp coconut oil", "1 tsp turmeric", "1 tsp honey", "2 drops lavender oil"],
+      "preparation": "Melt coconut oil, mix with turmeric and honey, add lavender oil.",
+      "application": "Apply gently on affected areas, leave overnight.",
+      "frequency": "Daily until symptoms improve",
+      "effectiveness": 86,
+      "difficulty": "Easy",
+      "time_to_prepare": "8 minutes",
+      "ancient_origin": "Traditional Pacific Islander and Ayurvedic treatments"
+    },
+    "alternatives": [
+      {
+        "title": "Aloe-Chamomile Soothing Gel",
+        "ingredients": ["2 tbsp aloe vera gel", "1 tbsp chamomile tea", "1 tsp vitamin E oil"],
+        "preparation": "Brew strong chamomile tea, cool, mix with aloe and vitamin E.",
+        "application": "Apply multiple times daily on irritated skin.",
+        "effectiveness": 84,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Oatmeal-Milk Bath Soak",
+        "ingredients": ["1 cup oatmeal", "1 cup milk powder", "2 tbsp honey"],
+        "preparation": "Grind oatmeal finely, mix with milk powder and honey.",
+        "application": "Add to warm bath, soak for 20 minutes.",
+        "effectiveness": 80,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "psoriasis": {
+    "primary": {
+      "title": "Dead Sea Salt-Olive Oil Treatment",
+      "ingredients": ["2 tbsp Dead Sea salt", "3 tbsp olive oil", "1 tsp honey"],
+      "preparation": "Mix salt with olive oil and honey to form scrub.",
+      "application": "Gently massage on affected areas, leave for 15 minutes.",
+      "frequency": "3 times weekly",
+      "effectiveness": 82,
+      "difficulty": "Easy",
+      "time_to_prepare": "5 minutes",
+      "ancient_origin": "Ancient Middle Eastern therapeutic practices"
+    },
+    "alternatives": [
+      {
+        "title": "Turmeric-Neem Oil Paste",
+        "ingredients": ["1 tbsp turmeric", "2 tbsp neem oil", "1 tsp coconut oil"],
+        "preparation": "Mix turmeric with oils to form smooth paste.",
+        "application": "Apply on patches, cover with cloth, leave for 30 minutes.",
+        "effectiveness": 79,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Aloe-Apple Cider Vinegar Toner",
+        "ingredients": ["2 tbsp aloe vera gel", "1 tbsp apple cider vinegar", "1 tbsp water"],
+        "preparation": "Mix all ingredients until well combined.",
+        "application": "Apply with cotton pad, let air dry.",
+        "effectiveness": 75,
+        "difficulty": "Very Easy"
+      }
+    ]
+  },
+  "sunburn": {
+    "primary": {
+      "title": "Cucumber-Yogurt Cooling Mask",
+      "ingredients": ["1 cucumber", "3 tbsp yogurt", "1 tbsp aloe gel", "1 tsp honey"],
+      "preparation": "Blend cucumber, mix with yogurt, aloe, and honey.",
+      "application": "Apply thick layer on sunburned areas, leave for 30 minutes.",
+      "frequency": "2-3 times daily until healing",
+      "effectiveness": 90,
+      "difficulty": "Easy",
+      "time_to_prepare": "10 minutes",
+      "ancient_origin": "Mediterranean and Middle Eastern cooling treatments"
+    },
+    "alternatives": [
+      {
+        "title": "Cold Milk-Honey Compress",
+        "ingredients": ["1 cup cold milk", "2 tbsp honey", "clean cloth"],
+        "preparation": "Mix cold milk with honey.",
+        "application": "Soak cloth in mixture, apply as compress for 20 minutes.",
+        "effectiveness": 87,
+        "difficulty": "Very Easy"
+      },
+      {
+        "title": "Green Tea-Mint Ice Cubes",
+        "ingredients": ["2 green tea bags", "10 mint leaves", "2 cups water"],
+        "preparation": "Brew strong tea with mint, freeze in ice cube trays.",
+        "application": "Wrap ice cubes in cloth, apply on sunburn.",
+        "effectiveness": 83,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "cuts": {
+    "primary": {
+      "title": "Turmeric-Honey Antiseptic Paste",
+      "ingredients": ["1 tsp turmeric powder", "1 tbsp honey", "few drops coconut oil"],
+      "preparation": "Mix turmeric with honey, add coconut oil for consistency.",
+      "application": "Clean wound, apply paste, cover with clean bandage.",
+      "frequency": "Change dressing twice daily",
+      "effectiveness": 88,
+      "difficulty": "Easy",
+      "time_to_prepare": "3 minutes",
+      "ancient_origin": "Traditional Indian wound healing practices"
+    },
+    "alternatives": [
+      {
+        "title": "Aloe-Calendula Healing Gel",
+        "ingredients": ["2 tbsp aloe vera gel", "1 tsp calendula oil", "1 drop tea tree oil"],
+        "preparation": "Mix aloe with calendula and tea tree oil.",
+        "application": "Apply thin layer on clean cut, cover if needed.",
+        "effectiveness": 85,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Plantain Leaf Poultice",
+        "ingredients": ["Fresh plantain leaves", "clean cloth", "warm water"],
+        "preparation": "Crush fresh plantain leaves to release juices.",
+        "application": "Place crushed leaves on cut, secure with cloth.",
+        "effectiveness": 82,
+        "difficulty": "Medium"
+      }
+    ]
+  },
+  "bruises": {
+    "primary": {
+      "title": "Arnica-Comfrey Cold Compress",
+      "ingredients": ["1 tbsp arnica oil", "1 tbsp comfrey oil", "ice pack", "cloth"],
+      "preparation": "Mix oils, apply to cloth, place over ice pack.",
+      "application": "Apply cold compress for 15 minutes, 3 times daily.",
+      "frequency": "Every 4-6 hours for first 48 hours",
+      "effectiveness": 89,
+      "difficulty": "Easy",
+      "time_to_prepare": "5 minutes",
+      "ancient_origin": "European herbal medicine traditions"
+    },
+    "alternatives": [
+      {
+        "title": "Pineapple-Ginger Anti-inflammatory Paste",
+        "ingredients": ["2 tbsp fresh pineapple", "1 tsp ginger juice", "1 tbsp honey"],
+        "preparation": "Mash pineapple, extract ginger juice, mix with honey.",
+        "application": "Apply on bruise, cover with cloth for 20 minutes.",
+        "effectiveness": 83,
+        "difficulty": "Medium"
+      },
+      {
+        "title": "Cabbage Leaf Wrap",
+        "ingredients": ["Fresh cabbage leaves", "warm water", "bandage"],
+        "preparation": "Blanch cabbage leaves in warm water until soft.",
+        "application": "Place warm leaves on bruise, secure with bandage.",
+        "effectiveness": 78,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "sprains": {
+    "primary": {
+      "title": "Epsom Salt-Lavender Soak",
+      "ingredients": ["1 cup Epsom salt", "10 drops lavender oil", "warm water", "basin"],
+      "preparation": "Dissolve Epsom salt in warm water, add lavender oil.",
+      "application": "Soak affected area for 20 minutes, twice daily.",
+      "frequency": "Twice daily until swelling reduces",
+      "effectiveness": 86,
+      "difficulty": "Very Easy",
+      "time_to_prepare": "5 minutes",
+      "ancient_origin": "Traditional European spa treatments"
+    },
+    "alternatives": [
+      {
+        "title": "Ginger-Turmeric Anti-inflammatory Paste",
+        "ingredients": ["2 tbsp ginger paste", "1 tbsp turmeric", "2 tbsp coconut oil"],
+        "preparation": "Mix ginger paste with turmeric and coconut oil.",
+        "application": "Apply thick layer, wrap with cloth, leave for 30 minutes.",
+        "effectiveness": 84,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Cold-Hot Alternating Therapy",
+        "ingredients": ["Ice pack", "hot water bottle", "towels"],
+        "preparation": "Prepare ice pack and hot water bottle.",
+        "application": "Apply cold for 10 minutes, then hot for 10 minutes.",
+        "effectiveness": 80,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "scars": {
+    "primary": {
+      "title": "Rosehip-Vitamin E Scar Oil",
+      "ingredients": ["2 tbsp rosehip oil", "1 tsp vitamin E oil", "3 drops frankincense oil"],
+      "preparation": "Mix all oils in a small dark bottle.",
+      "application": "Massage gently into scar tissue twice daily.",
+      "frequency": "Daily for 3-6 months for best results",
+      "effectiveness": 85,
+      "difficulty": "Easy",
+      "time_to_prepare": "3 minutes",
+      "ancient_origin": "Traditional aromatherapy and herbal medicine"
+    },
+    "alternatives": [
+      {
+        "title": "Onion-Honey Scar Reduction Paste",
+        "ingredients": ["1 small onion", "2 tbsp honey", "1 tsp lemon juice"],
+        "preparation": "Extract onion juice, mix with honey and lemon.",
+        "application": "Apply on scar, leave for 15 minutes, rinse gently.",
+        "effectiveness": 78,
+        "difficulty": "Medium"
+      },
+      {
+        "title": "Aloe-Cocoa Butter Healing Balm",
+        "ingredients": ["2 tbsp aloe vera gel", "1 tbsp cocoa butter", "1 tsp coconut oil"],
+        "preparation": "Melt cocoa butter, mix with aloe and coconut oil.",
+        "application": "Apply and massage gently into scar tissue.",
+        "effectiveness": 82,
+        "difficulty": "Easy"
+      }
+    ]
+  },
+  "insect_bites": {
+    "primary": {
+      "title": "Baking Soda-Oatmeal Soothing Paste",
+      "ingredients": ["1 tbsp baking soda", "1 tbsp ground oatmeal", "water", "1 tsp honey"],
+      "preparation": "Mix baking soda and oatmeal, add water to form paste, mix in honey.",
+      "application": "Apply on bite, leave for 15 minutes, rinse with cool water.",
+      "frequency": "Apply as needed for itching relief",
+      "effectiveness": 87,
+      "difficulty": "Very Easy",
+      "time_to_prepare": "3 minutes",
+      "ancient_origin": "Traditional Native American remedies"
+    },
+    "alternatives": [
+      {
+        "title": "Peppermint-Tea Tree Cooling Gel",
+        "ingredients": ["2 tbsp aloe gel", "3 drops peppermint oil", "2 drops tea tree oil"],
+        "preparation": "Mix aloe gel with essential oils.",
+        "application": "Apply small amount on bite for instant cooling relief.",
+        "effectiveness": 84,
+        "difficulty": "Easy"
+      },
+      {
+        "title": "Apple Cider Vinegar-Lavender Spray",
+        "ingredients": ["2 tbsp apple cider vinegar", "1 tbsp water", "5 drops lavender oil"],
+        "preparation": "Mix ingredients in spray bottle, shake well.",
+        "application": "Spray on affected area, let air dry.",
+        "effectiveness": 80,
+        "difficulty": "Very Easy"
+      }
+    ]
+  }
+}

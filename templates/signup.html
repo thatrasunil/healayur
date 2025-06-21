@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 Sign Up - Heal Ayur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <meta name="theme-color" content="#4caf50">
+</head>
+<body>
+  <!-- Background Effects -->
+  <canvas id="bgCanvas" class="background-animation"></canvas>
+  <div class="particles-container" id="particlesContainer"></div>
+  <div class="gradient-orb orb-1"></div>
+  <div class="gradient-orb orb-2"></div>
+  <div class="gradient-orb orb-3"></div>
+
+  <!-- Signup Container -->
+  <div class="auth-container animate-slideInUp" style="max-width: 450px;">
+    <div class="auth-header">
+      <div class="logo">
+        <i class="fas fa-leaf animate-pulse"></i>
+      </div>
+      <h1 class="auth-title">Join Heal Ayur</h1>
+      <p class="auth-subtitle">Start your journey to natural healing</p>
+    </div>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="auth-form">
+      <div class="form-group">
+        <label for="fullName" class="form-label">
+          <i class="fas fa-user"></i> Full Name
+        </label>
+        <input 
+          type="text" 
+          id="fullName" 
+          name="fullName" 
+          class="form-input" 
+          placeholder="Enter your full name"
+          required
+          autocomplete="name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="username" class="form-label">
+          <i class="fas fa-at"></i> Username
+        </label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-input" 
+          placeholder="Choose a username"
+          required
+          autocomplete="username"
+          pattern="[a-zA-Z0-9_]{3,20}"
+          title="Username must be 3-20 characters, letters, numbers, and underscores only"
+        >
+        <div id="usernameStatus" class="input-status"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">
+          <i class="fas fa-envelope"></i> Email Address
+        </label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-input" 
+          placeholder="Enter your email address"
+          required
+          autocomplete="email"
+        >
+        <div id="emailStatus" class="input-status"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">
+          <i class="fas fa-lock"></i> Password
+        </label>
+        <div style="position: relative;">
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class="form-input" 
+            placeholder="Create a strong password"
+            required
+            autocomplete="new-password"
+            minlength="8"
+          >
+          <button 
+            type="button" 
+            id="togglePassword" 
+            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer;"
+          >
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <div id="passwordStrength" class="password-strength">
+          <div class="strength-bar">
+            <div class="strength-fill" id="strengthFill"></div>
+          </div>
+          <div class="strength-text" id="strengthText">Password strength</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">
+          <i class="fas fa-lock"></i> Confirm Password
+        </label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          name="confirmPassword" 
+          class="form-input" 
+          placeholder="Confirm your password"
+          required
+          autocomplete="new-password"
+        >
+        <div id="confirmStatus" class="input-status"></div>
+      </div>
+
+      <div class="form-group">
+        <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="agreeTerms" name="agreeTerms" required style="accent-color: var(--primary-color); margin-top: 0.2rem;">
+          <span style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">
+            I agree to the <a href="#" style="color: var(--primary-color);">Terms of Service</a> 
+            and <a href="#" style="color: var(--primary-color);">Privacy Policy</a>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="newsletter" name="newsletter" style="accent-color: var(--primary-color);">
+          <span style="font-size: 0.9rem; color: var(--text-secondary);">
+            Subscribe to healing tips and updates
+          </span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" id="signupBtn">
+        <i class="fas fa-user-plus"></i>
+        Create Account
+      </button>
+    </form>
+
+    <!-- Social Signup -->
+    <div style="margin: 2rem 0; text-align: center;">
+      <div style="position: relative;">
+        <hr style="border: none; height: 1px; background: rgba(76, 175, 80, 0.2);">
+        <span style="position: absolute; top: -0.5rem; left: 50%; transform: translateX(-50%); background: var(--bg-card); padding: 0 1rem; color: var(--text-muted); font-size: 0.9rem;">
+          Or sign up with
+        </span>
+      </div>
+    </div>
+
+    <!-- OAuth signup removed - using only regular authentication -->
+
+    <!-- Login Link -->
+    <div style="text-align: center; padding-top: 1rem; border-top: 1px solid rgba(76, 175, 80, 0.2);">
+      <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+        Already have an account?
+      </p>
+      <a href="{{ url_for('login') }}" class="btn btn-secondary">
+        <i class="fas fa-sign-in-alt"></i>
+        Sign In
+      </a>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="text-align: center; color: white;">
+      <div class="loading-spinner"></div>
+      <p>Creating your account...</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+  <script>
+    // Initialize background effects
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeBackground();
+      createParticles();
+      
+      // Form elements
+      const signupForm = document.getElementById('signupForm');
+      const signupBtn = document.getElementById('signupBtn');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      
+      // Password elements
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const strengthFill = document.getElementById('strengthFill');
+      const strengthText = document.getElementById('strengthText');
+      
+      // Status elements
+      const usernameStatus = document.getElementById('usernameStatus');
+      const emailStatus = document.getElementById('emailStatus');
+      const confirmStatus = document.getElementById('confirmStatus');
+      
+      // Password toggle
+      togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+      });
+      
+      // Password strength checker
+      passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        const strength = calculatePasswordStrength(password);
+        updatePasswordStrength(strength);
+      });
+      
+      // Confirm password checker
+      confirmPasswordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        const confirm = confirmPasswordInput.value;
+        
+        if (confirm.length > 0) {
+          if (password === confirm) {
+            confirmStatus.innerHTML = '<i class="fas fa-check" style="color: var(--success-color);"></i> Passwords match';
+            confirmStatus.style.color = 'var(--success-color)';
+          } else {
+            confirmStatus.innerHTML = '<i class="fas fa-times" style="color: var(--error-color);"></i> Passwords do not match';
+            confirmStatus.style.color = 'var(--error-color)';
+          }
+        } else {
+          confirmStatus.innerHTML = '';
+        }
+      });
+      
+      // Username availability checker
+      let usernameTimeout;
+      document.getElementById('username').addEventListener('input', (e) => {
+        clearTimeout(usernameTimeout);
+        const username = e.target.value;
+        
+        if (username.length >= 3) {
+          usernameTimeout = setTimeout(() => checkUsernameAvailability(username), 500);
+        } else {
+          usernameStatus.innerHTML = '';
+        }
+      });
+      
+      // Email validation
+      let emailTimeout;
+      document.getElementById('email').addEventListener('input', (e) => {
+        clearTimeout(emailTimeout);
+        const email = e.target.value;
+        
+        if (email.includes('@')) {
+          emailTimeout = setTimeout(() => validateEmail(email), 500);
+        } else {
+          emailStatus.innerHTML = '';
+        }
+      });
+      
+      // Form submission
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(signupForm);
+        const data = {
+          full_name: formData.get('fullName'),
+          username: formData.get('username'),
+          email: formData.get('email'),
+          password: formData.get('password'),
+          confirm_password: formData.get('confirmPassword'),
+          agree_terms: formData.get('agreeTerms') === 'on',
+          newsletter: formData.get('newsletter') === 'on'
+        };
+        
+        // Validation
+        if (data.password !== data.confirm_password) {
+          showNotification('❌ Passwords do not match', 'error');
+          return;
+        }
+        
+        if (!data.agree_terms) {
+          showNotification('❌ Please agree to the terms and conditions', 'error');
+          return;
+        }
+        
+        // Show loading
+        signupBtn.classList.add('loading');
+        signupBtn.disabled = true;
+        loadingOverlay.style.display = 'flex';
+        
+        try {
+          const response = await fetch('/api/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            showNotification('✅ Account created successfully! Redirecting...', 'success');
+            setTimeout(() => {
+              window.location.href = '{{ url_for("login") }}';
+            }, 1000);
+          } else {
+            showNotification('❌ ' + result.error, 'error');
+          }
+          
+        } catch (error) {
+          showNotification('❌ Network error. Please try again.', 'error');
+        } finally {
+          signupBtn.classList.remove('loading');
+          signupBtn.disabled = false;
+          loadingOverlay.style.display = 'none';
+        }
+      });
+      
+      // Auto-focus first input
+      document.getElementById('fullName').focus();
+    });
+    
+    function calculatePasswordStrength(password) {
+      let score = 0;
+      if (password.length >= 8) score += 1;
+      if (password.length >= 12) score += 1;
+      if (/[a-z]/.test(password)) score += 1;
+      if (/[A-Z]/.test(password)) score += 1;
+      if (/[0-9]/.test(password)) score += 1;
+      if (/[^A-Za-z0-9]/.test(password)) score += 1;
+      return score;
+    }
+    
+    function updatePasswordStrength(strength) {
+      const colors = ['#f44336', '#ff9800', '#ffc107', '#8bc34a', '#4caf50', '#2e7d32'];
+      const texts = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+      
+      strengthFill.style.width = (strength / 6 * 100) + '%';
+      strengthFill.style.background = colors[strength] || colors[0];
+      strengthText.textContent = texts[strength] || texts[0];
+      strengthText.style.color = colors[strength] || colors[0];
+    }
+    
+    async function checkUsernameAvailability(username) {
+      try {
+        const response = await fetch(`/api/check-username?username=${encodeURIComponent(username)}`);
+        const result = await response.json();
+        
+        if (result.available) {
+          usernameStatus.innerHTML = '<i class="fas fa-check" style="color: var(--success-color);"></i> Username available';
+          usernameStatus.style.color = 'var(--success-color)';
+        } else {
+          usernameStatus.innerHTML = '<i class="fas fa-times" style="color: var(--error-color);"></i> Username taken';
+          usernameStatus.style.color = 'var(--error-color)';
+        }
+      } catch (error) {
+        usernameStatus.innerHTML = '';
+      }
+    }
+    
+    async function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(email)) {
+        emailStatus.innerHTML = '<i class="fas fa-check" style="color: var(--success-color);"></i> Valid email';
+        emailStatus.style.color = 'var(--success-color)';
+      } else {
+        emailStatus.innerHTML = '<i class="fas fa-times" style="color: var(--error-color);"></i> Invalid email';
+        emailStatus.style.color = 'var(--error-color)';
+      }
+    }
+
+    // OAuth functionality removed - using only regular authentication
+  </script>
+  
+  <style>
+    .input-status {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      min-height: 1rem;
+    }
+    
+    .password-strength {
+      margin-top: 0.5rem;
+    }
+    
+    .strength-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(76, 175, 80, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.25rem;
+    }
+    
+    .strength-fill {
+      height: 100%;
+      width: 0%;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    
+    .strength-text {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  </style>
+</body>
+</html>
