@@ -31,7 +31,7 @@ Procfile
 render.yaml
 DEPLOYMENT_GUIDE.md
 OAUTH_SETUP.md
-requirements.txt
+requirements-full.txt
 ai_analysis_*.py
 auth.py
 model.py
