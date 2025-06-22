@@ -1503,14 +1503,31 @@
       /* Optimize performance - disable heavy animations on mobile */
       .gradient-orb,
       .floating-particles,
-      .background-animation {
+      .background-animation,
+      .particle,
+      *[class*="glow"],
+      *[class*="pulse"],
+      *[class*="bounce"] {
         display: none !important;
+        animation: none !important;
       }
 
       /* Simplify animations for better performance */
       * {
-        animation-duration: 0.3s !important;
-        transition-duration: 0.3s !important;
+        animation-duration: 0.2s !important;
+        transition-duration: 0.2s !important;
+      }
+
+      /* Use simple background on mobile */
+      body {
+        background: #f8f9fa !important;
+      }
+
+      /* Remove transform animations that cause lag */
+      .btn:hover,
+      .card:hover,
+      .contact-btn:hover {
+        transform: none !important;
       }
 
       /* Fix admin page mobile display */
@@ -1784,14 +1801,7 @@
       }
     }
 
-    @keyframes glow {
-      from {
-        box-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 15px #ffd700;
-      }
-      to {
-        box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
-      }
-    }
+    /* Glow animation removed for better mobile performance */
   </style>
 </head>
 <body>
@@ -2128,7 +2138,7 @@
           </label>
         </div>
 
-        <button type="button" class="btn btn-primary" id="analyzeBtn" style="display: none; font-size: 1.3rem; padding: 1.5rem 3rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none; border-radius: 25px; box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); animation: glow 2s ease-in-out infinite alternate; transform: scale(1.05);">
+        <button type="button" class="btn btn-primary" id="analyzeBtn" style="display: none; font-size: 1.3rem; padding: 1.5rem 3rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none; border-radius: 25px; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);">
           <i class="fas fa-brain" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>
           {% if user %}
           🧠 Analyze with Premium AI
@@ -2356,7 +2366,7 @@
 
         <div style="margin: 2rem 0;">
           <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-            <a href="/signup" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none; animation: glow 2s ease-in-out infinite alternate;">
+            <a href="/signup" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem; background: linear-gradient(135deg, #4caf50, #81c784); border: none;">
               <i class="fas fa-user-plus"></i> Create Free Account
             </a>
             <a href="/login" class="btn btn-secondary" style="font-size: 1.1rem; padding: 1rem 2rem;">
@@ -2806,7 +2816,7 @@
       // Remove pulse animation after 10 seconds
       setTimeout(() => {
         if (analyzeBtn) {
-          analyzeBtn.style.animation = 'glow 2s ease-in-out infinite alternate';
+          // Animation removed for better mobile performance
         }
       }, 10000);
 
