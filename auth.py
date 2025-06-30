@@ -250,26 +250,33 @@ class AuthManager:
         except Exception as e:
             return {'success': False, 'error': str(e)}
     
-    def save_analysis(self, user_id, condition, confidence, processing_time, remedies):
-        """Save analysis result to user history"""
+    def save_analysis(self, user_id, condition, confidence, processing_time, remedies, image_filename=None):
+        """Save analysis result to user history with image filename"""
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            
+
+            # Check if image_filename column exists, if not add it
+            cursor.execute("PRAGMA table_info(analysis_history)")
+            columns = [column[1] for column in cursor.fetchall()]
+
+            if 'image_filename' not in columns:
+                cursor.execute('ALTER TABLE analysis_history ADD COLUMN image_filename TEXT')
+
             cursor.execute('''
-                INSERT INTO analysis_history 
-                (user_id, condition_detected, confidence_score, processing_time, remedies_suggested)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (user_id, condition, confidence, processing_time, json.dumps(remedies)))
-            
+                INSERT INTO analysis_history
+                (user_id, condition_detected, confidence_score, processing_time, remedies_suggested, image_filename)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (user_id, condition, confidence, processing_time, json.dumps(remedies), image_filename))
+
             # Update user's total analyses count
             cursor.execute('''
                 UPDATE users SET total_analyses = total_analyses + 1 WHERE id = ?
             ''', (user_id,))
-            
+
             conn.commit()
             conn.close()
-            
+
             return {'success': True}
             
         except Exception as e:

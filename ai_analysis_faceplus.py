@@ -221,7 +221,7 @@ class HybridSkinAnalyzer:
                     'api_secret': self.faceplus_api_secret,
                     'return_attributes': 'gender,age,emotion,beauty,skinstatus'
                 }
-                response = requests.post(self.faceplus_detect_url, data=data, files=files, timeout=10)
+                response = requests.post(self.faceplus_detect_url, data=data, files=files, timeout=6)  # Mobile-optimized timeout
 
                 if response.status_code != 200:
                     raise Exception(f"File upload method failed: {response.status_code}")
@@ -237,7 +237,7 @@ class HybridSkinAnalyzer:
                         'image_base64': base64.b64encode(image_data).decode('utf-8'),
                         'return_attributes': 'gender,age,emotion,beauty,skinstatus'
                     }
-                    response = requests.post(self.faceplus_detect_url, data=data, timeout=10)
+                    response = requests.post(self.faceplus_detect_url, data=data, timeout=6)  # Mobile-optimized timeout
 
                     if response.status_code != 200:
                         raise Exception(f"Base64 method failed: {response.status_code}")

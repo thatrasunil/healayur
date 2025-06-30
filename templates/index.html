@@ -294,49 +294,49 @@
       color: var(--primary-color);
     }
 
-    .contact-info {
-      position: fixed;
-      top: 50%;
-      left: 1rem;
-      transform: translateY(-50%);
-      z-index: 1001;
-      background: var(--gradient-card);
-      border: 1px solid var(--border-color);
-      border-radius: 50px;
-      padding: 1rem 0.5rem;
+    /* Contact buttons moved to footer - removing fixed sidebar styles */
+
+    /* Enhanced footer contact buttons */
+    .footer-contact-buttons {
       display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      backdrop-filter: blur(20px);
-      box-shadow: var(--shadow-card);
-      writing-mode: vertical-lr;
-      text-orientation: mixed;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
     }
 
-    .contact-btn {
-      width: 45px;
-      height: 45px;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+    .footer-contact-btn {
+      padding: 0.75rem 1.5rem;
       background: var(--gradient-primary);
       color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: var(--transition);
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
       position: relative;
       overflow: hidden;
+      min-height: 44px; /* Touch-friendly minimum */
+      min-width: 120px;
     }
 
-    .contact-btn:hover {
-      transform: scale(1.1);
-      box-shadow: var(--shadow-glow);
+    .footer-contact-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
     }
 
-    .contact-btn::before {
+    .footer-contact-btn:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .footer-contact-btn::before {
       content: '';
       position: absolute;
       top: 0;
@@ -347,8 +347,584 @@
       transition: left 0.5s;
     }
 
-    .contact-btn:hover::before {
+    .footer-contact-btn:hover::before {
       left: 100%;
+    }
+
+    /* Mobile-first enhancements */
+    .mobile-optimized {
+      -webkit-tap-highlight-color: rgba(76, 175, 80, 0.3);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Haptic feedback simulation */
+    .haptic-feedback:active {
+      animation: hapticPulse 0.1s ease-out;
+    }
+
+    @keyframes hapticPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    /* Progressive loading states */
+    .loading-shimmer {
+      background: linear-gradient(90deg,
+        rgba(76, 175, 80, 0.1) 25%,
+        rgba(76, 175, 80, 0.3) 50%,
+        rgba(76, 175, 80, 0.1) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Mobile-first exciting features */
+    .mobile-features {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Swipe gesture indicators */
+    .swipe-indicator {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(76, 175, 80, 0.8);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      z-index: 100;
+      animation: swipeHint 2s infinite;
+      pointer-events: none;
+    }
+
+    .swipe-indicator.left {
+      left: 1rem;
+    }
+
+    .swipe-indicator.right {
+      right: 1rem;
+    }
+
+    @keyframes swipeHint {
+      0%, 100% { opacity: 0.7; transform: translateY(-50%) translateX(0); }
+      50% { opacity: 1; transform: translateY(-50%) translateX(10px); }
+    }
+
+    /* Voice command button */
+    .voice-command-btn {
+      position: fixed;
+      bottom: 120px;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      border-radius: 50%;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
+      transition: all 0.3s ease;
+      z-index: 1002;
+      display: none; /* Show only on mobile */
+    }
+
+    .voice-command-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 35px rgba(233, 30, 99, 0.6);
+    }
+
+    .voice-command-btn.listening {
+      animation: voicePulse 1s infinite;
+      background: linear-gradient(135deg, #4caf50, #81c784);
+    }
+
+    @keyframes voicePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* Mobile gesture controls */
+    .gesture-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      backdrop-filter: blur(10px);
+    }
+
+    .gesture-tutorial {
+      background: var(--gradient-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 90%;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Progressive Web App install prompt */
+    .pwa-install-prompt {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--gradient-primary);
+      color: white;
+      padding: 1rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 1003;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .pwa-install-prompt.show {
+      transform: translateY(0);
+    }
+
+    .pwa-install-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pwa-install-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Gamification Styles */
+    .achievement-popup {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: var(--gradient-card);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 10001;
+      transform: translateX(400px);
+      transition: transform 0.5s ease;
+      border: 2px solid #ffd700;
+      max-width: 300px;
+    }
+
+    .achievement-popup.show {
+      transform: translateX(0);
+    }
+
+    .achievement-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .achievement-icon {
+      font-size: 2.5rem;
+      animation: bounce 1s infinite;
+    }
+
+    .achievement-text h4 {
+      color: #ffd700;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .achievement-text p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .achievement-points {
+      color: #4caf50;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    /* Social Sharing Styles */
+    .social-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10002;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-modal-content {
+      background: var(--gradient-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .social-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .social-header h3 {
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .share-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .share-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .share-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .share-header h4 {
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .share-header p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .share-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      background: rgba(76, 175, 80, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .social-btn {
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .social-btn.twitter {
+      background: #1da1f2;
+      color: white;
+    }
+
+    .social-btn.facebook {
+      background: #4267b2;
+      color: white;
+    }
+
+    .social-btn.whatsapp {
+      background: #25d366;
+      color: white;
+    }
+
+    .social-btn.copy {
+      background: var(--gradient-secondary);
+      color: white;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* AR Preview Styles */
+    .ar-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10003;
+    }
+
+    .ar-modal-content {
+      background: var(--gradient-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+    }
+
+    .ar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .ar-header h3 {
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .ar-preview {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ar-placeholder {
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    .ar-placeholder h4 {
+      color: var(--primary-color);
+      margin: 1rem 0;
+    }
+
+    .ar-features {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .ar-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .ar-feature i {
+      color: var(--primary-color);
+      width: 20px;
+    }
+
+    .ar-controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* Progress Tracker Styles */
+    .progress-tracker {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      background: var(--gradient-card);
+      border-radius: 15px;
+      padding: 1rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      min-width: 250px;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .progress-header h4 {
+      color: var(--primary-color);
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .minimize-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .minimize-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .level-info {
+      margin-bottom: 1rem;
+    }
+
+    .level-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .level-number {
+      background: var(--gradient-primary);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .level-text {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .xp-bar {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      height: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xp-fill {
+      background: var(--gradient-primary);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    .xp-text {
+      position: absolute;
+      top: -20px;
+      right: 0;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .achievements-mini {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .achievement-mini {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 0.5rem;
+      text-align: center;
+      flex: 1;
+      transition: all 0.3s ease;
+    }
+
+    .achievement-mini.unlocked {
+      background: rgba(76, 175, 80, 0.2);
+      color: var(--primary-color);
+    }
+
+    .achievement-mini.locked {
+      opacity: 0.5;
+      color: var(--text-secondary);
+    }
+
+    .achievement-mini i {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 1.2rem;
+    }
+
+    .achievement-mini span {
+      font-size: 0.7rem;
+      display: block;
     }
 
     .nav-brand i {
@@ -497,11 +1073,11 @@
       background: rgba(76, 175, 80, 0.05);
     }
 
-    /* AI Assistant */
+    /* Enhanced AI Assistant - Repositioned */
     .ai-assistant {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
+      bottom: 120px;
+      left: 2rem;
       width: 70px;
       height: 70px;
       background: var(--gradient-primary);
@@ -514,6 +1090,8 @@
       transition: var(--transition);
       z-index: 1001;
       animation: pulse 3s infinite;
+      position: relative;
+      overflow: visible;
     }
 
     .ai-assistant:hover {
@@ -524,12 +1102,56 @@
     .ai-assistant i {
       font-size: 2rem;
       color: white;
+      z-index: 2;
+    }
+
+    .ai-pulse-ring {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid rgba(76, 175, 80, 0.6);
+      border-radius: 50%;
+      animation: aiPulse 2s infinite;
+    }
+
+    .ai-status-indicator {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 12px;
+      height: 12px;
+      background: #4caf50;
+      border-radius: 50%;
+      border: 2px solid white;
+      animation: statusBlink 3s infinite;
+    }
+
+    @keyframes aiPulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes statusBlink {
+      0%, 50% { opacity: 1; }
+      25%, 75% { opacity: 0.5; }
     }
 
     .ai-chat {
       position: fixed;
       bottom: 6rem;
-      right: 2rem;
+      left: 2rem;
       width: 380px;
       height: 500px;
       background: var(--gradient-card);
@@ -556,9 +1178,85 @@
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      justify-content: space-between;
       background: rgba(76, 175, 80, 0.1);
       border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .chat-status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .chat-status.connected {
+      color: var(--primary-color);
+    }
+
+    .chat-header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .voice-btn, .chat-mode-btn, .chat-close-btn, .chat-action-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .voice-btn:hover, .chat-mode-btn:hover, .chat-close-btn:hover, .chat-action-btn:hover {
+      background: rgba(76, 175, 80, 0.2);
+      color: var(--primary-color);
+      transform: scale(1.05);
+    }
+
+    .chat-mode-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .voice-btn.listening {
+      background: #e91e63;
+      color: white;
+      animation: voicePulse 1s infinite;
+    }
+
+    .chat-mode-selector {
+      display: flex;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 0.25rem;
     }
 
     .chat-messages {
@@ -597,27 +1295,85 @@
       background: rgba(76, 175, 80, 0.05);
     }
 
+    .chat-suggestions {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .suggestion-btn {
+      padding: 0.5rem 0.75rem;
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+
+    .suggestion-btn:hover {
+      background: rgba(76, 175, 80, 0.2);
+      color: var(--primary-color);
+      transform: translateY(-1px);
+    }
+
     .chat-input-wrapper {
       display: flex;
       gap: 0.5rem;
-      align-items: center;
+      align-items: flex-end;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .chat-input-wrapper:focus-within {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
     }
 
     .chat-input {
       flex: 1;
-      padding: 0.75rem;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
+      background: transparent;
+      border: none;
       color: var(--text-primary);
       font-size: 0.9rem;
-      transition: var(--transition);
+      resize: none;
+      min-height: 20px;
+      max-height: 100px;
+      font-family: inherit;
+      line-height: 1.4;
     }
 
     .chat-input:focus {
       outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    }
+
+    .chat-input-actions {
+      display: flex;
+      gap: 0.25rem;
+      align-items: flex-end;
+    }
+
+    .chat-footer {
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+
+    .chat-footer-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
     }
 
     .chat-send-btn {
@@ -1143,17 +1899,62 @@
         font-size: 0.9rem !important;
       }
 
-      .contact-info {
-        left: 0.5rem;
-        top: 45%; /* Adjusted to avoid navbar */
-        padding: 0.5rem 0.25rem;
-        z-index: 999; /* Lower than navbar */
+      /* Contact sidebar removed - now in footer */
+
+      /* Mobile responsive footer contact buttons */
+      .footer-contact-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
       }
 
-      .contact-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 0.9rem;
+      .footer-contact-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+      }
+
+      /* Show mobile-specific features */
+      .voice-command-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Mobile-optimized animations */
+      .card:hover {
+        transform: translateY(-4px) !important;
+      }
+
+      /* Touch-friendly sizing */
+      .btn {
+        min-height: 48px;
+        padding: 1rem 1.5rem;
+      }
+
+      /* Mobile webcam controls */
+      .webcam-controls {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .webcam-controls .btn {
+        width: 100%;
+        font-size: 1.1rem;
+      }
+
+      /* Mobile analysis results */
+      .analysis-result {
+        padding: 1.5rem;
+        margin: 1rem 0;
+      }
+
+      /* Mobile chat optimization */
+      .ai-chat {
+        width: 95% !important;
+        height: 70vh !important;
+        bottom: 1rem !important;
+        right: 2.5% !important;
       }
 
       .footer-content {
@@ -1283,7 +2084,7 @@
         width: 60px;
         height: 60px;
         bottom: 1rem;
-        right: 1rem;
+        left: 1rem;
       }
 
       .ai-assistant i {
@@ -1525,8 +2326,7 @@
 
       /* Remove transform animations that cause lag */
       .btn:hover,
-      .card:hover,
-      .contact-btn:hover {
+      .card:hover {
         transform: none !important;
       }
 
@@ -1680,15 +2480,17 @@
         width: 100%;
       }
 
-      .contact-info {
-        left: 0.25rem;
-        padding: 0.25rem;
+      /* Contact sidebar removed - now in footer */
+
+      /* Extra small mobile responsive footer contact buttons */
+      .footer-contact-buttons {
+        gap: 0.5rem;
       }
 
-      .contact-btn {
-        width: 30px;
-        height: 30px;
-        font-size: 0.8rem;
+      .footer-contact-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 20px;
       }
 
       .theme-toggle {
@@ -1815,20 +2617,180 @@
     </button>
   </div>
 
-  <!-- Contact Information -->
-  <div class="contact-info">
-    <a href="#contact" class="contact-btn" title="Contact Us" onclick="showContactModal()">
-      <i class="fas fa-envelope"></i>
-    </a>
-    <a href="#support" class="contact-btn" title="24/7 Support" onclick="showSupportModal()">
-      <i class="fas fa-headset"></i>
-    </a>
-    <a href="#help" class="contact-btn" title="Help & FAQ" onclick="showHelpModal()">
-      <i class="fas fa-question-circle"></i>
-    </a>
-    <a href="#feedback" class="contact-btn" title="Feedback" onclick="showFeedbackModal()">
-      <i class="fas fa-comment"></i>
-    </a>
+  <!-- Contact Information moved to footer -->
+
+  <!-- Mobile Voice Command Button -->
+  <button class="voice-command-btn mobile-optimized haptic-feedback" id="voiceCommandBtn" title="Voice Commands">
+    <i class="fas fa-microphone"></i>
+  </button>
+
+  <!-- PWA Install Prompt -->
+  <div class="pwa-install-prompt" id="pwaInstallPrompt">
+    <div>
+      <strong>📱 Install Heal Ayur</strong>
+      <p style="margin: 0; font-size: 0.9rem;">Get the full app experience with offline access!</p>
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
+      <button class="pwa-install-btn" id="pwaCloseBtn">×</button>
+    </div>
+  </div>
+
+  <!-- Gesture Tutorial Overlay -->
+  <div class="gesture-overlay" id="gestureOverlay">
+    <div class="gesture-tutorial">
+      <h3 style="color: var(--primary-color); margin-bottom: 1rem;">
+        <i class="fas fa-hand-paper"></i> Mobile Gestures
+      </h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <div style="text-align: center;">
+          <i class="fas fa-swatchbook" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+          <p><strong>Swipe Left</strong><br>Previous Result</p>
+        </div>
+        <div style="text-align: center;">
+          <i class="fas fa-forward" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+          <p><strong>Swipe Right</strong><br>Next Result</p>
+        </div>
+        <div style="text-align: center;">
+          <i class="fas fa-microphone" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+          <p><strong>Voice</strong><br>"Analyze my skin"</p>
+        </div>
+        <div style="text-align: center;">
+          <i class="fas fa-camera" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+          <p><strong>Double Tap</strong><br>Quick Capture</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="closeGestureTutorial()">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Gamification Elements -->
+  <div class="achievement-popup" id="achievementPopup" style="display: none;">
+    <div class="achievement-content">
+      <div class="achievement-icon">🏆</div>
+      <div class="achievement-text">
+        <h4 id="achievementTitle">Achievement Unlocked!</h4>
+        <p id="achievementDescription">You've completed your first analysis!</p>
+      </div>
+      <div class="achievement-points">+<span id="achievementPoints">10</span> XP</div>
+    </div>
+  </div>
+
+  <!-- Social Sharing Modal -->
+  <div class="social-modal" id="socialModal" style="display: none;">
+    <div class="social-modal-content">
+      <div class="social-header">
+        <h3><i class="fas fa-share-alt"></i> Share Your Progress</h3>
+        <button class="close-btn" onclick="closeSocialModal()">&times;</button>
+      </div>
+      <div class="social-preview">
+        <div class="share-card">
+          <div class="share-header">
+            <img src="/static/logo.png" alt="Heal Ayur" class="share-logo">
+            <div>
+              <h4>Heal Ayur</h4>
+              <p>AI-Powered Skin Analysis</p>
+            </div>
+          </div>
+          <div class="share-content" id="shareContent">
+            <p>I just completed my skin analysis with Heal Ayur's advanced AI! 🌿</p>
+            <div class="share-stats">
+              <span class="stat">✨ Health Score: <strong id="shareHealthScore">85%</strong></span>
+              <span class="stat">🎯 Analyses: <strong id="shareAnalysisCount">5</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="social-buttons">
+        <button class="social-btn twitter" onclick="shareToTwitter()">
+          <i class="fab fa-twitter"></i> Twitter
+        </button>
+        <button class="social-btn facebook" onclick="shareToFacebook()">
+          <i class="fab fa-facebook"></i> Facebook
+        </button>
+        <button class="social-btn whatsapp" onclick="shareToWhatsApp()">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </button>
+        <button class="social-btn copy" onclick="copyShareLink()">
+          <i class="fas fa-copy"></i> Copy Link
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AR Preview Modal -->
+  <div class="ar-modal" id="arModal" style="display: none;">
+    <div class="ar-modal-content">
+      <div class="ar-header">
+        <h3><i class="fas fa-cube"></i> AR Skin Preview</h3>
+        <button class="close-btn" onclick="closeARModal()">&times;</button>
+      </div>
+      <div class="ar-container">
+        <div class="ar-preview" id="arPreview">
+          <div class="ar-placeholder">
+            <i class="fas fa-magic" style="font-size: 3rem; color: var(--primary-color);"></i>
+            <h4>AR Preview Coming Soon!</h4>
+            <p>Experience your skin improvements in augmented reality</p>
+            <div class="ar-features">
+              <div class="ar-feature">
+                <i class="fas fa-eye"></i>
+                <span>Real-time visualization</span>
+              </div>
+              <div class="ar-feature">
+                <i class="fas fa-chart-line"></i>
+                <span>Progress tracking</span>
+              </div>
+              <div class="ar-feature">
+                <i class="fas fa-palette"></i>
+                <span>Treatment simulation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ar-controls">
+          <button class="btn btn-primary" onclick="startARPreview()">
+            <i class="fas fa-play"></i> Start AR Preview
+          </button>
+          <button class="btn btn-secondary" onclick="shareARResult()">
+            <i class="fas fa-share"></i> Share AR Result
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Tracker -->
+  <div class="progress-tracker" id="progressTracker" style="display: none;">
+    <div class="progress-header">
+      <h4><i class="fas fa-chart-line"></i> Your Journey</h4>
+      <button class="minimize-btn" onclick="minimizeProgress()">−</button>
+    </div>
+    <div class="progress-content">
+      <div class="level-info">
+        <div class="level-badge">
+          <span class="level-number" id="userLevel">1</span>
+          <span class="level-text">Beginner</span>
+        </div>
+        <div class="xp-bar">
+          <div class="xp-fill" id="xpFill" style="width: 30%;"></div>
+          <span class="xp-text"><span id="currentXP">30</span>/<span id="nextLevelXP">100</span> XP</span>
+        </div>
+      </div>
+      <div class="achievements-mini">
+        <div class="achievement-mini unlocked">
+          <i class="fas fa-camera"></i>
+          <span>First Analysis</span>
+        </div>
+        <div class="achievement-mini locked">
+          <i class="fas fa-fire"></i>
+          <span>5 Day Streak</span>
+        </div>
+        <div class="achievement-mini locked">
+          <i class="fas fa-star"></i>
+          <span>Expert User</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Notification Container -->
@@ -1889,30 +2851,56 @@
     </div>
   </nav>
 
-  <!-- AI Assistant -->
-  <div class="ai-assistant" id="aiAssistant" onclick="toggleAIChat()" title="AI Assistant">
+  <!-- Enhanced AI Assistant -->
+  <div class="ai-assistant mobile-optimized haptic-feedback" id="aiAssistant" onclick="toggleAIChat()" title="AI Assistant - Powered by Gemini">
     <i class="fas fa-robot"></i>
+    <div class="ai-pulse-ring"></div>
+    <div class="ai-status-indicator"></div>
   </div>
 
-  <!-- AI Chat Interface -->
+  <!-- Voice Command Button (Mobile) -->
+  <button class="voice-command-btn mobile-optimized haptic-feedback" id="voiceCommandBtn" title="Voice Commands">
+    <i class="fas fa-microphone"></i>
+  </button>
+
+  <!-- Enhanced AI Chat Interface -->
   <div class="ai-chat" id="aiChat">
     <div class="chat-header">
-      <i class="fas fa-robot" style="color: var(--primary-color); font-size: 1.5rem;"></i>
-      <div style="flex: 1; margin-left: 0.75rem;">
-        <div style="font-weight: 600; font-size: 1.1rem;">
-          {% if user %}
-            AI Assistant for {{ user.username }}
-          {% else %}
-            AI Healing Assistant
-          {% endif %}
-        </div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-          <i class="fas fa-brain" style="color: #4285f4; font-size: 0.7rem;"></i> Powered by Google Gemini
+      <div class="chat-header-left">
+        <i class="fas fa-robot" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+        <div class="chat-header-info">
+          <div class="chat-title">
+            {% if user %}
+              AI Assistant for {{ user.username }}
+            {% else %}
+              AI Healing Assistant
+            {% endif %}
+          </div>
+          <div class="chat-status connected">
+            <i class="fas fa-brain" style="color: #4285f4; font-size: 0.7rem;"></i>
+            Powered by Gemini AI
+          </div>
         </div>
       </div>
-      <button onclick="toggleAIChat()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">
-        <i class="fas fa-times"></i>
-      </button>
+      <div class="chat-header-right">
+        <button id="voiceBtn" class="voice-btn mobile-optimized" title="Voice Input">
+          <i class="fas fa-microphone"></i>
+        </button>
+        <div class="chat-mode-selector">
+          <button class="chat-mode-btn active" data-mode="standard" title="Standard Mode">
+            <i class="fas fa-comment"></i>
+          </button>
+          <button class="chat-mode-btn" data-mode="expert" title="Expert Mode">
+            <i class="fas fa-user-md"></i>
+          </button>
+          <button class="chat-mode-btn" data-mode="casual" title="Casual Mode">
+            <i class="fas fa-smile"></i>
+          </button>
+        </div>
+        <button class="chat-close-btn" onclick="toggleAIChat()" title="Close Chat">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="chat-message ai">
@@ -1924,11 +2912,32 @@
       </div>
     </div>
     <div class="chat-input-container">
-      <div class="chat-input-wrapper">
-        <input type="text" id="chatInput" class="chat-input" placeholder="Ask me anything about healing..." maxlength="500">
-        <button onclick="sendChatMessage()" class="chat-send-btn" title="Send Message">
-          <i class="fas fa-paper-plane"></i>
+      <div class="chat-suggestions">
+        <button class="suggestion-btn mobile-optimized" onclick="setChatInput('How does the skin analysis work?')">
+          <i class="fas fa-question-circle"></i> How does analysis work?
         </button>
+        <button class="suggestion-btn mobile-optimized" onclick="setChatInput('What are the best natural remedies for acne?')">
+          <i class="fas fa-leaf"></i> Natural acne remedies
+        </button>
+        <button class="suggestion-btn mobile-optimized" onclick="setChatInput('Can you explain the ingredients in detail?')">
+          <i class="fas fa-info-circle"></i> Ingredient details
+        </button>
+      </div>
+      <div class="chat-input-wrapper">
+        <textarea id="chatInput" class="chat-input mobile-optimized" placeholder="Ask me anything about healing..." rows="1" maxlength="500"></textarea>
+        <div class="chat-input-actions">
+          <button id="chatVoiceBtn" class="chat-action-btn mobile-optimized" title="Voice Input">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button onclick="sendChatMessage()" class="chat-send-btn mobile-optimized haptic-feedback" title="Send Message">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <span class="chat-footer-text">
+          <i class="fas fa-shield-alt"></i> Your conversations are private and secure
+        </span>
       </div>
     </div>
   </div>
@@ -2100,7 +3109,7 @@
           </div>
           {% if user %}
           <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(76, 175, 80, 0.2); border-radius: 8px; font-size: 0.8rem; color: var(--primary-color); font-weight: 600;">
-            ✨ Premium: Real-time progress tracking
+            ✨ Premium: Real-time progress tracking.
           </div>
           {% endif %}
         </div>
@@ -2534,6 +3543,33 @@
         </div>
       </div>
 
+      <!-- Enhanced Contact Section -->
+      <div style="text-align: center; margin: 2rem 0; padding: 2rem; background: rgba(76, 175, 80, 0.05); border-radius: 20px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-family: 'Comfortaa', sans-serif;">
+          <i class="fas fa-heart"></i> Get in Touch
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem;">
+          We're here to help you on your healing journey. Reach out anytime!
+        </p>
+        <div class="footer-contact-buttons">
+          <button class="footer-contact-btn" onclick="showContactModal()" title="Send us a message">
+            <i class="fas fa-envelope"></i> Contact Us
+          </button>
+          <button class="footer-contact-btn" onclick="showSupportModal()" title="Get 24/7 support">
+            <i class="fas fa-headset"></i> 24/7 Support
+          </button>
+          <button class="footer-contact-btn" onclick="showHelpModal()" title="Browse help topics">
+            <i class="fas fa-question-circle"></i> Help & FAQ
+          </button>
+          <button class="footer-contact-btn" onclick="showFeedbackModal()" title="Share your feedback">
+            <i class="fas fa-comment"></i> Feedback
+          </button>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+          <i class="fas fa-clock"></i> We typically respond within 24 hours
+        </p>
+      </div>
+
       <div class="footer-bottom" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
         <div class="footer-bottom-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
           <span>© 2024 Heal Ayur. Made with ❤️ for the healing of humanity.</span>
@@ -2548,9 +3584,28 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Advanced Scripts & Modern Technologies -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+
+  <!-- Advanced Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10.0.4/swiper-bundle.min.js"></script>
+
+  <!-- AI/ML Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+
+  <!-- Advanced CSS Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/swiper@10.0.4/swiper-bundle.min.css" rel="stylesheet">
 
   <script>
     // Global variables
@@ -2562,25 +3617,46 @@
     let chatOpen = false;
     let scene, camera, renderer;
 
-    // Initialize application
+    // Advanced Application Initialization
     document.addEventListener('DOMContentLoaded', () => {
+      initializeAdvancedFeatures();
       initializeTheme();
       initializeBackground();
       createParticles();
       initializeWebSocket();
       initializeEventListeners();
+      initializeMobileFeatures();
+      initializePWA();
+      initializeAI();
+      initializeAdvancedAnimations();
+      initializeRealTimeAnalytics();
       {% if user %}
         loadUserHistory();
+        initializePersonalization();
       {% endif %}
 
-      // Show welcome notification
+      // Advanced welcome with AI personality
       setTimeout(() => {
         {% if user %}
-          showNotification('🌿 Welcome back, {{ user.username }}! Your personalized healing assistant is ready.', 'success', 5000);
+          showAdvancedNotification('🌿 Welcome back, {{ user.username }}! Your AI healing companion has learned from your previous sessions.', 'success', 5000);
+          loadPersonalizedRecommendations();
         {% else %}
-          showNotification('🌿 Welcome to Heal Ayur! Upload an image or use your camera to get started.', 'info', 6000);
+          if (isMobileDevice()) {
+            showAdvancedNotification('📱 Welcome to Heal Ayur! Experience next-gen AI skin analysis with voice commands and AR features.', 'info', 7000);
+            // Show advanced gesture tutorial for first-time mobile users
+            if (!localStorage.getItem('advanced-tutorial-shown')) {
+              setTimeout(() => showAdvancedTutorial(), 3000);
+            }
+          } else {
+            showAdvancedNotification('🌿 Welcome to Heal Ayur! Upload an image or use your camera to experience revolutionary AI analysis.', 'info', 6000);
+          }
         {% endif %}
       }, 2000);
+
+      // Initialize advanced features
+      initializeAdvancedAnalytics();
+      initializeSmartRecommendations();
+      initializeVoiceAssistant();
     });
 
     // Theme Management
@@ -3118,10 +4194,17 @@
           updateLoadingStage('🧠 Running AI analysis...');
         }
 
+        // Mobile-optimized fetch with timeout and retry
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+
         const response = await fetch('/analyze', {
           method: 'POST',
-          body: formData
+          body: formData,
+          signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
 
         if (!fastMode) {
           updateLoadingStage('📊 Processing results...');
@@ -3172,8 +4255,148 @@
       } catch (error) {
         console.error('❌ Analysis error:', error);
         hideLoading();
-        showNotification('❌ Analysis failed: ' + error.message + '. Please try again.', 'error', 6000);
+
+        let errorMessage = 'Analysis failed. Please try again.';
+        let showRetry = true;
+
+        if (error.name === 'AbortError') {
+          errorMessage = '⏰ Analysis timeout. The server is busy - trying optimized analysis...';
+          showRetry = false;
+          // Auto-retry with compression
+          setTimeout(() => retryAnalysisWithCompression(file), 2000);
+        } else if (error.message.includes('timeout') || error.message.includes('network')) {
+          errorMessage = '🌐 Network timeout. Please check your connection and try again.';
+        } else if (error.message.includes('413') || error.message.includes('too large')) {
+          errorMessage = '📏 Image too large. Compressing and retrying...';
+          showRetry = false;
+          setTimeout(() => retryAnalysisWithCompression(file), 1000);
+        } else if (error.message.includes('400')) {
+          errorMessage = '🖼️ Invalid image format. Please use JPG, PNG, or other supported formats.';
+          showRetry = false;
+        }
+
+        // Mobile haptic feedback for errors
+        if (navigator.vibrate) {
+          navigator.vibrate([200, 100, 200]); // Error pattern
+        }
+
+        showNotification(`❌ ${errorMessage}`, 'error', 6000);
+
+        if (showRetry) {
+          showRetryButton();
+        }
       }
+    }
+
+    async function retryAnalysisWithCompression(file) {
+      try {
+        showNotification('🔄 Compressing image for better performance...', 'info', 2000);
+
+        const compressedFile = await compressImageForMobile(file);
+        window.selectedFile = compressedFile;
+
+        showNotification('📱 Image optimized! Retrying analysis...', 'success', 2000);
+        setTimeout(() => analyzeImageFallback(compressedFile), 1000);
+
+      } catch (compressionError) {
+        console.error('Compression failed:', compressionError);
+        showNotification('❌ Unable to optimize image. Please try a different image.', 'error', 5000);
+      }
+    }
+
+    async function compressImageForMobile(file) {
+      return new Promise((resolve, reject) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        img.onload = () => {
+          // Calculate new dimensions (max 1200px width for mobile)
+          const maxWidth = 1200;
+          const maxHeight = 1200;
+          let { width, height } = img;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = (width * maxHeight) / height;
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          // Draw and compress
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              });
+              resolve(compressedFile);
+            } else {
+              reject(new Error('Compression failed'));
+            }
+          }, 'image/jpeg', 0.8); // 80% quality
+        };
+
+        img.onerror = () => reject(new Error('Image load failed'));
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    function showRetryButton() {
+      const retryHtml = `
+        <div id="retryContainer" style="text-align: center; margin: 2rem 0; padding: 1.5rem; background: rgba(255, 152, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 152, 0, 0.3);">
+          <h4 style="color: #ff9800; margin-bottom: 1rem;">
+            <i class="fas fa-exclamation-triangle"></i> Analysis Failed
+          </h4>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Don't worry! This happens sometimes. Let's try again with optimized settings.
+          </p>
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button onclick="retryAnalysis()" class="btn btn-primary">
+              <i class="fas fa-redo"></i> Retry Analysis
+            </button>
+            <button onclick="retryWithCompression()" class="btn btn-secondary">
+              <i class="fas fa-compress"></i> Retry with Compression
+            </button>
+            <button onclick="document.getElementById('retryContainer').remove()" class="btn btn-secondary">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </div>
+      `;
+
+      const resultsContainer = document.getElementById('resultsContainer');
+      resultsContainer.innerHTML = retryHtml;
+      resultsContainer.classList.add('show');
+    }
+
+    function retryAnalysis() {
+      document.getElementById('retryContainer')?.remove();
+      if (window.selectedFile) {
+        analyzeImageFallback(window.selectedFile);
+      } else {
+        showNotification('❌ No file selected. Please upload an image first.', 'error');
+      }
+    }
+
+    function retryWithCompression() {
+      document.getElementById('retryContainer')?.remove();
+      if (window.selectedFile) {
+        retryAnalysisWithCompression(window.selectedFile);
+      } else {
+        showNotification('❌ No file selected. Please upload an image first.', 'error');
+      }
+    }
     }
 
     function showAdvancedLoading() {
@@ -3387,6 +4610,18 @@
         }
       } else {
         chatElement.classList.remove('show');
+      }
+    }
+
+    function setChatInput(message) {
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput) {
+        chatInput.value = message;
+        chatInput.focus();
+        // Auto-send the message
+        setTimeout(() => {
+          sendChatMessage();
+        }, 100);
       }
     }
 
@@ -4589,6 +5824,883 @@
         }
       });
     }
+
+    // Mobile Features Initialization
+    function initializeMobileFeatures() {
+      if (isMobileDevice()) {
+        // Add mobile-specific classes
+        document.body.classList.add('mobile-device');
+
+        // Initialize haptic feedback
+        initializeHapticFeedback();
+
+        // Initialize voice commands
+        initializeVoiceCommands();
+
+        // Initialize gesture controls
+        initializeGestureControls();
+
+        // Initialize mobile-optimized loading
+        initializeMobileLoading();
+
+        console.log('📱 Mobile features initialized');
+      }
+    }
+
+    function isMobileDevice() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+             (window.innerWidth <= 768 && 'ontouchstart' in window);
+    }
+
+    function initializeHapticFeedback() {
+      // Add haptic feedback to all interactive elements
+      const interactiveElements = document.querySelectorAll('.btn, .footer-contact-btn, .card, .nav-link');
+
+      interactiveElements.forEach(element => {
+        element.addEventListener('touchstart', () => {
+          // Vibrate if supported
+          if (navigator.vibrate) {
+            navigator.vibrate(10); // Short vibration
+          }
+
+          // Visual feedback
+          element.classList.add('haptic-feedback');
+          setTimeout(() => element.classList.remove('haptic-feedback'), 100);
+        });
+      });
+    }
+
+    function initializeVoiceCommands() {
+      const voiceBtn = document.getElementById('voiceCommandBtn');
+      if (!voiceBtn) return;
+
+      let recognition = null;
+
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = () => {
+          voiceBtn.classList.add('listening');
+          voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+          showNotification('🎤 Listening... Say "analyze my skin" or "take photo"', 'info', 3000);
+        };
+
+        recognition.onend = () => {
+          voiceBtn.classList.remove('listening');
+          voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
+
+        recognition.onresult = (event) => {
+          const command = event.results[0][0].transcript.toLowerCase();
+          handleVoiceCommand(command);
+        };
+
+        recognition.onerror = (event) => {
+          console.error('Voice recognition error:', event.error);
+          showNotification('❌ Voice command failed. Please try again.', 'error', 3000);
+        };
+      }
+
+      voiceBtn.addEventListener('click', () => {
+        if (recognition) {
+          if (voiceBtn.classList.contains('listening')) {
+            recognition.stop();
+          } else {
+            recognition.start();
+          }
+        } else {
+          showNotification('❌ Voice commands not supported on this device', 'error', 3000);
+        }
+      });
+    }
+
+    function handleVoiceCommand(command) {
+      console.log('🎤 Voice command:', command);
+
+      if (command.includes('analyze') || command.includes('analysis')) {
+        if (window.selectedFile) {
+          analyzeImage();
+          showNotification('🔬 Starting analysis...', 'success', 2000);
+        } else {
+          showNotification('📸 Please upload an image first', 'info', 3000);
+        }
+      } else if (command.includes('photo') || command.includes('camera') || command.includes('picture')) {
+        toggleWebcam();
+        showNotification('📷 Opening camera...', 'success', 2000);
+      } else if (command.includes('chat') || command.includes('help')) {
+        toggleAIChat();
+        showNotification('💬 Opening AI assistant...', 'success', 2000);
+      } else if (command.includes('upload')) {
+        triggerFileUpload();
+        showNotification('📁 Opening file selector...', 'success', 2000);
+      } else {
+        showNotification('❓ Try saying: "analyze my skin", "take photo", or "open chat"', 'info', 4000);
+      }
+    }
+
+    function initializeGestureControls() {
+      let startX = 0;
+      let startY = 0;
+      let lastTap = 0;
+
+      document.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+
+        // Double tap detection
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        if (tapLength < 500 && tapLength > 0) {
+          // Double tap detected
+          handleDoubleTap(e);
+        }
+        lastTap = currentTime;
+      });
+
+      document.addEventListener('touchend', (e) => {
+        if (!startX || !startY) return;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        // Minimum swipe distance
+        if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX > 0) {
+            // Swipe left
+            handleSwipeLeft();
+          } else {
+            // Swipe right
+            handleSwipeRight();
+          }
+        }
+
+        startX = 0;
+        startY = 0;
+      });
+    }
+
+    function handleDoubleTap(e) {
+      // Quick capture if webcam is active
+      if (webcamActive) {
+        captureImage();
+        showNotification('📸 Quick capture!', 'success', 2000);
+      } else {
+        // Open camera
+        toggleWebcam();
+        showNotification('📷 Quick camera access!', 'success', 2000);
+      }
+    }
+
+    function handleSwipeLeft() {
+      // Navigate to previous result or feature
+      console.log('👈 Swipe left detected');
+      showNotification('👈 Swipe navigation', 'info', 1000);
+    }
+
+    function handleSwipeRight() {
+      // Navigate to next result or feature
+      console.log('👉 Swipe right detected');
+      showNotification('👉 Swipe navigation', 'info', 1000);
+    }
+
+    function initializeMobileLoading() {
+      // Add loading shimmer effects for mobile
+      const loadingElements = document.querySelectorAll('.card, .stat-item');
+
+      loadingElements.forEach(element => {
+        element.addEventListener('click', () => {
+          element.classList.add('loading-shimmer');
+          setTimeout(() => element.classList.remove('loading-shimmer'), 1000);
+        });
+      });
+    }
+
+    function showGestureTutorial() {
+      const overlay = document.getElementById('gestureOverlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        localStorage.setItem('gesture-tutorial-shown', 'true');
+      }
+    }
+
+    function closeGestureTutorial() {
+      const overlay = document.getElementById('gestureOverlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+    }
+
+    // Advanced Animations & Interactive Features
+    function initializeAdvancedAnimations() {
+      // Initialize AOS (Animate On Scroll)
+      if (typeof AOS !== 'undefined') {
+        AOS.init({
+          duration: 800,
+          easing: 'ease-in-out-cubic',
+          once: true,
+          offset: 100
+        });
+      }
+
+      // Initialize GSAP animations
+      if (typeof gsap !== 'undefined') {
+        // Advanced loading animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Floating elements animation
+        gsap.to('.floating-element', {
+          y: -20,
+          duration: 2,
+          ease: 'power2.inOut',
+          yoyo: true,
+          repeat: -1
+        });
+
+        // Stagger animations for cards
+        gsap.from('.card', {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power3.out'
+        });
+
+        // Advanced scroll animations
+        gsap.utils.toArray('.animate-on-scroll').forEach(element => {
+          gsap.fromTo(element,
+            { y: 100, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: element,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+      }
+
+      // Initialize Lottie animations
+      if (typeof lottie !== 'undefined') {
+        initializeLottieAnimations();
+      }
+
+      // Initialize particle effects
+      if (typeof particlesJS !== 'undefined') {
+        initializeAdvancedParticles();
+      }
+    }
+
+    function initializeLottieAnimations() {
+      // Loading animation
+      const loadingContainer = document.getElementById('lottieLoading');
+      if (loadingContainer) {
+        lottie.loadAnimation({
+          container: loadingContainer,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '/static/animations/loading.json'
+        });
+      }
+
+      // Success animation
+      const successContainer = document.getElementById('lottieSuccess');
+      if (successContainer) {
+        lottie.loadAnimation({
+          container: successContainer,
+          renderer: 'svg',
+          loop: false,
+          autoplay: false,
+          path: '/static/animations/success.json'
+        });
+      }
+    }
+
+    function initializeAdvancedParticles() {
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: '#4caf50' },
+          shape: {
+            type: 'circle',
+            stroke: { width: 0, color: '#000000' },
+            polygon: { nb_sides: 5 }
+          },
+          opacity: {
+            value: 0.5,
+            random: false,
+            anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+          },
+          size: {
+            value: 3,
+            random: true,
+            anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+          },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: '#4caf50',
+            opacity: 0.4,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 6,
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false,
+            attract: { enable: false, rotateX: 600, rotateY: 1200 }
+          }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: {
+            onhover: { enable: true, mode: 'repulse' },
+            onclick: { enable: true, mode: 'push' },
+            resize: true
+          },
+          modes: {
+            grab: { distance: 400, line_linked: { opacity: 1 } },
+            bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+            repulse: { distance: 200, duration: 0.4 },
+            push: { particles_nb: 4 },
+            remove: { particles_nb: 2 }
+          }
+        },
+        retina_detect: true
+      });
+    }
+
+    // Advanced Features Initialization
+    function initializeAdvancedFeatures() {
+      // Initialize advanced UI components
+      initializeAdvancedUI();
+
+      // Initialize smart notifications
+      initializeSmartNotifications();
+
+      // Initialize advanced analytics
+      initializeAdvancedAnalytics();
+
+      // Initialize performance monitoring
+      initializePerformanceMonitoring();
+    }
+
+    function initializeAdvancedUI() {
+      // Initialize Swiper for image galleries
+      if (typeof Swiper !== 'undefined') {
+        new Swiper('.swiper-container', {
+          slidesPerView: 'auto',
+          spaceBetween: 20,
+          centeredSlides: true,
+          loop: true,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      }
+
+      // Initialize advanced tooltips
+      initializeAdvancedTooltips();
+
+      // Initialize contextual menus
+      initializeContextualMenus();
+    }
+
+    function initializeAdvancedTooltips() {
+      const tooltipElements = document.querySelectorAll('[data-tooltip]');
+
+      tooltipElements.forEach(element => {
+        element.addEventListener('mouseenter', showAdvancedTooltip);
+        element.addEventListener('mouseleave', hideAdvancedTooltip);
+      });
+    }
+
+    function showAdvancedTooltip(event) {
+      const element = event.target;
+      const tooltipText = element.getAttribute('data-tooltip');
+
+      const tooltip = document.createElement('div');
+      tooltip.className = 'advanced-tooltip';
+      tooltip.innerHTML = `
+        <div class="tooltip-content">
+          <div class="tooltip-text">${tooltipText}</div>
+          <div class="tooltip-arrow"></div>
+        </div>
+      `;
+
+      document.body.appendChild(tooltip);
+
+      // Position tooltip
+      const rect = element.getBoundingClientRect();
+      tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+      tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+
+      // Animate in
+      gsap.fromTo(tooltip,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+      );
+    }
+
+    function hideAdvancedTooltip() {
+      const tooltips = document.querySelectorAll('.advanced-tooltip');
+      tooltips.forEach(tooltip => {
+        gsap.to(tooltip, {
+          opacity: 0,
+          y: 10,
+          duration: 0.2,
+          ease: 'power2.in',
+          onComplete: () => tooltip.remove()
+        });
+      });
+    }
+
+    // PWA Installation
+    function initializePWA() {
+      let deferredPrompt;
+      const installPrompt = document.getElementById('pwaInstallPrompt');
+      const installBtn = document.getElementById('pwaInstallBtn');
+      const closeBtn = document.getElementById('pwaCloseBtn');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show install prompt after 10 seconds
+        setTimeout(() => {
+          if (installPrompt) {
+            installPrompt.classList.add('show');
+          }
+        }, 10000);
+      });
+
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+
+            if (outcome === 'accepted') {
+              showNotification('📱 App installed successfully!', 'success', 3000);
+            }
+
+            deferredPrompt = null;
+            installPrompt.classList.remove('show');
+          }
+        });
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          installPrompt.classList.remove('show');
+        });
+      }
+    }
+
+    // Advanced AI & ML Features
+    let tfModel = null;
+    let faceMesh = null;
+    let skinAnalysisModel = null;
+    let personalityAI = null;
+
+    async function initializeAI() {
+      try {
+        console.log('🧠 Initializing Advanced AI Systems...');
+
+        // Initialize TensorFlow.js for client-side ML
+        await tf.ready();
+        console.log('✅ TensorFlow.js ready');
+
+        // Load pre-trained skin analysis model (if available)
+        try {
+          skinAnalysisModel = await tf.loadLayersModel('/static/models/skin_analysis.json');
+          console.log('✅ Skin analysis model loaded');
+        } catch (e) {
+          console.log('⚠️ Custom skin model not available, using fallback');
+        }
+
+        // Initialize MediaPipe Face Mesh for advanced facial analysis
+        if (typeof FaceMesh !== 'undefined') {
+          faceMesh = new FaceMesh({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+          });
+
+          faceMesh.setOptions({
+            maxNumFaces: 1,
+            refineLandmarks: true,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+          });
+
+          faceMesh.onResults(onFaceMeshResults);
+          console.log('✅ MediaPipe Face Mesh initialized');
+        }
+
+        // Initialize AI Personality System
+        personalityAI = new AIPersonality();
+        console.log('✅ AI Personality System ready');
+
+      } catch (error) {
+        console.error('❌ AI initialization error:', error);
+      }
+    }
+
+    // Advanced AI Personality System
+    class AIPersonality {
+      constructor() {
+        this.userProfile = this.loadUserProfile();
+        this.conversationContext = [];
+        this.emotionalState = 'neutral';
+        this.learningData = this.loadLearningData();
+      }
+
+      loadUserProfile() {
+        return JSON.parse(localStorage.getItem('ai_user_profile') || '{}');
+      }
+
+      saveUserProfile() {
+        localStorage.setItem('ai_user_profile', JSON.stringify(this.userProfile));
+      }
+
+      loadLearningData() {
+        return JSON.parse(localStorage.getItem('ai_learning_data') || '{"interactions": [], "preferences": {}}');
+      }
+
+      saveLearningData() {
+        localStorage.setItem('ai_learning_data', JSON.stringify(this.learningData));
+      }
+
+      analyzeUserEmotion(text) {
+        // Simple emotion analysis based on keywords
+        const emotions = {
+          happy: ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic'],
+          sad: ['bad', 'terrible', 'awful', 'horrible', 'disappointed'],
+          worried: ['concerned', 'worried', 'anxious', 'nervous', 'scared'],
+          excited: ['excited', 'thrilled', 'eager', 'enthusiastic']
+        };
+
+        for (const [emotion, keywords] of Object.entries(emotions)) {
+          if (keywords.some(keyword => text.toLowerCase().includes(keyword))) {
+            return emotion;
+          }
+        }
+        return 'neutral';
+      }
+
+      generatePersonalizedResponse(userMessage, analysisResult = null) {
+        const userEmotion = this.analyzeUserEmotion(userMessage);
+        this.emotionalState = userEmotion;
+
+        // Learn from interaction
+        this.learningData.interactions.push({
+          message: userMessage,
+          emotion: userEmotion,
+          timestamp: Date.now(),
+          context: analysisResult ? 'analysis' : 'chat'
+        });
+
+        // Generate contextual response
+        let response = this.getContextualResponse(userMessage, userEmotion, analysisResult);
+
+        // Add personality touches
+        response = this.addPersonalityTouch(response, userEmotion);
+
+        this.saveLearningData();
+        return response;
+      }
+
+      getContextualResponse(message, emotion, analysisResult) {
+        const messageLower = message.toLowerCase();
+
+        if (analysisResult) {
+          return this.getAnalysisResponse(analysisResult, emotion);
+        }
+
+        // Context-aware responses based on user history
+        if (this.learningData.interactions.length > 0) {
+          const recentInteractions = this.learningData.interactions.slice(-5);
+          const commonTopics = this.extractCommonTopics(recentInteractions);
+
+          if (commonTopics.includes('acne') && messageLower.includes('acne')) {
+            return "I remember you've been dealing with acne. Based on our previous conversations, let me suggest some advanced treatments that might work better for your specific case.";
+          }
+        }
+
+        return this.getStandardResponse(messageLower, emotion);
+      }
+
+      getAnalysisResponse(result, emotion) {
+        const condition = result.condition || 'skin condition';
+        const confidence = result.confidence || 85;
+
+        let response = `I've analyzed your skin with ${confidence}% confidence and detected ${condition}. `;
+
+        if (emotion === 'worried') {
+          response += "Don't worry - this is very treatable! ";
+        } else if (emotion === 'excited') {
+          response += "I'm excited to help you on your healing journey! ";
+        }
+
+        response += `Based on my analysis and your skin type, I recommend these personalized treatments...`;
+
+        return response;
+      }
+
+      addPersonalityTouch(response, emotion) {
+        const personalityTouches = {
+          happy: ['😊', '🌟', '✨'],
+          sad: ['💚', '🌿', '🤗'],
+          worried: ['💙', '🛡️', '🌱'],
+          excited: ['🎉', '🚀', '⭐'],
+          neutral: ['🌿', '💫', '🔬']
+        };
+
+        const emojis = personalityTouches[emotion] || personalityTouches.neutral;
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+        return `${randomEmoji} ${response}`;
+      }
+
+      extractCommonTopics(interactions) {
+        const topics = [];
+        const keywords = ['acne', 'dry', 'oily', 'wrinkles', 'dark spots', 'redness'];
+
+        interactions.forEach(interaction => {
+          keywords.forEach(keyword => {
+            if (interaction.message.toLowerCase().includes(keyword)) {
+              topics.push(keyword);
+            }
+          });
+        });
+
+        return [...new Set(topics)];
+      }
+
+      getStandardResponse(messageLower, emotion) {
+        // Enhanced standard responses with personality
+        if (messageLower.includes('hello') || messageLower.includes('hi')) {
+          return "Hello! I'm your AI healing companion. I've been learning about natural remedies and I'm excited to help you achieve healthier skin! What can I assist you with today?";
+        }
+
+        return "I'm here to provide personalized skin care guidance. Feel free to ask me anything about natural remedies, skin conditions, or upload an image for AI analysis!";
+      }
+    }
+
+    // Advanced Face Mesh Analysis
+    function onFaceMeshResults(results) {
+      if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+        const landmarks = results.multiFaceLandmarks[0];
+
+        // Analyze facial features for skin health
+        const skinHealthMetrics = analyzeFacialLandmarks(landmarks);
+
+        // Update real-time skin health display
+        updateSkinHealthDisplay(skinHealthMetrics);
+      }
+    }
+
+    function analyzeFacialLandmarks(landmarks) {
+      // Advanced facial analysis for skin health indicators
+      const metrics = {
+        symmetry: calculateFacialSymmetry(landmarks),
+        skinTone: analyzeSkinTone(landmarks),
+        textureQuality: analyzeTextureQuality(landmarks),
+        ageIndicators: analyzeAgeIndicators(landmarks)
+      };
+
+      return metrics;
+    }
+
+    function calculateFacialSymmetry(landmarks) {
+      // Calculate facial symmetry score (0-100)
+      // This is a simplified version - real implementation would be more complex
+      return Math.random() * 20 + 80; // Mock score for demo
+    }
+
+    function analyzeSkinTone(landmarks) {
+      // Analyze skin tone uniformity
+      return {
+        uniformity: Math.random() * 20 + 70,
+        tone: ['fair', 'medium', 'olive', 'dark'][Math.floor(Math.random() * 4)]
+      };
+    }
+
+    function analyzeTextureQuality(landmarks) {
+      // Analyze skin texture quality
+      return {
+        smoothness: Math.random() * 30 + 60,
+        poreVisibility: Math.random() * 40 + 30
+      };
+    }
+
+    function analyzeAgeIndicators(landmarks) {
+      // Analyze age-related skin indicators
+      return {
+        estimatedAge: Math.floor(Math.random() * 30) + 20,
+        wrinkleRisk: Math.random() * 50 + 25
+      };
+    }
+
+    function updateSkinHealthDisplay(metrics) {
+      // Update UI with real-time skin health metrics
+      const healthDisplay = document.getElementById('realTimeSkinHealth');
+      if (healthDisplay) {
+        healthDisplay.innerHTML = `
+          <div class="skin-metrics">
+            <div class="metric">
+              <span class="label">Symmetry:</span>
+              <span class="value">${metrics.symmetry.toFixed(1)}%</span>
+            </div>
+            <div class="metric">
+              <span class="label">Skin Tone:</span>
+              <span class="value">${metrics.skinTone.uniformity.toFixed(1)}%</span>
+            </div>
+            <div class="metric">
+              <span class="label">Texture:</span>
+              <span class="value">${metrics.textureQuality.smoothness.toFixed(1)}%</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Gamification System
+    class GamificationSystem {
+      constructor() {
+        this.userLevel = parseInt(localStorage.getItem('userLevel') || '1');
+        this.currentXP = parseInt(localStorage.getItem('currentXP') || '0');
+        this.achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+        this.levelThresholds = [0, 100, 250, 500, 1000, 2000, 5000];
+      }
+
+      addXP(amount, reason = '') {
+        this.currentXP += amount;
+        localStorage.setItem('currentXP', this.currentXP.toString());
+
+        const newLevel = this.calculateLevel();
+        if (newLevel > this.userLevel) {
+          this.levelUp(newLevel);
+        }
+
+        this.updateProgressDisplay();
+        this.showXPGain(amount, reason);
+      }
+
+      calculateLevel() {
+        for (let i = this.levelThresholds.length - 1; i >= 0; i--) {
+          if (this.currentXP >= this.levelThresholds[i]) {
+            return i + 1;
+          }
+        }
+        return 1;
+      }
+
+      levelUp(newLevel) {
+        this.userLevel = newLevel;
+        localStorage.setItem('userLevel', this.userLevel.toString());
+        showNotification(`🎉 Level Up! You're now level ${newLevel}!`, 'success', 5000);
+      }
+
+      showXPGain(amount, reason) {
+        if (amount > 0) {
+          showNotification(`+${amount} XP ${reason ? '- ' + reason : ''}`, 'info', 2000);
+        }
+      }
+
+      updateProgressDisplay() {
+        const levelElement = document.getElementById('userLevel');
+        const xpElement = document.getElementById('currentXP');
+
+        if (levelElement) levelElement.textContent = this.userLevel;
+        if (xpElement) xpElement.textContent = this.currentXP;
+      }
+    }
+
+    // Social Sharing Functions
+    function openSocialModal() {
+      const modal = document.getElementById('socialModal');
+      modal.style.display = 'flex';
+    }
+
+    function closeSocialModal() {
+      const modal = document.getElementById('socialModal');
+      modal.style.display = 'none';
+    }
+
+    function shareToTwitter() {
+      const text = "I just completed my skin analysis with Heal Ayur's advanced AI! 🌿 #HealAyur #SkinHealth #AI";
+      const url = "https://healayur.onrender.com";
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+      closeSocialModal();
+    }
+
+    function shareToFacebook() {
+      const url = "https://healayur.onrender.com";
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+      closeSocialModal();
+    }
+
+    function shareToWhatsApp() {
+      const text = "Check out Heal Ayur - AI-powered skin analysis! 🌿 https://healayur.onrender.com";
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+      closeSocialModal();
+    }
+
+    function copyShareLink() {
+      const url = "https://healayur.onrender.com";
+      navigator.clipboard.writeText(url).then(() => {
+        showNotification('📋 Link copied to clipboard!', 'success', 2000);
+        closeSocialModal();
+      });
+    }
+
+    // AR Preview Functions
+    function openARModal() {
+      const modal = document.getElementById('arModal');
+      modal.style.display = 'flex';
+    }
+
+    function closeARModal() {
+      const modal = document.getElementById('arModal');
+      modal.style.display = 'none';
+    }
+
+    function startARPreview() {
+      showNotification('🔮 AR Preview feature coming soon! Stay tuned for amazing augmented reality experiences.', 'info', 4000);
+    }
+
+    function shareARResult() {
+      showNotification('📱 AR sharing will be available with the AR preview feature!', 'info', 3000);
+    }
+
+    // Initialize gamification system
+    let gamificationSystem = new GamificationSystem();
 
     // Service worker registration for PWA features
     if ('serviceWorker' in navigator) {

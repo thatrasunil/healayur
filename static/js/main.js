@@ -1,17 +1,21 @@
-// Heal Ayur - Main Application JavaScript
+// Heal Ayur - Enhanced Main Application JavaScript
 class HealAyurApp {
   constructor() {
     this.initializeElements();
     this.initializeEventListeners();
     this.initializeState();
+    this.initializeAdvancedFeatures();
     this.loadingMessages = [
-      "🔍 Analyzing your image...",
-      "🧠 AI is thinking...",
-      "🌿 Finding ancient remedies...",
-      "📊 Calculating confidence...",
-      "✨ Almost ready..."
+      "🔍 Analyzing your image with AI...",
+      "🧠 Processing with advanced algorithms...",
+      "🌿 Finding personalized remedies...",
+      "📊 Calculating confidence scores...",
+      "✨ Preparing results...",
+      "🎯 Almost ready!"
     ];
     this.currentLoadingIndex = 0;
+    this.retryCount = 0;
+    this.maxRetries = 3;
   }
 
   initializeElements() {
@@ -79,6 +83,30 @@ class HealAyurApp {
     this.realTimeCount = 0;
     this.realTimeStartTime = null;
     this.continuousAnalysisInterval = null;
+    this.isAnalyzing = false;
+    this.analysisHistory = [];
+    this.currentUser = null;
+    this.offlineMode = false;
+  }
+
+  initializeAdvancedFeatures() {
+    // Initialize PWA features
+    this.initializePWA();
+
+    // Initialize voice commands
+    this.initializeVoiceCommands();
+
+    // Initialize gesture controls
+    this.initializeGestureControls();
+
+    // Initialize performance monitoring
+    this.initializePerformanceMonitoring();
+
+    // Check for user authentication
+    this.checkUserAuthentication();
+
+    // Initialize offline support
+    this.initializeOfflineSupport();
   }
 
   setupDragAndDrop() {
@@ -293,24 +321,156 @@ class HealAyurApp {
     }
   }
 
+  // Advanced Features Implementation
+  initializePWA() {
+    // Check if PWA is installable
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      this.showPWAInstallPrompt();
+    });
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/static/sw.js')
+        .then(registration => {
+          console.log('✅ Service Worker registered:', registration);
+        })
+        .catch(error => {
+          console.log('❌ Service Worker registration failed:', error);
+        });
+    }
+  }
+
+  initializeVoiceCommands() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = false;
+      this.recognition.interimResults = false;
+      this.recognition.lang = 'en-US';
+
+      this.recognition.onresult = (event) => {
+        const command = event.results[0][0].transcript.toLowerCase();
+        this.processVoiceCommand(command);
+      };
+
+      this.recognition.onerror = (event) => {
+        console.error('Voice recognition error:', event.error);
+      };
+    }
+  }
+
+  initializeGestureControls() {
+    let startX, startY;
+
+    document.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      if (!startX || !startY) return;
+
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+
+      const diffX = startX - endX;
+      const diffY = startY - endY;
+
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX > 50) {
+          // Swipe left - open chat
+          if (window.chatBot) window.chatBot.toggleChat();
+        } else if (diffX < -50) {
+          // Swipe right - close chat or go back
+          if (window.chatBot && window.chatBot.isOpen) {
+            window.chatBot.toggleChat();
+          }
+        }
+      }
+    });
+  }
+
+  initializePerformanceMonitoring() {
+    // Monitor page load performance
+    window.addEventListener('load', () => {
+      const perfData = performance.getEntriesByType('navigation')[0];
+      console.log('📊 Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+    });
+
+    // Monitor memory usage (if available)
+    if ('memory' in performance) {
+      setInterval(() => {
+        const memory = performance.memory;
+        if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.9) {
+          console.warn('⚠️ High memory usage detected');
+        }
+      }, 30000);
+    }
+  }
+
+  checkUserAuthentication() {
+    // Check if user is logged in
+    fetch('/api/check-auth', {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.authenticated) {
+        this.currentUser = data.user;
+        this.updateUIForLoggedInUser();
+      }
+    })
+    .catch(error => {
+      console.log('User not authenticated');
+    });
+  }
+
+  initializeOfflineSupport() {
+    window.addEventListener('online', () => {
+      this.offlineMode = false;
+      this.showNotification('🌐 Back online!', 'success');
+    });
+
+    window.addEventListener('offline', () => {
+      this.offlineMode = true;
+      this.showNotification('📱 Offline mode activated', 'info');
+    });
+  }
+
   async analyzeImage() {
     console.log('🔬 Starting image analysis...');
+
+    if (this.isAnalyzing) {
+      this.showError('Analysis already in progress. Please wait...');
+      return;
+    }
 
     if (!this.selectedFile) {
       this.showError('Please select an image first');
       return;
     }
 
+    this.isAnalyzing = true;
     console.log('📁 Selected file:', this.selectedFile.name, this.selectedFile.size, 'bytes');
 
-    const formData = new FormData();
-    formData.append('image', this.selectedFile);
+    try {
+      const formData = new FormData();
+      formData.append('image', this.selectedFile);
 
-    console.log('📤 Sending file upload request...');
-    await this.sendAnalysisRequest('/analyze', {
-      method: 'POST',
-      body: formData
-    });
+      console.log('📤 Sending file upload request...');
+      await this.sendAnalysisRequest('/analyze', {
+        method: 'POST',
+        body: formData
+      });
+    } catch (error) {
+      console.error('❌ Analysis error:', error);
+      this.showError('Analysis failed: ' + error.message);
+    } finally {
+      this.isAnalyzing = false;
+    }
   }
 
   async analyzeImageData(base64Image, isWebcam = false) {
@@ -328,24 +488,55 @@ class HealAyurApp {
 
   async sendAnalysisRequest(url, options) {
     this.showLoading();
+    this.startLoadingAnimation();
 
     try {
       console.log('🚀 Sending analysis request to:', url);
-      console.log('📤 Request options:', options);
 
-      const response = await fetch(url, options);
-      console.log('📥 Response status:', response.status);
+      // Add retry logic
+      let lastError;
+      for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
+        try {
+          console.log(`🔄 Analysis attempt ${attempt}/${this.maxRetries}`);
 
-      const data = await response.json();
-      console.log('📊 Response data:', data);
+          const response = await fetch(url, {
+            ...options,
+            credentials: 'include'
+          });
 
-      if (!response.ok) {
-        throw new Error(data.error || `HTTP ${response.status}: Analysis failed`);
+          console.log('📥 Response status:', response.status);
+
+          const data = await response.json();
+          console.log('📊 Response data:', data);
+
+          if (!response.ok) {
+            throw new Error(data.error || `HTTP ${response.status}: Analysis failed`);
+          }
+
+          if (data.success && data.result) {
+            console.log('✅ Analysis successful, displaying results');
+            this.displayResults(data.result);
+            this.saveAnalysisHistory(data.result);
+            this.showNotification('✅ Analysis completed successfully!', 'success');
+            return;
+          } else {
+            throw new Error(data.error || 'Analysis failed - no result returned');
+          }
+
+        } catch (error) {
+          console.error(`❌ Attempt ${attempt} failed:`, error);
+          lastError = error;
+
+          if (attempt < this.maxRetries) {
+            const delay = Math.pow(2, attempt) * 1000;
+            console.log(`⏳ Retrying in ${delay}ms...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+        }
       }
 
-      if (data.success && data.result) {
-        console.log('✅ Analysis successful, displaying results');
-        this.displayResults(data.result);
+      // If all retries failed
+      throw lastError;
         this.updateStats();
         showNotification('✅ Analysis completed successfully!', 'success');
       } else {
@@ -502,6 +693,133 @@ class HealAyurApp {
     if (this.totalAnalysesEl) {
       const currentCount = parseInt(this.totalAnalysesEl.textContent.replace(/\D/g, '')) || 1000;
       this.totalAnalysesEl.textContent = (currentCount + 1) + '+';
+    }
+  }
+  // Additional utility methods
+  startLoadingAnimation() {
+    this.currentLoadingIndex = 0;
+    if (this.loadingInterval) {
+      clearInterval(this.loadingInterval);
+    }
+    this.loadingInterval = setInterval(() => {
+      if (this.loadingText) {
+        this.loadingText.textContent = this.loadingMessages[this.currentLoadingIndex];
+        this.currentLoadingIndex = (this.currentLoadingIndex + 1) % this.loadingMessages.length;
+      }
+    }, 2000);
+  }
+
+  saveAnalysisHistory(result, isWebcam = false) {
+    const historyItem = {
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      condition: result.condition,
+      confidence: result.confidence,
+      source: isWebcam ? 'webcam' : 'upload',
+      remedies: result.remedies || []
+    };
+
+    this.analysisHistory.unshift(historyItem);
+
+    // Keep only last 10 analyses
+    if (this.analysisHistory.length > 10) {
+      this.analysisHistory = this.analysisHistory.slice(0, 10);
+    }
+
+    // Save to localStorage
+    try {
+      localStorage.setItem('healayur_history', JSON.stringify(this.analysisHistory));
+    } catch (error) {
+      console.warn('Could not save to localStorage:', error);
+    }
+  }
+
+  loadAnalysisHistory() {
+    try {
+      const saved = localStorage.getItem('healayur_history');
+      if (saved) {
+        this.analysisHistory = JSON.parse(saved);
+      }
+    } catch (error) {
+      console.warn('Could not load from localStorage:', error);
+      this.analysisHistory = [];
+    }
+  }
+
+  updateUIForLoggedInUser() {
+    // Update UI elements for logged-in user
+    const userInfo = document.querySelector('.user-info');
+    if (userInfo && this.currentUser) {
+      userInfo.style.display = 'flex';
+      const username = userInfo.querySelector('.username');
+      if (username) {
+        username.textContent = this.currentUser.username;
+      }
+    }
+  }
+
+  processVoiceCommand(command) {
+    console.log('🎤 Voice command:', command);
+
+    if (command.includes('analyze') || command.includes('scan')) {
+      if (this.selectedFile) {
+        this.analyzeImage();
+      } else {
+        this.showNotification('Please select an image first', 'info');
+      }
+    } else if (command.includes('camera') || command.includes('webcam')) {
+      this.toggleWebcam();
+    } else if (command.includes('chat') || command.includes('help')) {
+      if (window.chatBot) {
+        window.chatBot.toggleChat();
+      }
+    } else {
+      this.showNotification('Command not recognized. Try "analyze", "camera", or "chat"', 'info');
+    }
+  }
+
+  showPWAInstallPrompt() {
+    const prompt = document.createElement('div');
+    prompt.className = 'pwa-install-prompt show';
+    prompt.innerHTML = `
+      <div>
+        <strong>📱 Install Heal Ayur</strong>
+        <p>Get the full app experience!</p>
+      </div>
+      <button class="pwa-install-btn" onclick="this.parentElement.installPWA()">Install</button>
+      <button class="pwa-install-btn" onclick="this.parentElement.remove()">×</button>
+    `;
+
+    prompt.installPWA = () => {
+      if (this.deferredPrompt) {
+        this.deferredPrompt.prompt();
+        this.deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the PWA install prompt');
+          }
+          this.deferredPrompt = null;
+        });
+      }
+      prompt.remove();
+    };
+
+    document.body.appendChild(prompt);
+
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+      if (prompt.parentElement) {
+        prompt.remove();
+      }
+    }, 10000);
+  }
+
+  showNotification(message, type = 'info', duration = 3000) {
+    // Use the global showNotification function if available
+    if (typeof showNotification === 'function') {
+      showNotification(message, type, duration);
+    } else {
+      // Fallback notification
+      console.log(`${type.toUpperCase()}: ${message}`);
     }
   }
 }

@@ -1,12 +1,18 @@
-// Heal Ayur - Intelligent Chatbot
+// Heal Ayur - Advanced AI Chatbot with Gemini Integration
 class ChatBot {
   constructor() {
     this.isOpen = false;
     this.isTyping = false;
     this.conversationHistory = [];
+    this.isConnected = false;
+    this.retryCount = 0;
+    this.maxRetries = 3;
+    this.voiceEnabled = false;
+    this.currentMode = 'standard'; // standard, expert, casual
     this.initializeElements();
     this.initializeEventListeners();
     this.loadKnowledgeBase();
+    this.initializeAdvancedFeatures();
   }
 
   initializeElements() {
@@ -21,7 +27,7 @@ class ChatBot {
     if (this.aiAssistant) {
       this.aiAssistant.addEventListener('click', () => this.toggleChat());
     }
-    
+
     if (this.chatInput) {
       this.chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -29,11 +35,46 @@ class ChatBot {
           this.sendMessage();
         }
       });
+
+      // Auto-resize textarea
+      this.chatInput.addEventListener('input', () => {
+        this.chatInput.style.height = 'auto';
+        this.chatInput.style.height = this.chatInput.scrollHeight + 'px';
+      });
     }
-    
+
     if (this.sendButton) {
       this.sendButton.addEventListener('click', () => this.sendMessage());
     }
+
+    // Add voice button listener
+    const voiceBtn = document.getElementById('voiceBtn');
+    if (voiceBtn) {
+      voiceBtn.addEventListener('click', () => this.toggleVoiceInput());
+    }
+
+    // Add mode selector listeners
+    const modeButtons = document.querySelectorAll('.chat-mode-btn');
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', () => this.setMode(btn.dataset.mode));
+    });
+  }
+
+  initializeAdvancedFeatures() {
+    // Initialize voice recognition
+    this.initializeVoiceRecognition();
+
+    // Initialize speech synthesis
+    this.initializeSpeechSynthesis();
+
+    // Test connection to backend
+    this.testConnection();
+
+    // Load conversation history
+    this.loadConversationHistory();
+
+    // Initialize typing indicator
+    this.initializeTypingIndicator();
   }
 
   loadKnowledgeBase() {
@@ -90,12 +131,92 @@ class ChatBot {
     };
   }
 
+  initializeVoiceRecognition() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = false;
+      this.recognition.interimResults = false;
+      this.recognition.lang = 'en-US';
+
+      this.recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        this.chatInput.value = transcript;
+        this.sendMessage();
+      };
+
+      this.recognition.onerror = (event) => {
+        console.error('Voice recognition error:', event.error);
+        this.showNotification('Voice recognition failed. Please try again.', 'error');
+      };
+
+      this.recognition.onend = () => {
+        this.voiceEnabled = false;
+        this.updateVoiceButton();
+      };
+    }
+  }
+
+  initializeSpeechSynthesis() {
+    if ('speechSynthesis' in window) {
+      this.speechSynthesis = window.speechSynthesis;
+      this.speechEnabled = true;
+    }
+  }
+
+  testConnection() {
+    fetch('/api/chat-status')
+      .then(response => response.json())
+      .then(data => {
+        this.isConnected = data.available || false;
+        this.updateConnectionStatus();
+      })
+      .catch(() => {
+        this.isConnected = false;
+        this.updateConnectionStatus();
+      });
+  }
+
+  loadConversationHistory() {
+    try {
+      const saved = localStorage.getItem('healayur_chat_history');
+      if (saved) {
+        this.conversationHistory = JSON.parse(saved);
+        this.displayConversationHistory();
+      }
+    } catch (error) {
+      console.warn('Could not load chat history:', error);
+    }
+  }
+
+  saveConversationHistory() {
+    try {
+      localStorage.setItem('healayur_chat_history', JSON.stringify(this.conversationHistory));
+    } catch (error) {
+      console.warn('Could not save chat history:', error);
+    }
+  }
+
+  initializeTypingIndicator() {
+    this.typingIndicator = document.createElement('div');
+    this.typingIndicator.className = 'chat-message ai typing-indicator';
+    this.typingIndicator.innerHTML = `
+      <div class="typing-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    `;
+    this.typingIndicator.style.display = 'none';
+  }
+
   toggleChat() {
     this.isOpen = !this.isOpen;
     if (this.aiChat) {
       this.aiChat.style.display = this.isOpen ? 'flex' : 'none';
+      this.aiChat.classList.toggle('show', this.isOpen);
     }
-    
+
     if (this.isOpen && this.conversationHistory.length === 0) {
       // Send welcome message
       setTimeout(() => {
@@ -265,6 +386,101 @@ class ChatBot {
 function toggleAIChat() {
   if (window.chatBot) {
     window.chatBot.toggleChat();
+  }
+
+  // Voice and advanced features
+  toggleVoiceInput() {
+    if (!this.recognition) {
+      this.showNotification('Voice recognition not supported in this browser', 'error');
+      return;
+    }
+
+    if (this.voiceEnabled) {
+      this.recognition.stop();
+      this.voiceEnabled = false;
+    } else {
+      this.recognition.start();
+      this.voiceEnabled = true;
+      this.showNotification('🎤 Listening... Speak now', 'info');
+    }
+
+    this.updateVoiceButton();
+  }
+
+  updateVoiceButton() {
+    const voiceBtn = document.getElementById('voiceBtn');
+    if (voiceBtn) {
+      voiceBtn.classList.toggle('listening', this.voiceEnabled);
+      voiceBtn.innerHTML = this.voiceEnabled ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+    }
+  }
+
+  speakMessage(message) {
+    if (this.speechSynthesis && this.speechEnabled) {
+      // Clean message for speech
+      const cleanMessage = message.replace(/[🌿🧠💡✨🔍📊⚠️💬]/g, '').trim();
+
+      const utterance = new SpeechSynthesisUtterance(cleanMessage);
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.volume = 0.8;
+
+      this.speechSynthesis.speak(utterance);
+    }
+  }
+
+  setMode(mode) {
+    this.currentMode = mode;
+
+    // Update UI
+    const modeButtons = document.querySelectorAll('.chat-mode-btn');
+    modeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+
+    // Show mode change message
+    const modeMessages = {
+      'standard': '💬 Standard mode: Balanced responses',
+      'expert': '🎓 Expert mode: Detailed technical explanations',
+      'casual': '😊 Casual mode: Friendly conversational tone'
+    };
+
+    this.showNotification(modeMessages[mode] || 'Mode changed', 'info');
+  }
+
+  updateConnectionStatus() {
+    const statusIndicator = document.querySelector('.chat-status');
+    if (statusIndicator) {
+      statusIndicator.classList.toggle('connected', this.isConnected);
+      statusIndicator.title = this.isConnected ? 'Connected to AI' : 'Offline mode';
+    }
+  }
+
+  displayConversationHistory() {
+    if (this.conversationHistory.length > 0) {
+      this.conversationHistory.forEach(msg => {
+        this.addMessage(msg.content, msg.role === 'user' ? 'user' : 'ai', false);
+      });
+    }
+  }
+
+  clearHistory() {
+    this.conversationHistory = [];
+    if (this.chatMessages) {
+      this.chatMessages.innerHTML = '';
+    }
+    localStorage.removeItem('healayur_chat_history');
+    this.showNotification('Chat history cleared', 'info');
+  }
+
+  showNotification(message, type = 'info', duration = 3000) {
+    // Use the global showNotification function if available
+    if (typeof showNotification === 'function') {
+      showNotification(message, type, duration);
+    } else {
+      // Fallback notification
+      console.log(`${type.toUpperCase()}: ${message}`);
+    }
   }
 }
 

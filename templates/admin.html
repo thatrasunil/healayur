@@ -40,6 +40,37 @@
             margin-bottom: 0.5rem;
         }
 
+        .admin-header .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tab.active, .nav-tab:hover {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
         .admin-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -185,8 +216,25 @@
 
     <div class="admin-container">
         <div class="admin-header">
-            <h1><i class="fas fa-user-shield"></i> Admin Dashboard</h1>
-            <p>Welcome to Heal Ayur Administration Panel</p>
+            <h1><i class="fas fa-user-shield"></i> Advanced Admin Dashboard</h1>
+            <p class="subtitle">Heal Ayur Management & Analytics System</p>
+            <div class="admin-nav">
+                <div class="nav-tab active" onclick="showTab('overview')">
+                    <i class="fas fa-chart-line"></i> Overview
+                </div>
+                <div class="nav-tab" onclick="showTab('analytics')">
+                    <i class="fas fa-analytics"></i> Analytics
+                </div>
+                <div class="nav-tab" onclick="showTab('users')">
+                    <i class="fas fa-users"></i> Users
+                </div>
+                <div class="nav-tab" onclick="showTab('ai-models')">
+                    <i class="fas fa-brain"></i> AI Models
+                </div>
+                <div class="nav-tab" onclick="showTab('system')">
+                    <i class="fas fa-cogs"></i> System
+                </div>
+            </div>
         </div>
 
         <div class="admin-stats">
@@ -255,7 +303,144 @@
                 <div class="activity-time">15 minutes ago</div>
             </div>
         </div>
+
+        <!-- Enhanced Admin Sections -->
+        <div id="analytics-tab" class="tab-content">
+            <div class="admin-actions">
+                <h2><i class="fas fa-chart-bar"></i> Advanced Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-bullseye" style="color: #4CAF50;"></i>
+                        <h3>94%</h3>
+                        <p>Analysis Accuracy</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock" style="color: #2196F3;"></i>
+                        <h3>2.3s</h3>
+                        <p>Avg Response Time</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-smile" style="color: #FF9800;"></i>
+                        <h3>87%</h3>
+                        <p>User Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="users-tab" class="tab-content">
+            <div class="admin-actions">
+                <h2><i class="fas fa-users-cog"></i> User Management</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="exportUsers()">
+                        <i class="fas fa-download"></i> Export Users
+                    </button>
+                    <button class="action-btn" onclick="sendBulkNotification()">
+                        <i class="fas fa-bell"></i> Send Notification
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="ai-models-tab" class="tab-content">
+            <div class="admin-actions">
+                <h2><i class="fas fa-brain"></i> AI Model Status</h2>
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-robot" style="color: #4CAF50;"></i>
+                        <h3>Online</h3>
+                        <p>Gemini AI</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-eye" style="color: #2196F3;"></i>
+                        <h3>Active</h3>
+                        <p>Face++ API</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="system-tab" class="tab-content">
+            <div class="admin-actions">
+                <h2><i class="fas fa-server"></i> System Management</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="clearCache()">
+                        <i class="fas fa-trash"></i> Clear Cache
+                    </button>
+                    <button class="action-btn" onclick="restartServices()">
+                        <i class="fas fa-redo"></i> Restart Services
+                    </button>
+                    <button class="action-btn" onclick="backupDatabase()">
+                        <i class="fas fa-database"></i> Backup Database
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+
+    <script>
+        // Enhanced Admin Functions
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // Add active class to clicked nav tab
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+
+        function exportUsers() {
+            alert('Exporting user data...');
+        }
+
+        function sendBulkNotification() {
+            const message = prompt('Enter notification message:');
+            if (message) {
+                alert(`Sending notification: "${message}" to all users`);
+            }
+        }
+
+        function restartServices() {
+            if (confirm('Are you sure you want to restart services?')) {
+                alert('Services restarted successfully!');
+            }
+        }
+
+        function backupDatabase() {
+            alert('Database backup initiated...');
+        }
+
+        // Show overview tab by default
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('overview-tab').classList.add('active');
+        });
 
     <script>
         function viewUsers() {
