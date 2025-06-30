@@ -2604,6 +2604,100 @@
     }
 
     /* Glow animation removed for better mobile performance */
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background: var(--bg-primary);
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .close-btn:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .history-item {
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      background: var(--bg-secondary);
+    }
+
+    .history-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .history-result {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-small {
+      padding: 0.25rem 0.75rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .btn-small:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
@@ -2952,11 +3046,8 @@
       </div>
       <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">
         {% if user %}
-          <span style="font-size: 1.5rem; color: var(--primary-color); font-weight: 600; font-family: 'Comfortaa', sans-serif;">
-            🌟 Welcome to Your Personal Healing Sanctuary, {{ user.username }}! 🌟
-          </span>
-          <br><span style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 0.5rem; display: block;">
-            🧠 AI-Enhanced • 📊 Progress Tracking • 🎯 Personalized Remedies • 🔮 Predictive Analysis
+          <span style="font-size: 1.2rem; color: var(--text-secondary); font-weight: 500;">
+            Your AI-powered skin analysis companion
           </span>
         {% else %}
           <span style="font-size: 1.3rem; color: var(--primary-color); font-weight: 600; font-family: 'Comfortaa', sans-serif;">
@@ -2972,7 +3063,7 @@
       </p>
 
       <!-- Feature Badges -->
-      <div class="feature-badges animate__animated animate__fadeInUp animate__delay-2s">
+      <div class="feature-badges animate__animated animate__fadeInUp animate__delay-2s" {% if user %}style="display: none;"{% endif %}>
         {% if user %}
           <!-- Premium Features for Logged-in Users -->
           <span class="feature-badge" style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #000; font-weight: 700; border: 2px solid #ffd700;">
@@ -3217,46 +3308,66 @@
     </div>
 
     {% if user %}
-    <!-- Enhanced User Dashboard -->
-    <div style="margin: 4rem 0;">
-      <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; color: var(--text-primary); font-family: 'Comfortaa', sans-serif;">
-        <i class="fas fa-user-circle" style="color: var(--primary-color);"></i> Welcome Back, {{ user.username }}!
-      </h2>
-
-      <!-- User Stats Dashboard -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-        <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(129, 199, 132, 0.1));">
-          <div class="card-body">
-            <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
-            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color); font-family: 'Orbitron', monospace;" id="userAnalysisCount">0</div>
-            <div style="color: var(--text-secondary); font-weight: 500;">Your Analyses</div>
+    <!-- Clean Post-Login Dashboard -->
+    <div class="user-dashboard" style="margin: 2rem 0; padding: 2rem; background: var(--bg-secondary); border-radius: 20px; border: 1px solid var(--border-color);">
+      <!-- Welcome Header -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 2rem; background: var(--gradient-primary); border-radius: 50px; color: white; margin-bottom: 1rem;">
+          <div style="width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">
+            {{ user.username[0].upper() }}
           </div>
-        </div>
-
-        <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(100, 181, 246, 0.1));">
-          <div class="card-body">
-            <i class="fas fa-leaf" style="font-size: 2.5rem; color: #2196f3; margin-bottom: 1rem;"></i>
-            <div style="font-size: 2rem; font-weight: 700; color: #2196f3; font-family: 'Orbitron', monospace;" id="userRemediesUsed">0</div>
-            <div style="color: var(--text-secondary); font-weight: 500;">Remedies Tried</div>
-          </div>
-        </div>
-
-        <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 193, 7, 0.1));">
-          <div class="card-body">
-            <i class="fas fa-trophy" style="font-size: 2.5rem; color: #ff9800; margin-bottom: 1rem;"></i>
-            <div style="font-size: 2rem; font-weight: 700; color: #ff9800; font-family: 'Orbitron', monospace;" id="userStreak">0</div>
-            <div style="color: var(--text-secondary); font-weight: 500;">Day Streak</div>
-          </div>
-        </div>
-
-        <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(186, 104, 200, 0.1));">
-          <div class="card-body">
-            <i class="fas fa-star" style="font-size: 2.5rem; color: #9c27b0; margin-bottom: 1rem;"></i>
-            <div style="font-size: 2rem; font-weight: 700; color: #9c27b0; font-family: 'Orbitron', monospace;">PRO</div>
-            <div style="color: var(--text-secondary); font-weight: 500;">Member Status</div>
+          <div>
+            <h2 style="margin: 0; font-size: 1.5rem;">Welcome, {{ user.username }}!</h2>
+            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Premium Member</p>
           </div>
         </div>
       </div>
+
+      <!-- Quick Actions -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <button onclick="triggerFileUpload()" style="padding: 1.5rem; background: var(--gradient-primary); color: white; border: none; border-radius: 15px; cursor: pointer; transition: transform 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-camera" style="font-size: 2rem;"></i>
+          <span style="font-weight: 600;">Quick Analysis</span>
+          <span style="font-size: 0.8rem; opacity: 0.9;">Upload & Analyze</span>
+        </button>
+
+        <button onclick="showUserHistory()" style="padding: 1.5rem; background: linear-gradient(135deg, #2196F3, #64B5F6); color: white; border: none; border-radius: 15px; cursor: pointer; transition: transform 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-history" style="font-size: 2rem;"></i>
+          <span style="font-weight: 600;">My History</span>
+          <span style="font-size: 0.8rem; opacity: 0.9;">View Past Results</span>
+        </button>
+
+        <button onclick="window.chatBot?.toggleChat()" style="padding: 1.5rem; background: linear-gradient(135deg, #FF9800, #FFB74D); color: white; border: none; border-radius: 15px; cursor: pointer; transition: transform 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-robot" style="font-size: 2rem;"></i>
+          <span style="font-weight: 600;">AI Assistant</span>
+          <span style="font-size: 0.8rem; opacity: 0.9;">Get Help</span>
+        </button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
+        <div style="text-align: center; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 15px; border: 1px solid rgba(76, 175, 80, 0.2);">
+          <i class="fas fa-chart-line" style="font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+          <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="userAnalysisCount">0</div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">Analyses</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: rgba(33, 150, 243, 0.1); border-radius: 15px; border: 1px solid rgba(33, 150, 243, 0.2);">
+          <i class="fas fa-leaf" style="font-size: 1.5rem; color: #2196F3; margin-bottom: 0.5rem;"></i>
+          <div style="font-size: 1.5rem; font-weight: 700; color: #2196F3;" id="userRemediesUsed">0</div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">Remedies</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: rgba(255, 152, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 152, 0, 0.2);">
+          <i class="fas fa-trophy" style="font-size: 1.5rem; color: #FF9800; margin-bottom: 0.5rem;"></i>
+          <div style="font-size: 1.5rem; font-weight: 700; color: #FF9800;" id="userStreak">0</div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">Day Streak</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background: rgba(156, 39, 176, 0.1); border-radius: 15px; border: 1px solid rgba(156, 39, 176, 0.2);">
+          <i class="fas fa-star" style="font-size: 1.5rem; color: #9C27B0; margin-bottom: 0.5rem;"></i>
+          <div style="font-size: 1.5rem; font-weight: 700; color: #9C27B0;">PRO</div>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">Status</div>
+        </div>
+      </div>
+    </div>
 
       <!-- Quick Actions for Logged-in Users -->
       <div class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, rgba(76, 175, 80, 0.05), rgba(129, 199, 132, 0.05));">
@@ -3404,7 +3515,7 @@
     </div>
 
     <!-- Features Section -->
-    <div style="margin: 4rem 0;">
+    <div style="margin: 4rem 0; {% if user %}display: none;{% endif %}">
       <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; color: var(--text-primary);">
         Why Choose Heal Ayur?
       </h2>
@@ -4625,25 +4736,95 @@
       }
     }
 
-    function sendChatMessage() {
-      const input = document.getElementById('chatInput');
-      const message = input.value.trim();
+    // User Dashboard Functions
+    function showUserHistory() {
+      // Show user's analysis history
+      showNotification('Loading your analysis history...', 'info');
 
-      if (!message) return;
+      // Simulate loading history
+      setTimeout(() => {
+        const historyModal = document.createElement('div');
+        historyModal.className = 'modal-overlay';
+        historyModal.innerHTML = `
+          <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+              <h3><i class="fas fa-history"></i> Your Analysis History</h3>
+              <button onclick="this.closest('.modal-overlay').remove()" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+              <div class="history-item">
+                <div class="history-date">Today, 2:30 PM</div>
+                <div class="history-result">Mild Acne - 87% confidence</div>
+                <div class="history-action">
+                  <button class="btn-small">View Details</button>
+                </div>
+              </div>
+              <div class="history-item">
+                <div class="history-date">Yesterday, 5:15 PM</div>
+                <div class="history-result">Normal Skin - 92% confidence</div>
+                <div class="history-action">
+                  <button class="btn-small">View Details</button>
+                </div>
+              </div>
+              <div class="history-item">
+                <div class="history-date">3 days ago, 11:20 AM</div>
+                <div class="history-result">Dry Skin - 89% confidence</div>
+                <div class="history-action">
+                  <button class="btn-small">View Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(historyModal);
+      }, 500);
+    }
 
-      // Add user message to chat
-      addChatMessage(message, 'user');
-      input.value = '';
-
-      // Send to WebSocket if available, otherwise use local AI
-      if (socket) {
-        socket.emit('chat_message', { message: message });
+    function triggerFileUpload() {
+      const fileInput = document.getElementById('imageUpload');
+      if (fileInput) {
+        fileInput.click();
       } else {
-        // Local AI response
-        setTimeout(() => {
-          const response = generateLocalChatResponse(message);
-          addChatMessage(response, 'ai');
-        }, 1000);
+        showNotification('Please use the main upload area below', 'info');
+        document.querySelector('.upload-area')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function sendChatMessage() {
+      // Use the chatbot instance if available
+      if (window.chatBot) {
+        window.chatBot.sendMessage();
+      } else {
+        // Fallback for when chatbot is not initialized
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        // Add user message to chat
+        addChatMessage(message, 'user');
+        input.value = '';
+
+        // Send to API
+        fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            addChatMessage(data.response, 'ai');
+          } else {
+            addChatMessage('Sorry, I encountered an error. Please try again.', 'ai');
+          }
+        })
+        .catch(error => {
+          console.error('Chat error:', error);
+          addChatMessage('Sorry, I encountered an error. Please try again.', 'ai');
+        });
       }
     }
 
@@ -6701,6 +6882,41 @@
 
     // Initialize gamification system
     let gamificationSystem = new GamificationSystem();
+
+    // Initialize application components
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🌿 Heal Ayur application starting...');
+
+      // Initialize main app
+      if (typeof HealAyurApp !== 'undefined') {
+        window.app = new HealAyurApp();
+        console.log('✅ Main application initialized');
+      }
+
+      // Initialize chatbot with delay to ensure DOM is ready
+      setTimeout(() => {
+        if (typeof ChatBot !== 'undefined') {
+          try {
+            window.chatBot = new ChatBot();
+            console.log('✅ Chatbot initialized successfully');
+
+            // Test chatbot elements
+            const chatInput = document.getElementById('chatInput');
+            const aiChat = document.getElementById('aiChat');
+            console.log('Chat elements found:', {
+              chatInput: !!chatInput,
+              aiChat: !!aiChat
+            });
+          } catch (error) {
+            console.error('❌ Chatbot initialization failed:', error);
+          }
+        } else {
+          console.warn('⚠️ ChatBot class not found');
+        }
+      }, 500);
+
+      console.log('🎉 Application ready!');
+    });
 
     // Service worker registration for PWA features
     if ('serviceWorker' in navigator) {
